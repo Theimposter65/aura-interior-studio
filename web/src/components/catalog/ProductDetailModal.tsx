@@ -155,7 +155,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <div className="space-y-2">
                     <p><strong className="text-studio-800">Material:</strong> {product.architecturalDetails?.material || 'Archival substrate'}</p>
                     <p><strong className="text-studio-800">Finish:</strong> {product.architecturalDetails?.finish || 'Museum ultra-matte'}</p>
-                    <p><strong className="text-studio-800">Origin:</strong> {product.architecturalDetails?.origin || 'AURA Studios'}</p>
+                    <p><strong className="text-studio-800">Origin:</strong> {product.architecturalDetails?.origin || 'The Artistic Tales Studio'}</p>
                     <p><strong className="text-studio-800">Lead Time:</strong> {product.architecturalDetails?.leadTime || 'Handcrafted to order'}</p>
                   </div>
                 )}

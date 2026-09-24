@@ -2,11 +2,11 @@ import { describe, it, expect } from 'vitest';
 
 describe('Layout Components Verification', () => {
   it('defines core navigation sections and anchors', () => {
-    const expectedSections = ['#catalog', '#services', '#philosophy'];
+    const expectedSections = ['#gallery', '#services', '#contact'];
     expect(expectedSections.length).toBe(3);
-    expect(expectedSections).toContain('#catalog');
+    expect(expectedSections).toContain('#gallery');
     expect(expectedSections).toContain('#services');
-    expect(expectedSections).toContain('#philosophy');
+    expect(expectedSections).toContain('#contact');
   });
 
   it('validates currency switcher options', () => {
@@ -17,7 +17,7 @@ describe('Layout Components Verification', () => {
   });
 
   it('confirms atelier global presence footprint', () => {
-    const ateliers = ['Copenhagen Studio', 'New York Atelier', 'Kyoto Laboratory'];
+    const ateliers = ['Goa Studio', 'Gujarat Atelier', 'Worldwide Commissions'];
     expect(ateliers.length).toBe(3);
     ateliers.forEach(city => expect(city).toBeTruthy());
   });

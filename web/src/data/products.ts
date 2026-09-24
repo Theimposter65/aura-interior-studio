@@ -133,7 +133,7 @@ export const products: Product[] = [
     architecturalDetails: {
       material: 'CAD vector plans & 4K photorealistic renders',
       finish: 'Print-ready A3 architectural dossier + DWG files',
-      origin: 'AURA Senior Spatial Planning Team',
+      origin: 'The Artistic Tales Space Styling Team',
       leadTime: 'Instant Digital Download + 10-day Customization Window'
     }
   },
@@ -161,7 +161,7 @@ export const products: Product[] = [
     architecturalDetails: {
       material: 'Architectural elevations & construction-ready joinery plans',
       finish: 'BIM / CAD export + PDF guide',
-      origin: 'AURA Architectural Group',
+      origin: 'The Artistic Tales Architectural Studio',
       leadTime: 'Instant Download'
     }
   },
@@ -189,7 +189,7 @@ export const products: Product[] = [
     architecturalDetails: {
       material: 'Authentic stone, timber, textile, and mineral paint samples',
       finish: 'Linen-wrapped architectural presentation box',
-      origin: 'Curated by AURA Atelier',
+      origin: 'Curated by The Artistic Tales Atelier',
       leadTime: 'Dispatches within 48 hours'
     }
   },
@@ -216,7 +216,7 @@ export const products: Product[] = [
     architecturalDetails: {
       material: 'Lighting layout vectors & luminaire specification sheets',
       finish: 'Vector PDF + Trade discount pass',
-      origin: 'AURA Lighting Lab',
+      origin: 'The Artistic Tales Spatial Design Lab',
       leadTime: 'Instant Access'
     }
   }

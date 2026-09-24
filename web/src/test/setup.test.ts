@@ -6,7 +6,7 @@ describe('Project Configuration & Setup', () => {
   });
 
   it('verifies environment is node or dom-ready', () => {
-    const brand = 'AURA Studio & Atelier';
-    expect(brand).toContain('AURA');
+    const brand = 'The Artistic Tales — Interior Space Stylist';
+    expect(brand).toContain('The Artistic Tales');
   });
 });

@@ -67,14 +67,14 @@ export const WallVisualizer: React.FC<WallVisualizerProps> = ({ initialProductId
                 <Sparkles className="w-3.5 h-3.5 text-studio-700" />
               </span>
               <span className="text-[10px] uppercase tracking-[0.3em] text-studio-500 font-semibold">
-                Interactive Spatial Laboratory
+                Interactive Room Preview
               </span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-studio-900 font-normal leading-tight">
               Room & Wall Art Visualizer
             </h2>
             <p className="text-xs sm:text-sm text-studio-600 leading-relaxed">
-              Test bespoke murals and archival framed pieces against realistic interior light, custom limewash pigments, and physical moulding profiles before committing to fabrication.
+              Preview our hand-painted canvases and bespoke wall murals in realistic room settings, testing wall paint colors and frame mouldings before commissioning your artwork.
             </p>
           </div>
 

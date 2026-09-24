@@ -3,51 +3,49 @@ import { ServiceTier, QuizQuestion } from '../types';
 export const serviceTiers: ServiceTier[] = [
   {
     id: 'tier-essential',
-    name: 'Essential Room Design',
-    tagline: 'Ideal for single rooms that need clear layout and styling direction.',
+    name: 'Custom Canvas Artwork',
+    tagline: 'Hand-painted originals on Belgian linen — art to collect, not just to decorate.',
     price: 950,
-    timeline: '7-10 Business Days',
-    idealFor: 'Single rooms, living spaces, or bedrooms seeking a cohesive, curated look.',
+    timeline: '7-14 Business Days',
+    idealFor: 'Residences, private collections, and executive suites seeking an authentic focal anchor piece.',
     iconName: 'Compass',
     deliverables: [
-      '2D floor plan with clear furniture layout and walkways',
-      'Curated color palette with exact paint codes and fabric recommendations',
-      'Direct shopping list with exclusive designer trade discounts',
-      'One round of design revisions and 14 days of direct designer support'
+      'Personal moodboard & narrative curation session',
+      'Custom color harmony mapping tailored to your interior lighting',
+      'Hand-stretched Belgian linen & archival oil/acrylic pigments with gold leaf accents',
+      'Certificate of Authenticity and custom framing options included'
     ]
   },
   {
     id: 'tier-comprehensive',
-    name: 'Comprehensive 3D Planning',
-    tagline: 'Our most popular full-room package with photorealistic 3D renderings.',
+    name: 'Architectural Wall Murals',
+    tagline: 'Floor-to-ceiling narratives painted directly onto your interior or exterior walls.',
     price: 2400,
     badge: 'Most Popular',
     timeline: '2-3 Weeks',
-    idealFor: 'Complete renovations, open-plan spaces, and anyone wanting to see 3D views before purchasing.',
+    idealFor: 'Living pavilions, dining focal walls, boutique hotels, cafes, and creative studios.',
     iconName: 'Layers',
     deliverables: [
-      'Everything in the Essential Room Design package',
-      'Four 3D room renderings showing daytime and evening lighting',
-      'Practical lighting plan with fixture recommendations',
-      'Custom cabinetry and built-in storage concept drawings',
-      'Two 60-minute video design consultations with our lead designer'
+      'On-site wall surface assessment & architectural lighting audit',
+      'Digital scale mockup rendered directly onto your room photos',
+      'Hand-painted execution using low-VOC, durable mural paints and layered glazes',
+      'Protective matte sealant for longevity, UV resistance & effortless maintenance'
     ]
   },
   {
     id: 'tier-architectural',
-    name: 'Full Home Design & Sourcing',
-    tagline: 'Turnkey interior design and sourcing from initial concept to completion.',
+    name: 'Artistic Interiors & Spatial Curation',
+    tagline: 'Holistic spatial transformation — murals, doodles, and crafted décor across entire spaces.',
     price: 5200,
     badge: 'Signature',
-    timeline: '4-6 Weeks + Project Support',
-    idealFor: 'Whole-residence architectural projects, full home remodels, and custom builds.',
+    timeline: '3-5 Weeks + On-Site Execution',
+    idealFor: 'Full home transformations, hospitality venues, hostel lounges, and commercial flagships.',
     iconName: 'Crown',
     deliverables: [
-      'Everything in the Comprehensive 3D package across multiple rooms',
-      'Ready-to-use construction plans for your contractors and trades',
-      'Physical sample box with timber, stone, and fabric swatches sent to your door',
-      'Purchasing management with trade discounts up to 30% passed to you',
-      'Personal styling direction during final art and furniture setup'
+      'Comprehensive spatial flow and interior design styling collaboration',
+      'Multi-surface integration across walls, ceilings, pillars, and bespoke millwork',
+      'Artistic gold-foil leafing, textured glazes, and freehand line doodles',
+      'Final spatial styling walkthrough, artwork placement, and ambient lighting setup'
     ]
   }
 ];

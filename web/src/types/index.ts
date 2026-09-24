@@ -105,3 +105,47 @@ export interface ConsultationBooking {
   budgetRange: string;
   notes: string;
 }
+
+export interface PortfolioItem {
+  id: string;
+  title: string;
+  category: 'HOMES' | 'STUDIOS' | 'OFFICES' | 'RESTAURANTS' | 'CAFÉS' | 'BARS' | 'MURALS';
+  typeLabel: string;
+  canvasType?: 'Traditional' | 'Abstract';
+  subCategory?: string;
+  subfolder?: string;
+  status?: string;
+  imageUrl: string;
+  location: string;
+  description: string;
+  technique?: string;
+}
+
+export interface Testimonial {
+  id: string;
+  clientName: string;
+  roleOrLocation: string;
+  projectType: string;
+  rating: number;
+  quote: string;
+  highlight?: string;
+}
+
+export interface JournalArticle {
+  id: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  date: string;
+  readTime: string;
+  image: string;
+  author: string;
+}
+
+export interface InstagramPost {
+  id: string;
+  imageUrl: string;
+  caption: string;
+  likes: number;
+  link: string;
+}

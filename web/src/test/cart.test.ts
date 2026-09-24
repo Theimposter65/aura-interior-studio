@@ -100,8 +100,8 @@ describe('Cart Calculations & Promo Validation', () => {
       }
     ];
 
-    mockStorage.setItem('aura_cart_v1', JSON.stringify(itemsToStore));
-    const retrieved = JSON.parse(mockStorage.getItem('aura_cart_v1') || '[]');
+    mockStorage.setItem('theartistictales_cart_v1', JSON.stringify(itemsToStore));
+    const retrieved = JSON.parse(mockStorage.getItem('theartistictales_cart_v1') || '[]');
 
     expect(retrieved.length).toBe(1);
     expect(retrieved[0].quantity).toBe(3);

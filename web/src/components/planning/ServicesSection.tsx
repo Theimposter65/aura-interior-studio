@@ -30,13 +30,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
         <span className="text-[10px] uppercase tracking-[0.3em] text-studio-500 font-semibold block">
-          Design Services
+          Our Craft & Offerings
         </span>
         <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-studio-900 font-normal leading-tight">
-          Interior Design Packages
+          Art & Interior Styling Services
         </h2>
         <p className="text-xs sm:text-sm text-studio-600 leading-relaxed max-w-2xl mx-auto">
-          From single-room layouts to full home design, our team helps you choose the right furniture, colors, and lighting with confidence.
+          From custom canvas paintings to floor-to-ceiling architectural murals and full spatial transformations, we bring lasting memory and soul into modern residences and commercial venues.
         </p>
 
         {/* Style Quiz Prompt Banner */}

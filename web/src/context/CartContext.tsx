@@ -23,7 +23,7 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'aura_cart_v1';
+const STORAGE_KEY = 'theartistictales_cart_v1';
 
 export const VALID_PROMO_CODES: Record<string, { discountPercent: number; description: string }> = {
   'ATELIER10': { discountPercent: 10, description: '10% New Collector Welcome' },
