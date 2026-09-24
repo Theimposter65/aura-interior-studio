@@ -276,10 +276,10 @@ I want to inquire about designing / styling my space:
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-4 bg-white hover:bg-studio-100 text-studio-950 text-xs uppercase tracking-[0.2em] font-semibold rounded-sm transition-all shadow-lg flex items-center justify-center space-x-2"
+                  className="w-full py-4 bg-white hover:bg-amber-400 text-stone-950 text-xs uppercase tracking-[0.2em] font-bold rounded-sm transition-all shadow-lg flex items-center justify-center space-x-2 cursor-pointer"
                 >
-                  <Send className="w-3.5 h-3.5 text-studio-800" />
-                  <span>{submitting ? 'Transmitting Details...' : 'Send Inquiry to Studio'}</span>
+                  <Send className="w-3.5 h-3.5 text-stone-900" />
+                  <span className="text-stone-950">{submitting ? 'Transmitting Details...' : 'Send Inquiry to Studio'}</span>
                 </button>
 
                 <div className="flex items-center justify-center space-x-4 text-[10px] text-studio-400 pt-1">

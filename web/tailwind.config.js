@@ -18,6 +18,7 @@ export default {
           700: '#614B3B',  // Espresso
           800: '#3D3126',  // Charcoal Umber
           900: '#1F1A14',  // Deep Noir
+          950: '#120F0C',  // Obsidian Studio
         },
         sage: {
           50: '#F4F7F5',

@@ -3,7 +3,11 @@
     "playwright": {
       "command": "npx",
       "args": [
-        "@playwright/mcp@latest"
+        "@playwright/mcp@latest",
+        "--executable-path",
+        "/home/motobomber/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome",
+        "--headless",
+        "--no-sandbox"
       ]
     }
   }
