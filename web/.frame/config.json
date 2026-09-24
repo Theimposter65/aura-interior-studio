@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "project": "agy",
+  "project": "web",
   "ai": {
     "platform": "antigravity",
     "provider": "google",
@@ -14,8 +14,8 @@
   "quality": {
     "commands": {
       "typecheck": "",
-      "test": "npm test",
-      "lint": "",
+      "test": "npx vitest run",
+      "lint": "npx eslint .",
       "build": "npm run build",
       "audit": "npm audit",
       "outdated": "npm outdated"
@@ -115,7 +115,7 @@
     "thresholdDays": 90,
     "archivePath": "docs/specs/archive"
   },
-  "language": "auto",
+  "language": "en",
   "platform": "antigravity",
-  "frontend": false
+  "frontend": true
 }

@@ -1,0 +1,9 @@
+{
+  "name": "agy-root",
+  "private": true,
+  "scripts": {
+    "typecheck": "npm --prefix web run build",
+    "test": "npm --prefix web test",
+    "build": "npm --prefix web run build"
+  }
+}
