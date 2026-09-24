@@ -20,3 +20,4 @@
   - Instagram embed feed strip linking directly to @the_artistic_tales_
   - Studio newsletter signup
 - [x] Step 5: Production readiness checks (tsc, vitest, build) passed and successfully deployed to GitHub Pages live at https://theimposter65.github.io/aura-interior-studio/
+- [x] Step 6: Official high-resolution logo from theartistictales.netlify.app acquired and embedded as centerpiece emblem in Hero (with tagline "WALLS THAT REMEMBER"), Navbar, and Footer with multi-tier fallback (bundled asset -> Google Drive CDN -> SVG monogram); deployed live to GitHub Pages
