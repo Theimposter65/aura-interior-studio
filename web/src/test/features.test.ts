@@ -5,6 +5,7 @@ import { JournalSection } from '../components/journal/JournalSection';
 import { InstagramFeed } from '../components/social/InstagramFeed';
 import { InquirySection } from '../components/planning/InquirySection';
 import { WallVisualizer } from '../components/visualizer/WallVisualizer';
+import { ArtisticTalesLogo } from '../components/common/ArtisticTalesLogo';
 
 describe('The Artistic Tales Feature Suite (Step 4 Verification)', () => {
   it('exports complete 39-item client portfolio with required properties', () => {
@@ -67,5 +68,6 @@ describe('The Artistic Tales Feature Suite (Step 4 Verification)', () => {
     expect(typeof JournalSection).toBe('function');
     expect(typeof InstagramFeed).toBe('function');
     expect(typeof InquirySection).toBe('function');
+    expect(typeof ArtisticTalesLogo).toBe('function');
   });
 });

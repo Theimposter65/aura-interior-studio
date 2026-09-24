@@ -12,6 +12,7 @@ import { InstagramFeed } from './components/social/InstagramFeed';
 import { InquirySection } from './components/planning/InquirySection';
 import { StyleQuizModal } from './components/planning/StyleQuizModal';
 import { BookingModal } from './components/planning/BookingModal';
+import { ArtisticTalesLogo } from './components/common/ArtisticTalesLogo';
 import { ProductCategory, PortfolioItem } from './types';
 import { testimonials } from './data/portfolioData';
 import {
@@ -81,6 +82,11 @@ export const AppContent: React.FC = () => {
           </div>
 
           <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 py-24 text-center space-y-8 animate-fadeIn">
+            {/* Official Centerpiece Emblem */}
+            <div className="flex justify-center -mb-2">
+              <ArtisticTalesLogo size="lg" showTagline={true} />
+            </div>
+
             {/* Top Subtitle Badge */}
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-studio-200 text-[10px] uppercase tracking-[0.25em]">
               <Sparkles className="w-3 h-3 text-amber-300" />

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, Check, Compass, Shield, Sparkles, MessageCircle, Mail, Phone, Instagram, MapPin } from 'lucide-react';
+import { ArtisticTalesLogo } from '../common/ArtisticTalesLogo';
 
 export const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -20,11 +21,7 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-studio-800">
           <div className="lg:col-span-6 space-y-6">
             <div className="flex items-center space-x-3">
-              <img
-                src="./assets/real_logo.png"
-                alt="The Artistic Tales Logo"
-                className="w-10 h-10 rounded-full object-cover border border-white/20"
-              />
+              <ArtisticTalesLogo size="sm" />
               <div>
                 <span className="font-serif text-xl tracking-wider text-white font-medium block">
                   The Artistic Tales

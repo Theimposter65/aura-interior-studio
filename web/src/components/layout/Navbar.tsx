@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingBag, Sparkles, Menu, X, SlidersHorizontal, ArrowRight } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { ArtisticTalesLogo } from '../common/ArtisticTalesLogo';
 
 interface NavbarProps {
   onOpenQuiz?: () => void;
@@ -81,11 +82,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz, onSelectCategory }) 
 
           {/* Brand Center Monogram Logo */}
           <a href="#" className="flex items-center space-x-3 group">
-            <img
-              src="./assets/real_logo.png"
-              alt="The Artistic Tales Logo"
-              className="w-10 h-10 rounded-full object-cover shadow-sm group-hover:scale-105 transition-transform"
-            />
+            <ArtisticTalesLogo size="sm" />
             <div className="text-left">
               <span className="block font-serif text-lg md:text-xl tracking-wider text-studio-900 font-medium group-hover:text-studio-700 transition-colors leading-tight">
                 The Artistic Tales
@@ -158,7 +155,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz, onSelectCategory }) 
             <div>
               <div className="flex items-center justify-between pb-6 border-b border-studio-200">
                 <div className="flex items-center space-x-2.5">
-                  <img src="./assets/real_logo.png" alt="Logo" className="w-8 h-8 rounded-full object-cover" />
+                  <ArtisticTalesLogo size="sm" />
                   <div>
                     <span className="font-serif text-base tracking-wider block font-semibold">THE ARTISTIC TALES</span>
                     <span className="text-[8px] uppercase tracking-widest text-studio-500 block">Space Stylist</span>
