@@ -1,0 +1,121 @@
+{
+  "version": "1.0",
+  "project": "agy",
+  "ai": {
+    "platform": "antigravity",
+    "provider": "google",
+    "models": {
+      "heavy": "gemini-2.5-pro",
+      "fast": "gemini-2.5-flash",
+      "default": "gemini-2.5-pro"
+    }
+  },
+  "_solo_comment": "=== SOLO SETTINGS — review and adjust these ===",
+  "quality": {
+    "commands": {
+      "typecheck": "npx tsc --noEmit",
+      "test": "npx vitest run",
+      "lint": "npx eslint .",
+      "build": "npm run build",
+      "audit": "npm audit",
+      "outdated": "npm outdated"
+    },
+    "typescript": "strict",
+    "eslint": true,
+    "tests": "required",
+    "build": "required"
+  },
+  "devServer": {
+    "url": "http://localhost:3000"
+  },
+  "soloMode": {
+    "autoContextPruning": true,
+    "timeBoxing": {
+      "defaultMinutes": 30
+    }
+  },
+  "devilsAdvocate": {
+    "enabled": true,
+    "categories": [
+      "input",
+      "error",
+      "edge",
+      "security",
+      "performance"
+    ]
+  },
+  "_advanced_comment": "=== ADVANCED — safe to leave as-is ===",
+  "parallel": {
+    "maxWorktrees": 3,
+    "mergeStrategy": "merge"
+  },
+  "workflow": {
+    "tdd": true,
+    "autoCommit": false,
+    "checkpoints": true,
+    "autoCheckpoint": true,
+    "checkpointBefore": [
+      "research",
+      "plan",
+      "build",
+      "review"
+    ],
+    "maxCheckpoints": 10,
+    "cleanupAfterShip": true,
+    "pauseResume": true,
+    "worktrees": true
+  },
+  "phases": {
+    "research": {
+      "type": "plan",
+      "freshContext": true
+    },
+    "plan": {
+      "freshContext": true
+    },
+    "build": {
+      "type": "tdd"
+    },
+    "review": {
+      "freshContext": true
+    },
+    "ship": {}
+  },
+  "memory": {
+    "autoUpdate": true,
+    "trigger": "per-task",
+    "maxPatterns": 50,
+    "maxAntiPatterns": 20,
+    "maxDecisions": 30,
+    "confidenceArchiveDays": 60,
+    "retrospectiveRequired": true
+  },
+  "checkDeps": {
+    "runBeforeShip": true,
+    "auditAgeDaysWarning": 7
+  },
+  "security": {
+    "enabled": true,
+    "blockShipOnCritical": true,
+    "scanSecrets": true,
+    "scanOwasp": true,
+    "scanInfrastructure": true,
+    "scanAiLlm": true,
+    "excludePatterns": [
+      "node_modules",
+      ".git",
+      "dist",
+      "build",
+      "*.min.js",
+      "*.min.css"
+    ]
+  },
+  "archive": {
+    "enabled": true,
+    "thresholdDays": 90,
+    "archivePath": "docs/specs/archive"
+  },
+  "language": "auto",
+  "platform": "antigravity",
+  "frontend": false
+}

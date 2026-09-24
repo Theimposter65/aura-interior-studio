@@ -1,0 +1,65 @@
+{
+  "safety-net": {
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ./hooks/safety-net.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "git-safety": {
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ./hooks/git-safety.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "quality-gate": {
+    "PostToolUse": [
+      {
+        "matcher": "write_to_file|replace_file_content",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ./hooks/quality-gate.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "session-init": {
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "bash ./hooks/session-init.sh"
+      }
+    ]
+  },
+  "auto-pilot": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "bash ./hooks/auto-pilot.sh"
+      }
+    ]
+  },
+  "delivery-gate": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "bash ./hooks/delivery-gate.sh"
+      }
+    ]
+  }
+}
