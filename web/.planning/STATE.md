@@ -1,10 +1,10 @@
 # STATE.md — Current Position
 
 ## Current Position
-- Phase: SHIP
-- Feature: interior-design-studio
-- Status: Shipped
-- Shipped: 2026-09-24T10:14:00Z
+- Phase: BUILD
+- Feature: ui-simplification
+- Status: COMPLETE (small — no plan)
+- Finished: 2026-09-24T10:56:00Z
 
 ## Completed
 - [x] FRAME installed via the-frame CLI
