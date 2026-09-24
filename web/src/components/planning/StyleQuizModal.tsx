@@ -147,7 +147,7 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
                       Design Package
                     </span>
                     <span className="font-serif text-2xl font-semibold text-studio-900">
-                      ${recommendedTier.price} USD
+                      ₹{recommendedTier.price.toLocaleString('en-IN')}
                     </span>
                   </div>
                   <span className="text-xs font-mono text-studio-500">

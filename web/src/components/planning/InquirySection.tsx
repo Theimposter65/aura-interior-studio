@@ -7,7 +7,7 @@ export const InquirySection: React.FC = () => {
     email: '',
     phone: '',
     spaceType: 'Home / Private Residence',
-    budgetRange: '$1,500 – $5,000',
+    budgetRange: '₹25,000 – ₹60,000',
     vision: ''
   });
 
@@ -251,10 +251,10 @@ I want to inquire about designing / styling my space:
                     onChange={e => setFormData({ ...formData, budgetRange: e.target.value })}
                     className="w-full text-xs px-3.5 py-3 bg-studio-900 border border-white/15 rounded text-white focus:outline-none focus:border-studio-400 cursor-pointer"
                   >
-                    <option value="Under $1,000">Under $1,000 USD (Essential Canvas / Small Accent)</option>
-                    <option value="$1,000 – $2,500">$1,000 – $2,500 USD (Single Statement Mural or Large Canvas)</option>
-                    <option value="$2,500 – $5,000">$2,500 – $5,000 USD (Multi-Surface Mural or Room Styling)</option>
-                    <option value="$5,000+">$5,000+ USD (Full Commercial / Whole Home Transformation)</option>
+                    <option value="Under ₹25,000">Under ₹25,000 (Small Accent Wall / 10×10 Artwork)</option>
+                    <option value="₹25,000 – ₹60,000">₹25,000 – ₹60,000 (Statement Piece / Large Canvas / Minimal Mural)</option>
+                    <option value="₹60,000 – ₹1,50,000">₹60,000 – ₹1,50,000 (Detailed Mural / Room Makeover)</option>
+                    <option value="₹1,50,000+">₹1,50,000+ (Full Villa / Hospitality Venue Transformation)</option>
                   </select>
                 </div>
 

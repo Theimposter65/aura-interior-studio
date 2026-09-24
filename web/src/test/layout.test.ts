@@ -2,18 +2,19 @@ import { describe, it, expect } from 'vitest';
 
 describe('Layout Components Verification', () => {
   it('defines core navigation sections and anchors', () => {
-    const expectedSections = ['#gallery', '#services', '#contact'];
-    expect(expectedSections.length).toBe(3);
-    expect(expectedSections).toContain('#gallery');
-    expect(expectedSections).toContain('#services');
+    const expectedSections = ['#portfolio', '#transformations', '#pricing', '#testimonials', '#contact'];
+    expect(expectedSections.length).toBe(5);
+    expect(expectedSections).toContain('#portfolio');
+    expect(expectedSections).toContain('#transformations');
+    expect(expectedSections).toContain('#pricing');
     expect(expectedSections).toContain('#contact');
   });
 
-  it('validates currency switcher options', () => {
-    const currencies = ['USD', 'EUR', 'GBP'];
-    expect(currencies).toContain('USD');
-    expect(currencies).toContain('EUR');
-    expect(currencies).toContain('GBP');
+  it('validates INR only currency standard with zero foreign currency switchers', () => {
+    const standardCurrency = 'INR';
+    const currencySymbol = '₹';
+    expect(standardCurrency).toBe('INR');
+    expect(currencySymbol).toBe('₹');
   });
 
   it('confirms atelier global presence footprint', () => {

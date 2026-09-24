@@ -3,36 +3,31 @@ import { CartProvider } from './context/CartContext';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { CartDrawer } from './components/layout/CartDrawer';
-import { ProductGrid } from './components/catalog/ProductGrid';
-import { PortfolioGallery } from './components/gallery/PortfolioGallery';
-import { WallVisualizer } from './components/visualizer/WallVisualizer';
-import { ServicesSection } from './components/planning/ServicesSection';
+import { HorizontalPortfolio } from './components/portfolio/HorizontalPortfolio';
+import { BeforeAfterSlider } from './components/portfolio/BeforeAfterSlider';
+import { PricingSection } from './components/pricing/PricingSection';
 import { JournalSection } from './components/journal/JournalSection';
 import { InstagramFeed } from './components/social/InstagramFeed';
 import { InquirySection } from './components/planning/InquirySection';
 import { StyleQuizModal } from './components/planning/StyleQuizModal';
 import { BookingModal } from './components/planning/BookingModal';
 import { ArtisticTalesLogo } from './components/common/ArtisticTalesLogo';
-import { ProductCategory, PortfolioItem } from './types';
 import { testimonials } from './data/portfolioData';
 import {
   Sparkles,
   ArrowRight,
-  Shield,
   Compass,
   Star,
   Layers,
-  Award,
-  ChevronRight,
   Palette,
-  MessageCircle
+  MessageCircle,
+  Eye
 } from 'lucide-react';
 
 export const AppContent: React.FC = () => {
   const [isQuizOpen, setIsQuizOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedTierForBooking, setSelectedTierForBooking] = useState<string | undefined>(undefined);
-  const [activeCatalogCategory, setActiveCatalogCategory] = useState<ProductCategory | 'all'>('all');
 
   const handleOpenBooking = (tierId?: string) => {
     setSelectedTierForBooking(tierId);
@@ -44,44 +39,28 @@ export const AppContent: React.FC = () => {
     setIsBookingOpen(true);
   };
 
-  const handleInquiryFromGallery = (_item?: PortfolioItem) => {
-    const contactEl = document.getElementById('contact');
-    if (contactEl) {
-      contactEl.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      setIsBookingOpen(true);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-studio-50 text-studio-900 flex flex-col font-sans selection:bg-studio-300">
       {/* Navigation */}
-      <Navbar
-        onOpenQuiz={() => setIsQuizOpen(true)}
-        onSelectCategory={cat => {
-          setActiveCatalogCategory(cat as ProductCategory);
-          const el = document.getElementById('catalog');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }}
-      />
+      <Navbar onOpenQuiz={() => setIsQuizOpen(true)} />
 
       <main className="flex-1">
         {/* ========================================================= */}
         {/* HERO SECTION: The Artistic Tales Client Presentation      */}
         {/* ========================================================= */}
-        <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-studio-900 text-white">
+        <section className="relative min-h-[80vh] sm:min-h-[85vh] flex items-center justify-center overflow-hidden bg-studio-900 text-white">
           {/* Background Atmosphere Image */}
           <div className="absolute inset-0">
             <img
               src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85"
               alt="The Artistic Tales Space Styling"
-              className="w-full h-full object-cover opacity-40 scale-105"
+              className="w-full h-full object-cover opacity-35 scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-studio-950 via-studio-950/40 to-studio-950/80" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-studio-950/30 to-studio-950/90" />
           </div>
 
-          <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 py-24 text-center space-y-8 animate-fadeIn">
+          <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 py-16 sm:py-20 text-center space-y-6 animate-fadeIn">
             {/* Official Centerpiece Emblem */}
             <div className="flex justify-center -mb-2">
               <ArtisticTalesLogo size="lg" showTagline={true} />
@@ -93,110 +72,109 @@ export const AppContent: React.FC = () => {
               <span>Interior Space Stylist • Goa & Gujarat</span>
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.12] tracking-tight max-w-4xl mx-auto text-studio-50">
+            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal leading-[1.15] tracking-tight max-w-4xl mx-auto text-studio-50">
               Thoughtful interior styling, custom art, and murals that transform every space.
             </h1>
 
-            <p className="text-sm sm:text-base md:text-lg text-studio-300 max-w-2xl mx-auto leading-relaxed font-light">
-              Hand-painted on stretched Belgian linen & textured walls — art to collect, not just to decorate. Creating walls that remember for residences, cafes, and creative spaces.
+            <p className="text-xs sm:text-sm md:text-base text-studio-300 max-w-2xl mx-auto leading-relaxed font-light">
+              Hand-painted on stretched Belgian linen & textured walls — creating walls that remember for residences, cafes, and holiday villas.
             </p>
 
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
-                href="#gallery"
-                className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-studio-100 text-studio-900 text-xs uppercase tracking-[0.2em] font-semibold rounded-sm transition-all shadow-lg flex items-center justify-center space-x-2"
+                href="#portfolio"
+                className="w-full sm:w-auto px-7 py-3.5 bg-amber-400 hover:bg-amber-300 text-studio-950 text-xs uppercase tracking-[0.2em] font-semibold rounded-sm transition-all shadow-lg flex items-center justify-center space-x-2"
               >
-                <span>Explore Portfolio</span>
+                <span>View Portfolio</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </a>
 
               <a
-                href="#services"
-                className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white text-xs uppercase tracking-[0.2em] font-semibold rounded-sm border border-white/20 backdrop-blur-md transition-all flex items-center justify-center space-x-2"
+                href="#transformations"
+                className="w-full sm:w-auto px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white text-xs uppercase tracking-[0.2em] font-semibold rounded-sm border border-white/20 backdrop-blur-md transition-all flex items-center justify-center space-x-2"
               >
-                <Compass className="w-3.5 h-3.5 text-studio-300" />
-                <span>Our Services</span>
+                <Eye className="w-3.5 h-3.5 text-studio-300" />
+                <span>Before & Afters</span>
               </a>
 
               <a
-                href="#contact"
-                className="w-full sm:w-auto px-8 py-4 bg-emerald-800/80 hover:bg-emerald-800 text-white text-xs uppercase tracking-[0.2em] font-semibold rounded-sm transition-all flex items-center justify-center space-x-2"
+                href="#pricing"
+                className="w-full sm:w-auto px-7 py-3.5 bg-studio-800 hover:bg-studio-700 text-white text-xs uppercase tracking-[0.2em] font-semibold rounded-sm transition-all flex items-center justify-center space-x-2"
               >
-                <MessageCircle className="w-3.5 h-3.5" />
-                <span>Book Consultation</span>
+                <span>Pricing Matrix</span>
               </a>
             </div>
 
             {/* Credibility Stats Bar */}
-            <div className="pt-12 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto border-t border-white/10 text-left">
+            <div className="pt-8 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto border-t border-white/10 text-left">
               <div>
-                <p className="font-serif text-2xl sm:text-3xl font-light text-white">100% Hand-Painted</p>
+                <p className="font-serif text-xl sm:text-2xl font-light text-white">100% Hand-Painted</p>
                 <p className="text-[10px] uppercase tracking-wider text-studio-400 mt-0.5">Originals on Linen</p>
               </div>
               <div>
-                <p className="font-serif text-2xl sm:text-3xl font-light text-white">Goa • Gujarat</p>
+                <p className="font-serif text-xl sm:text-2xl font-light text-white">Goa • Gujarat</p>
                 <p className="text-[10px] uppercase tracking-wider text-studio-400 mt-0.5">Worldwide Commissions</p>
               </div>
               <div>
-                <p className="font-serif text-2xl sm:text-3xl font-light text-white">39+ Artworks</p>
-                <p className="text-[10px] uppercase tracking-wider text-studio-400 mt-0.5">Homes, Cafes & Hostels</p>
+                <p className="font-serif text-xl sm:text-2xl font-light text-white">120+ Works</p>
+                <p className="text-[10px] uppercase tracking-wider text-studio-400 mt-0.5">Villas, Cafes & Murals</p>
               </div>
               <div>
-                <p className="font-serif text-2xl sm:text-3xl font-light text-white">5.0 Rating</p>
-                <p className="text-[10px] uppercase tracking-wider text-studio-400 mt-0.5">Client Reviews</p>
+                <p className="font-serif text-xl sm:text-2xl font-light text-white">5.0 ★ Rating</p>
+                <p className="text-[10px] uppercase tracking-wider text-studio-400 mt-0.5">Verified Client Reviews</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* ========================================================= */}
-        {/* BRAND PILLARS: The Artistic Tales Principles              */}
+        {/* BRAND PILLARS: The Atelier Craft                          */}
         {/* ========================================================= */}
-        <section id="philosophy" className="py-20 bg-white border-b border-studio-200">
+        <section id="philosophy" className="py-14 sm:py-16 bg-white border-b border-studio-200">
           <div className="max-w-7xl mx-auto px-6 md:px-12">
-            <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
+            <div className="text-center max-w-2xl mx-auto mb-10 space-y-1">
               <span className="text-[10px] uppercase tracking-[0.3em] text-studio-500 font-semibold block">
                 The Atelier Craft
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl text-studio-900 font-normal">
+              <h2 className="font-serif text-2xl sm:text-3xl text-studio-900 font-normal">
                 Crafted for Soulful Living Spaces
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              <div className="space-y-3">
-                <div className="w-10 h-10 rounded-full bg-studio-100 flex items-center justify-center text-studio-800 mb-4">
-                  <Palette className="w-5 h-5 stroke-[1.6]" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="space-y-2">
+                <div className="w-9 h-9 rounded-full bg-studio-100 flex items-center justify-center text-studio-800 mb-3">
+                  <Palette className="w-4 h-4 stroke-[1.6]" />
                 </div>
-                <h3 className="font-serif text-2xl text-studio-900 font-normal">
+                <h3 className="font-serif text-xl text-studio-900 font-normal">
                   Belgian Linen & Earth Pigments
                 </h3>
-                <p className="text-xs sm:text-sm text-studio-600 leading-relaxed font-light">
-                  Bespoke canvas works layered with texture, raw earth pigments, gold leaf accents, and emotive color stories that age gracefully in natural light.
+                <p className="text-xs text-studio-600 leading-relaxed font-light">
+                  Bespoke canvas works layered with texture, raw earth pigments, gold leaf accents, and emotive color stories that age gracefully.
                 </p>
               </div>
 
-              <div className="space-y-3">
-                <div className="w-10 h-10 rounded-full bg-studio-100 flex items-center justify-center text-studio-800 mb-4">
-                  <Layers className="w-5 h-5 stroke-[1.6]" />
+              <div className="space-y-2">
+                <div className="w-9 h-9 rounded-full bg-studio-100 flex items-center justify-center text-studio-800 mb-3">
+                  <Layers className="w-4 h-4 stroke-[1.6]" />
                 </div>
-                <h3 className="font-serif text-2xl text-studio-900 font-normal">
+                <h3 className="font-serif text-xl text-studio-900 font-normal">
                   Floor-to-Ceiling Murals
                 </h3>
-                <p className="text-xs sm:text-sm text-studio-600 leading-relaxed font-light">
-                  Transforming plain walls into breathtaking textured murals — botanical dreamscapes, heritage motifs, and organic linework that expand perceived room volume.
+                <p className="text-xs text-studio-600 leading-relaxed font-light">
+                  Transforming plain walls into textured murals — botanical dreamscapes, heritage motifs, and organic linework that expand perceived volume.
                 </p>
               </div>
 
-              <div className="space-y-3">
-                <div className="w-10 h-10 rounded-full bg-studio-100 flex items-center justify-center text-studio-800 mb-4">
-                  <Compass className="w-5 h-5 stroke-[1.6]" />
+              <div className="space-y-2">
+                <div className="w-9 h-9 rounded-full bg-studio-100 flex items-center justify-center text-studio-800 mb-3">
+                  <Compass className="w-4 h-4 stroke-[1.6]" />
                 </div>
-                <h3 className="font-serif text-2xl text-studio-900 font-normal">
+                <h3 className="font-serif text-xl text-studio-900 font-normal">
                   Holistic Space Styling
                 </h3>
-                <p className="text-xs sm:text-sm text-studio-600 leading-relaxed font-light">
-                  We collaborate one-on-one with homeowners and interior designers to curate color harmonies, art placement, and lighting details for cohesive comfort.
+                <p className="text-xs text-studio-600 leading-relaxed font-light">
+                  We collaborate one-on-one with homeowners and architects to curate color harmonies, art placement, and lighting details for cohesive comfort.
                 </p>
               </div>
             </div>
@@ -204,36 +182,26 @@ export const AppContent: React.FC = () => {
         </section>
 
         {/* ========================================================= */}
-        {/* FILTERABLE PORTFOLIO / GALLERY (Step 4 Requirement)       */}
+        {/* HORIZONTAL SWIPEABLE PORTFOLIO                            */}
         {/* ========================================================= */}
-        <PortfolioGallery onOpenInquiry={handleInquiryFromGallery} />
+        <HorizontalPortfolio />
 
         {/* ========================================================= */}
-        {/* INTERACTIVE ROOM VISUALIZATION (Keep Built Features)      */}
+        {/* BEFORE & AFTER ROOM TRANSFORMATIONS (18 Projects)         */}
         {/* ========================================================= */}
-        <WallVisualizer />
+        <BeforeAfterSlider />
 
         {/* ========================================================= */}
-        {/* FEATURED COLLECTION & ARTWORK EDITIONS                    */}
+        {/* DEDICATED ATELIER PRICING SECTION                         */}
         {/* ========================================================= */}
-        <ProductGrid
-          initialCategory={activeCatalogCategory}
-        />
+        <PricingSection onOpenBooking={() => setIsBookingOpen(true)} />
 
         {/* ========================================================= */}
-        {/* INTERIOR STYLING SERVICES & PACKAGES                      */}
+        {/* CLIENT TESTIMONIALS                                       */}
         {/* ========================================================= */}
-        <ServicesSection
-          onOpenBooking={handleOpenBooking}
-          onOpenQuiz={() => setIsQuizOpen(true)}
-        />
-
-        {/* ========================================================= */}
-        {/* CLIENT TESTIMONIALS (Step 4 Requirement)                  */}
-        {/* ========================================================= */}
-        <section className="py-24 bg-white border-t border-studio-200">
+        <section id="testimonials" className="py-20 bg-white border-b border-studio-200">
           <div className="max-w-7xl mx-auto px-6 md:px-12">
-            <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+            <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
               <span className="text-[10px] uppercase tracking-[0.3em] text-studio-500 font-semibold block">
                 Client Testimonials
               </span>
@@ -247,8 +215,8 @@ export const AppContent: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {testimonials.map(item => (
-                <div key={item.id} className="p-7 rounded bg-studio-50 border border-studio-200/80 flex flex-col justify-between space-y-4">
-                  <div className="space-y-3">
+                <div key={item.id} className="p-6 rounded bg-studio-50 border border-studio-200/80 flex flex-col justify-between space-y-3">
+                  <div className="space-y-2.5">
                     <div className="flex text-amber-500">
                       {[...Array(item.rating)].map((_, i) => (
                         <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
@@ -274,7 +242,7 @@ export const AppContent: React.FC = () => {
             </div>
 
             {/* Recognition & Trust Strip */}
-            <div className="mt-16 pt-10 border-t border-studio-200 flex flex-wrap items-center justify-around gap-6 text-studio-400 text-xs uppercase tracking-widest font-serif">
+            <div className="mt-12 pt-8 border-t border-studio-200 flex flex-wrap items-center justify-around gap-4 text-studio-400 text-xs uppercase tracking-widest font-serif">
               <span>Goa Hospitality Guild</span>
               <span>•</span>
               <span>Architectural Digest Features</span>
@@ -287,17 +255,17 @@ export const AppContent: React.FC = () => {
         </section>
 
         {/* ========================================================= */}
-        {/* ATELIER JOURNAL / BLOG (Step 4 Requirement)               */}
+        {/* ATELIER JOURNAL / BLOG                                    */}
         {/* ========================================================= */}
         <JournalSection />
 
         {/* ========================================================= */}
-        {/* INSTAGRAM EMBED & FEED (Step 4 Requirement)               */}
+        {/* INSTAGRAM EMBED & FEED                                    */}
         {/* ========================================================= */}
         <InstagramFeed />
 
         {/* ========================================================= */}
-        {/* CONSULTATION INQUIRY BOOKING FORM (Step 4 Requirement)    */}
+        {/* CONSULTATION INQUIRY BOOKING FORM                         */}
         {/* ========================================================= */}
         <InquirySection />
       </main>

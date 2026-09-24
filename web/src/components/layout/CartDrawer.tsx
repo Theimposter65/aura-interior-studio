@@ -94,11 +94,11 @@ export const CartDrawer: React.FC = () => {
                 <div className="bg-white p-4 rounded-lg border border-studio-200/80 text-left text-xs space-y-2 mt-6">
                   <div className="flex justify-between font-mono text-studio-500">
                     <span>Order Reference:</span>
-                    <span className="font-semibold text-studio-800">AUR-{(Math.random() * 90000 + 10000).toFixed(0)}</span>
+                    <span className="font-semibold text-studio-800">AT-{(Math.random() * 90000 + 10000).toFixed(0)}</span>
                   </div>
                   <div className="flex justify-between font-mono text-studio-500">
                     <span>Total:</span>
-                    <span className="font-semibold text-studio-800">${total} USD</span>
+                    <span className="font-semibold text-studio-800">₹{total.toLocaleString('en-IN')}</span>
                   </div>
                   <div className="flex justify-between font-mono text-studio-500">
                     <span>Shipping:</span>
@@ -145,7 +145,7 @@ export const CartDrawer: React.FC = () => {
                             {item.product.title}
                           </h4>
                           <span className="text-sm font-medium text-studio-900 ml-2">
-                            ${item.product.price * item.quantity}
+                            ₹{(item.product.price * item.quantity).toLocaleString('en-IN')}
                           </span>
                         </div>
                         <p className="text-[11px] text-studio-500 uppercase tracking-wider mt-0.5">
@@ -238,25 +238,25 @@ export const CartDrawer: React.FC = () => {
               <div className="space-y-2 pt-2 text-xs border-t border-studio-100">
                 <div className="flex justify-between text-studio-600">
                   <span>Subtotal</span>
-                  <span className="font-medium text-studio-900">${subtotal}</span>
+                  <span className="font-medium text-studio-900">₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
                 {promoDiscount > 0 && (
                   <div className="flex justify-between text-sage-700">
                     <span>Discount</span>
-                    <span>-${promoDiscount}</span>
+                    <span>-₹{promoDiscount.toLocaleString('en-IN')}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-studio-600">
                   <span>Delivery</span>
-                  <span>{shipping === 0 ? <span className="text-sage-700 font-medium">Free</span> : `$${shipping}`}</span>
+                  <span>{shipping === 0 ? <span className="text-sage-700 font-medium">Free</span> : `₹${shipping.toLocaleString('en-IN')}`}</span>
                 </div>
                 <div className="flex justify-between text-studio-600">
-                  <span>Estimated Tax (8%)</span>
-                  <span>${tax}</span>
+                  <span>Estimated GST (18%)</span>
+                  <span>₹{tax.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="flex justify-between text-sm font-semibold text-studio-900 pt-2 border-t border-studio-200">
                   <span>Total</span>
-                  <span className="font-serif text-lg">${total} USD</span>
+                  <span className="font-serif text-lg font-semibold text-studio-900">₹{total.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 

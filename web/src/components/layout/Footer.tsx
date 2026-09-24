@@ -127,23 +127,23 @@ export const Footer: React.FC = () => {
               Artistic Portfolio
             </h5>
             <ul className="space-y-3 text-studio-400">
-              <li><a href="#gallery" className="hover:text-studio-100 transition-colors">Traditional Pichhwai Canvases</a></li>
-              <li><a href="#gallery" className="hover:text-studio-100 transition-colors">Modern Abstract Artworks</a></li>
-              <li><a href="#gallery" className="hover:text-studio-100 transition-colors">Floor-to-Ceiling Wall Murals</a></li>
-              <li><a href="#gallery" className="hover:text-studio-100 transition-colors">Hospitality & Café Commissions</a></li>
-              <li><a href="#gallery" className="hover:text-studio-100 transition-colors">Live Site Restorations</a></li>
+              <li><a href="#portfolio" className="hover:text-studio-100 transition-colors">Statement Pieces Collection</a></li>
+              <li><a href="#portfolio" className="hover:text-studio-100 transition-colors">Murals & Custom Doodling</a></li>
+              <li><a href="#portfolio" className="hover:text-studio-100 transition-colors">Hospitality & Café Collages</a></li>
+              <li><a href="#transformations" className="hover:text-studio-100 transition-colors">Villa Before & Afters</a></li>
+              <li><a href="#portfolio" className="hover:text-studio-100 transition-colors">Fine Art Canvases & Prints</a></li>
             </ul>
           </div>
 
           <div>
             <h5 className="uppercase tracking-[0.2em] text-studio-300 font-semibold mb-4 text-[11px]">
-              Studio Services
+              Studio & Services
             </h5>
             <ul className="space-y-3 text-studio-400">
-              <li><a href="#services" className="hover:text-studio-100 transition-colors">Custom Canvas Art</a></li>
-              <li><a href="#services" className="hover:text-studio-100 transition-colors">Architectural Wall Murals</a></li>
-              <li><a href="#services" className="hover:text-studio-100 transition-colors">Interior Space Styling</a></li>
-              <li><a href="#visualizer" className="hover:text-studio-100 transition-colors">Room & Wall Art Visualizer</a></li>
+              <li><a href="#pricing" className="hover:text-studio-100 transition-colors">Transparent Pricing Matrix</a></li>
+              <li><a href="#transformations" className="hover:text-studio-100 transition-colors">Before & After Slider</a></li>
+              <li><a href="#portfolio" className="hover:text-studio-100 transition-colors">Curated Space Styling</a></li>
+              <li><a href="#testimonials" className="hover:text-studio-100 transition-colors">Client Testimonials</a></li>
               <li><a href="#contact" className="hover:text-studio-100 transition-colors">Consultation Booking</a></li>
             </ul>
           </div>
@@ -200,9 +200,9 @@ export const Footer: React.FC = () => {
             <span>• © {new Date().getFullYear()} The Artistic Tales — Interior Space Stylist. All rights reserved.</span>
           </div>
           <div className="flex space-x-6">
-            <a href="#gallery" className="hover:text-studio-300 transition-colors">Portfolio</a>
-            <a href="#services" className="hover:text-studio-300 transition-colors">Services</a>
-            <a href="#journal" className="hover:text-studio-300 transition-colors">Journal</a>
+            <a href="#portfolio" className="hover:text-studio-300 transition-colors">Portfolio</a>
+            <a href="#transformations" className="hover:text-studio-300 transition-colors">Transformations</a>
+            <a href="#pricing" className="hover:text-studio-300 transition-colors">Pricing</a>
             <a href="#contact" className="hover:text-studio-300 transition-colors">Consultation</a>
           </div>
         </div>

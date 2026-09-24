@@ -23,7 +23,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     spaceType: 'living',
     tierId: initialTierId,
     preferredDate: '',
-    budgetRange: '$15,000 – $50,000',
+    budgetRange: '₹25,000 – ₹60,000',
     notes: ''
   });
 
@@ -114,7 +114,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
               <div className="flex justify-between border-b border-studio-100 pb-2">
                 <span className="text-studio-500">Service Package:</span>
-                <span className="font-semibold text-studio-900">{selectedTier.name} (${selectedTier.price})</span>
+                <span className="font-semibold text-studio-900">{selectedTier.name} (₹{selectedTier.price.toLocaleString('en-IN')})</span>
               </div>
               <div className="flex justify-between border-b border-studio-100 pb-2">
                 <span className="text-studio-500">Client Contact:</span>
@@ -148,7 +148,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               >
                 {serviceTiers.map(t => (
                   <option key={t.id} value={t.id}>
-                    {t.name} — ${t.price} USD ({t.timeline})
+                    {t.name} — ₹{t.price.toLocaleString('en-IN')} ({t.timeline})
                   </option>
                 ))}
               </select>
@@ -202,7 +202,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     type="tel"
                     value={formData.phone}
                     onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+1 (555) 019-2834"
+                    placeholder="+91 98765 43210"
                     className="w-full text-xs pl-9 pr-3 py-2.5 bg-white border border-studio-300 rounded focus:outline-none focus:border-studio-900"
                   />
                 </div>
@@ -254,10 +254,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   onChange={e => setFormData({ ...formData, budgetRange: e.target.value })}
                   className="w-full text-xs px-3 py-2.5 bg-white border border-studio-300 rounded focus:outline-none focus:border-studio-900 cursor-pointer"
                 >
-                  <option value="$5,000 – $15,000">$5,000 – $15,000 USD</option>
-                  <option value="$15,000 – $50,000">$15,000 – $50,000 USD</option>
-                  <option value="$50,000 – $100,000">$50,000 – $100,000 USD</option>
-                  <option value="$100,000+">$100,000+ USD</option>
+                  <option value="Under ₹25,000">Under ₹25,000</option>
+                  <option value="₹25,000 – ₹60,000">₹25,000 – ₹60,000</option>
+                  <option value="₹60,000 – ₹1,50,000">₹60,000 – ₹1,50,000</option>
+                  <option value="₹1,50,000+">₹1,50,000+</option>
                 </select>
               </div>
             </div>
@@ -285,7 +285,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               >
                 <Calendar className="w-4 h-4" />
                 <span>
-                  {isSubmitting ? 'Confirming Appointment...' : `Book Consultation • $${selectedTier.price}`}
+                  {isSubmitting ? 'Confirming Appointment...' : `Book Consultation • ₹${selectedTier.price.toLocaleString('en-IN')}`}
                 </span>
               </button>
 

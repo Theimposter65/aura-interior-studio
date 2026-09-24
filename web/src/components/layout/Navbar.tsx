@@ -13,7 +13,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz, onSelectCategory }) 
   const { itemCount, openCart } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [currency, setCurrency] = useState<'USD' | 'EUR' | 'GBP'>('USD');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,10 +23,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz, onSelectCategory }) 
   }, []);
 
   const navLinks: { label: string; href: string; onClick?: () => void }[] = [
-    { label: 'Gallery', href: '#gallery' },
-    { label: 'Services', href: '#services' },
-    { label: 'Visualizer', href: '#visualizer' },
-    { label: 'Journal', href: '#journal' },
+    { label: 'Portfolio', href: '#portfolio' },
+    { label: 'Transformations', href: '#transformations' },
+    { label: 'Pricing', href: '#pricing' },
+    { label: 'Testimonials', href: '#testimonials' },
     { label: 'Contact', href: '#contact' },
   ];
 
@@ -107,19 +106,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz, onSelectCategory }) 
               ))}
             </nav>
 
-            {/* Currency Selector */}
-            <div className="hidden lg:flex items-center text-xs text-studio-600 space-x-1 border border-studio-200 rounded-full px-2.5 py-1">
-              {(['USD', 'EUR', 'GBP'] as const).map(curr => (
-                <button
-                  key={curr}
-                  onClick={() => setCurrency(curr)}
-                  className={`px-1.5 py-0.5 rounded text-[10px] tracking-wider transition-all ${
-                    currency === curr ? 'bg-studio-900 text-white font-semibold' : 'hover:text-studio-900'
-                  }`}
-                >
-                  {curr}
-                </button>
-              ))}
+            {/* INR Currency Badge */}
+            <div className="hidden lg:flex items-center text-[11px] font-semibold text-studio-700 border border-studio-200 rounded-full px-2.5 py-0.5 bg-studio-100/60">
+              <span>INR (₹)</span>
             </div>
 
             {/* Style Quiz Quick Action Button */}

@@ -149,3 +149,42 @@ export interface InstagramPost {
   likes: number;
   link: string;
 }
+
+export type StatementCategoryKey = 'disco' | 'bar' | 'mirror' | 'light' | 'wall';
+
+export interface StatementItem {
+  id: string;
+  title: string;
+  category: StatementCategoryKey;
+  categoryName: string;
+  tagline: string;
+  imageUrl: string;
+  priceEstimate?: string;
+}
+
+export interface TransformationItem {
+  id: string;
+  title: string;
+  projectNumber: number;
+  beforeImageUrl: string;
+  afterImageUrl: string;
+  description?: string;
+  roomType?: string;
+}
+
+export interface PricingRateItem {
+  label: string;
+  rate: string;
+  subtext?: string;
+  tag?: string;
+}
+
+export interface PricingCategory {
+  id: string;
+  title: string;
+  tagline: string;
+  badge?: string;
+  items: PricingRateItem[];
+  footnote?: string;
+}
+
