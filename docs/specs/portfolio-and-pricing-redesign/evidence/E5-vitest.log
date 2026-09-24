@@ -1,0 +1,18 @@
+
+ RUN  v2.1.9 /home/motobomber/agy/web
+
+ ✓ src/test/setup.test.ts (2 tests) 42ms
+ ✓ src/test/catalog.test.ts (4 tests) 54ms
+ ✓ src/test/cart.test.ts (4 tests) 37ms
+ ✓ src/test/data.test.ts (6 tests) 39ms
+ ✓ src/test/visualizer.test.ts (4 tests) 73ms
+ ✓ src/test/planning.test.ts (2 tests) 46ms
+ ✓ src/test/layout.test.ts (3 tests) 32ms
+ ✓ src/test/features.test.ts (9 tests) 80ms
+ ✓ src/test/app.test.ts (2 tests) 16ms
+
+ Test Files  9 passed (9)
+      Tests  36 passed (36)
+   Start at  13:18:46
+   Duration  6.59s (transform 4.02s, setup 0ms, collect 10.80s, tests 418ms, environment 21ms, prepare 4.59s)
+
