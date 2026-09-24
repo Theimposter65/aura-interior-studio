@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Sparkles, Menu, X, SlidersHorizontal, ArrowRight } from 'lucide-react';
+import { ShoppingBag, Sparkles, Menu, X, ArrowRight } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { ArtisticTalesLogo } from '../common/ArtisticTalesLogo';
 
-interface NavbarProps {
-  onOpenQuiz?: () => void;
-  activeCategory?: string;
-  onSelectCategory?: (category: string) => void;
+export interface NavLinkItem {
+  label: string;
+  href: string;
+  onClick?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz, onSelectCategory }) => {
+export const NAV_LINKS: NavLinkItem[] = [
+  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Transformations', href: '#transformations' },
+  { label: 'Pricing', href: '#pricing' },
+  { label: 'Testimonials', href: '#testimonials' },
+  { label: 'Contact', href: '#contact' },
+];
+
+interface NavbarProps {
+  onOpenQuiz?: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
   const { itemCount, openCart } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -22,13 +34,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz, onSelectCategory }) 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks: { label: string; href: string; onClick?: () => void }[] = [
-    { label: 'Portfolio', href: '#portfolio' },
-    { label: 'Transformations', href: '#transformations' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'Testimonials', href: '#testimonials' },
-    { label: 'Contact', href: '#contact' },
-  ];
+  const navLinks = NAV_LINKS;
 
   return (
     <>

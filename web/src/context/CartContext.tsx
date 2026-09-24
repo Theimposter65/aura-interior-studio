@@ -137,7 +137,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Complimentary white-glove shipping on orders over $500, else $45
   const shipping = subtotal > 0 && subtotal - promoDiscount < 500 ? 45 : 0;
   const taxableAmount = Math.max(0, subtotal - promoDiscount);
-  const tax = Math.round(taxableAmount * 0.08); // 8% estimated state tax
+  const tax = Math.round(taxableAmount * 0.18); // 18% estimated GST
   const total = Math.max(0, taxableAmount + shipping + tax);
 
   return (

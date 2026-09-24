@@ -1,15 +1,12 @@
 import React, { useState, useRef } from 'react';
 import {
   statementItems,
-  stylingPortfolioItems,
-  StylingPortfolioItem
+  stylingPortfolioItems
 } from '../../data/newPortfolioData';
-import { StatementItem, StatementCategoryKey } from '../../types';
 import {
   ChevronLeft,
   ChevronRight,
   Sparkles,
-  ArrowUpRight,
   MessageCircle,
   Eye,
   X
@@ -32,8 +29,10 @@ const CATEGORY_TABS = [
   { key: 'mirror', label: 'Mirror Statements', subtitle: "Your space's new selfie corner" },
   { key: 'light', label: 'Light Statements', subtitle: 'For spaces that deserve their own spotlight' },
   { key: 'wall', label: 'Wall Statements', subtitle: 'Walls into little more personality' },
+  { key: 'abstracts-canvas', label: 'Canvas & Abstracts', subtitle: 'Curated original paintings on Belgian linen' },
   { key: 'murals-doodling', label: 'Murals & Doodling', subtitle: 'Floor-to-ceiling narratives & line art' },
-  { key: 'hospitality-airbnbs', label: 'Airbnbs & Hotels', subtitle: 'Experiential hospitality styling' }
+  { key: 'hospitality-airbnbs', label: 'Airbnbs & Hotels', subtitle: 'Experiential hospitality styling' },
+  { key: 'exhibitions-custom', label: 'Exhibitions & Custom', subtitle: 'Bespoke commissions & curated gallery exhibitions' }
 ];
 
 export const HorizontalPortfolio: React.FC = () => {
@@ -69,6 +68,19 @@ export const HorizontalPortfolio: React.FC = () => {
         }));
     }
 
+    if (activeTab === 'abstracts-canvas') {
+      return stylingPortfolioItems
+        .filter(item => item.category === 'abstract')
+        .map(item => ({
+          id: item.id,
+          title: item.title,
+          categoryTag: item.categoryTitle,
+          tagline: item.tagline,
+          imageUrl: item.imageUrl,
+          isStatement: false
+        }));
+    }
+
     if (activeTab === 'murals-doodling') {
       return stylingPortfolioItems
         .filter(item => ['hotel_murals', 'doodling_walls', 'bar_tables'].includes(item.category))
@@ -85,6 +97,19 @@ export const HorizontalPortfolio: React.FC = () => {
     if (activeTab === 'hospitality-airbnbs') {
       return stylingPortfolioItems
         .filter(item => ['airbnbs', 'hotel_interiors', 'cafes', 'bars_collage'].includes(item.category))
+        .map(item => ({
+          id: item.id,
+          title: item.title,
+          categoryTag: item.categoryTitle,
+          tagline: item.tagline,
+          imageUrl: item.imageUrl,
+          isStatement: false
+        }));
+    }
+
+    if (activeTab === 'exhibitions-custom') {
+      return stylingPortfolioItems
+        .filter(item => ['customised', 'exhibitions'].includes(item.category))
         .map(item => ({
           id: item.id,
           title: item.title,
@@ -112,7 +137,7 @@ export const HorizontalPortfolio: React.FC = () => {
     const text = encodeURIComponent(
       `Hello The Artistic Tales! I saw "${item.title}" (${item.categoryTag}) on your website portfolio and would love to inquire about commissioning a similar piece for my space.`
     );
-    window.open(`https://wa.me/917567979307?text=${text}`, '_blank');
+    window.open(`https://wa.me/917567979307?text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -178,87 +203,97 @@ export const HorizontalPortfolio: React.FC = () => {
         </div>
 
         {/* Swipeable Horizontal Scroll Container */}
-        <div
-          ref={scrollContainerRef}
-          className="flex space-x-5 overflow-x-auto pb-8 pt-2 snap-x snap-mandatory scroll-smooth scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent -mx-6 px-6 md:-mx-12 md:px-12"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {filteredItems.map(item => (
-            <div
-              key={item.id}
-              className="flex-shrink-0 w-[280px] sm:w-[320px] md:w-[350px] snap-start group relative rounded-lg overflow-hidden bg-studio-950/60 border border-white/10 hover:border-amber-300/40 transition-all duration-300 shadow-xl flex flex-col justify-between"
-            >
-              {/* Image Container with Ambient Overlay */}
-              <div className="relative aspect-[4/5] overflow-hidden bg-studio-950">
-                <img
-                  src={item.imageUrl}
-                  alt={item.title}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  onError={e => {
-                    // Fallback to placeholder if not loaded yet
-                    (e.target as HTMLImageElement).src =
-                      'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80';
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-studio-950 via-studio-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+        {filteredItems.length === 0 ? (
+          <div className="py-16 text-center text-xs text-studio-400">
+            No artworks currently cataloged under this category.
+          </div>
+        ) : (
+          <div
+            ref={scrollContainerRef}
+            className="flex space-x-5 overflow-x-auto pb-8 pt-2 snap-x snap-mandatory scroll-smooth scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent -mx-6 px-6 md:-mx-12 md:px-12"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {filteredItems.map(item => (
+              <div
+                key={item.id}
+                className="flex-shrink-0 w-[280px] sm:w-[320px] md:w-[350px] snap-start group relative rounded-lg overflow-hidden bg-studio-950/60 border border-white/10 hover:border-amber-300/40 transition-all duration-300 shadow-xl flex flex-col justify-between"
+              >
+                {/* Image Container with Ambient Overlay */}
+                <div className="relative aspect-[4/5] overflow-hidden bg-studio-950">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    onError={e => {
+                      // Fallback to placeholder if not loaded yet
+                      const target = e.target as HTMLImageElement;
+                      target.onerror = null;
+                      target.src =
+                        'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-studio-950 via-studio-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
 
-                {/* Category Pill Tag */}
-                <div className="absolute top-3 left-3">
-                  <span className="px-2.5 py-1 rounded-sm bg-studio-900/80 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider text-amber-200 font-medium">
-                    {item.categoryTag}
-                  </span>
-                </div>
-
-                {/* Quick View Button */}
-                <button
-                  onClick={() => setSelectedPreview(item)}
-                  className="absolute top-3 right-3 p-2 rounded-full bg-studio-900/80 hover:bg-white hover:text-studio-900 text-white backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                  aria-label="Quick View"
-                >
-                  <Eye className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Card Meta Content */}
-              <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
-                <div className="space-y-1">
-                  <h3 className="font-serif text-lg text-white font-normal group-hover:text-amber-200 transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-studio-400 font-light line-clamp-2">
-                    {item.tagline}
-                  </p>
-                </div>
-
-                <div className="pt-3 border-t border-white/10 flex items-center justify-between">
-                  {item.priceNote ? (
-                    <span className="text-xs font-semibold text-amber-300">
-                      {item.priceNote}
+                  {/* Category Pill Tag */}
+                  <div className="absolute top-3 left-3">
+                    <span className="px-2.5 py-1 rounded-sm bg-studio-900/80 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider text-amber-200 font-medium">
+                      {item.categoryTag}
                     </span>
-                  ) : (
-                    <span className="text-[11px] text-studio-400 uppercase tracking-wider">
-                      Custom Commission
-                    </span>
-                  )}
+                  </div>
 
+                  {/* Quick View Button */}
                   <button
-                    onClick={() => handleWhatsAppCommission(item)}
-                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-white/10 hover:bg-amber-400 hover:text-studio-950 text-white text-[11px] font-medium transition-all"
+                    onClick={() => setSelectedPreview(item)}
+                    className="absolute top-3 right-3 p-2 rounded-full bg-studio-900/80 hover:bg-white hover:text-studio-900 text-white backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    aria-label="Quick View"
                   >
-                    <span>Inquire</span>
-                    <MessageCircle className="w-3 h-3" />
+                    <Eye className="w-3.5 h-3.5" />
                   </button>
                 </div>
+
+                {/* Card Meta Content */}
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                  <div className="space-y-1">
+                    <h3 className="font-serif text-lg text-white font-normal group-hover:text-amber-200 transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-studio-400 font-light line-clamp-2">
+                      {item.tagline}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+                    {item.priceNote ? (
+                      <span className="text-xs font-semibold text-amber-300">
+                        {item.priceNote}
+                      </span>
+                    ) : (
+                      <span className="text-[11px] text-studio-400 uppercase tracking-wider">
+                        Custom Commission
+                      </span>
+                    )}
+
+                    <button
+                      onClick={() => handleWhatsAppCommission(item)}
+                      className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-white/10 hover:bg-amber-400 hover:text-studio-950 text-white text-[11px] font-medium transition-all"
+                    >
+                      <span>Inquire</span>
+                      <MessageCircle className="w-3 h-3" />
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Mobile Swipe Hint */}
-        <div className="flex sm:hidden items-center justify-center space-x-2 text-[11px] text-studio-400 pt-2">
-          <span>← Swipe horizontally to explore collection →</span>
-        </div>
+        {filteredItems.length > 0 && (
+          <div className="flex sm:hidden items-center justify-center space-x-2 text-[11px] text-studio-400 pt-2">
+            <span>← Swipe horizontally to explore collection →</span>
+          </div>
+        )}
       </div>
 
       {/* Quick View Modal */}

@@ -5,7 +5,7 @@ export const serviceTiers: ServiceTier[] = [
     id: 'tier-essential',
     name: 'Custom Canvas Artwork',
     tagline: 'Hand-painted originals on Belgian linen — art to collect, not just to decorate.',
-    price: 950,
+    price: 4500,
     timeline: '7-14 Business Days',
     idealFor: 'Residences, private collections, and executive suites seeking an authentic focal anchor piece.',
     iconName: 'Compass',
@@ -20,7 +20,7 @@ export const serviceTiers: ServiceTier[] = [
     id: 'tier-comprehensive',
     name: 'Architectural Wall Murals',
     tagline: 'Floor-to-ceiling narratives painted directly onto your interior or exterior walls.',
-    price: 2400,
+    price: 12000,
     badge: 'Most Popular',
     timeline: '2-3 Weeks',
     idealFor: 'Living pavilions, dining focal walls, boutique hotels, cafes, and creative studios.',
@@ -36,7 +36,7 @@ export const serviceTiers: ServiceTier[] = [
     id: 'tier-architectural',
     name: 'Artistic Interiors & Spatial Curation',
     tagline: 'Holistic spatial transformation — murals, doodles, and crafted décor across entire spaces.',
-    price: 5200,
+    price: 25000,
     badge: 'Signature',
     timeline: '3-5 Weeks + On-Site Execution',
     idealFor: 'Full home transformations, hospitality venues, hostel lounges, and commercial flagships.',
@@ -145,20 +145,20 @@ export const quizQuestions: QuizQuestion[] = [
     options: [
       {
         id: 'q4-1',
-        label: '$5,000 – $15,000',
-        description: 'A balance of accessible design essentials and statement art pieces.',
+        label: 'Under ₹25,000',
+        description: 'Accessible original artwork essentials and signature accents.',
         tierScore: 'tier-essential'
       },
       {
         id: 'q4-2',
-        label: '$15,000 – $50,000',
-        description: 'High-quality designer furniture, custom joinery, and architectural lighting.',
+        label: '₹25,000 – ₹60,000',
+        description: 'Statement pieces, custom murals, and room focal wall revamps.',
         tierScore: 'tier-comprehensive'
       },
       {
         id: 'q4-3',
-        label: '$50,000+',
-        description: 'Custom-built furniture, premium natural stones, and fine art pieces.',
+        label: '₹60,000+',
+        description: 'Turnkey villa transformations, multi-room interior styling, and full architectural murals.',
         tierScore: 'tier-architectural'
       }
     ]

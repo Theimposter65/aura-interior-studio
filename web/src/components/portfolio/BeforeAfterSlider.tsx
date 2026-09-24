@@ -22,6 +22,7 @@ export const BeforeAfterSlider: React.FC = () => {
   const handleMove = useCallback((clientX: number) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
+    if (rect.width <= 0) return;
     const x = clientX - rect.left;
     const clampedX = Math.max(0, Math.min(x, rect.width));
     const percent = (clampedX / rect.width) * 100;
@@ -50,12 +51,14 @@ export const BeforeAfterSlider: React.FC = () => {
       window.addEventListener('mouseup', handleStopDragging);
       window.addEventListener('touchmove', handleTouchMove);
       window.addEventListener('touchend', handleStopDragging);
+      window.addEventListener('touchcancel', handleStopDragging);
     }
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleStopDragging);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleStopDragging);
+      window.removeEventListener('touchcancel', handleStopDragging);
     };
   }, [isDragging, handleMouseMove, handleTouchMove, handleStopDragging]);
 
@@ -143,7 +146,7 @@ export const BeforeAfterSlider: React.FC = () => {
             /* ======================================================== */
             <div
               ref={containerRef}
-              className="relative aspect-[16/10] sm:aspect-[16/9] w-full select-none overflow-hidden cursor-ew-resize bg-studio-950"
+              className="relative aspect-[16/10] sm:aspect-[16/9] w-full select-none overflow-hidden cursor-ew-resize bg-studio-950 touch-none"
               onMouseDown={e => {
                 setIsDragging(true);
                 handleMove(e.clientX);
@@ -275,6 +278,8 @@ export const BeforeAfterSlider: React.FC = () => {
               <img
                 src={item.afterImageUrl}
                 alt={item.title}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-14 object-cover"
               />
               <div className="p-1 bg-studio-50 text-[10px] text-center font-medium text-studio-700 truncate">

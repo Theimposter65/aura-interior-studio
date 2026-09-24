@@ -101,6 +101,26 @@ describe('The Artistic Tales Feature Suite', () => {
     expect(PRICING_FOOTNOTE).toBe('All prices excluding material and frame charges.');
   });
 
+  it('exports authentic styling portfolio items across murals, doodling, cafes, and hotels', () => {
+    expect(stylingPortfolioItems.length).toBeGreaterThanOrEqual(47);
+    stylingPortfolioItems.forEach(item => {
+      expect(item.id).toBeTruthy();
+      expect(item.title).toBeTruthy();
+      expect(item.category).toBeTruthy();
+      expect(item.imageUrl).toMatch(/\.webp$/);
+      expect(item.tagline).toBeTruthy();
+    });
+
+    const categories = new Set(stylingPortfolioItems.map(i => i.category));
+    expect(categories).toContain('hotel_murals');
+    expect(categories).toContain('doodling_walls');
+    expect(categories).toContain('cafes');
+    expect(categories).toContain('airbnbs');
+    expect(categories).toContain('abstract');
+    expect(categories).toContain('customised');
+    expect(categories).toContain('exhibitions');
+  });
+
   it('exports testimonials covering residences, hospitality, and architecture', () => {
     expect(testimonials.length).toBeGreaterThanOrEqual(4);
     testimonials.forEach(t => {
