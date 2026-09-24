@@ -43,10 +43,10 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   }, [selectedCategory, searchQuery, sortBy]);
 
   const categories: { label: string; value: ProductCategory | 'all' }[] = [
-    { label: 'All Atelier Pieces', value: 'all' },
-    { label: 'Wall Designs & Murals', value: 'wall-designs' },
-    { label: 'Interior Spatial Plans', value: 'interior-plans' },
-    { label: 'Material Concept Packages', value: 'concept-packages' },
+    { label: 'All', value: 'all' },
+    { label: 'Wall Art', value: 'wall-designs' },
+    { label: 'Room Plans', value: 'interior-plans' },
+    { label: 'Design Packages', value: 'concept-packages' },
   ];
 
   return (
@@ -55,19 +55,19 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-studio-200">
         <div className="max-w-xl space-y-3">
           <span className="text-[10px] uppercase tracking-[0.3em] text-studio-500 font-semibold block">
-            Curated Atelier Archive
+            Featured Collection
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-studio-900 font-normal leading-tight">
-            Spatial Concepts & Bespoke Wall Art
+            Curated Wall Art & Interior Plans
           </h2>
           <p className="text-xs sm:text-sm text-studio-600 leading-relaxed">
-            Every piece is architecturally documented, archival certified, and available for direct acquisition or tailored spatial commissions.
+            Explore handcrafted artwork and ready-to-use room plans designed to elevate your home.
           </p>
         </div>
 
         {/* Total Count */}
         <div className="mt-4 md:mt-0 text-xs text-studio-500 font-mono tracking-wider">
-          Showing {filteredProducts.length} of {allProducts.length} Works
+          Showing {filteredProducts.length} of {allProducts.length} Products
         </div>
       </div>
 
@@ -100,7 +100,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 type="text"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search by pigment, style, room..."
+                placeholder="Search by title, style, room..."
                 className="w-full text-xs pl-9 pr-8 py-2 bg-white border border-studio-200 rounded-full focus:outline-none focus:border-studio-800 placeholder-studio-400 tracking-wider"
               />
               {searchQuery && (

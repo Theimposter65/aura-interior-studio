@@ -23,24 +23,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz, onSelectCategory }) 
   }, []);
 
   const navLinks = [
-    { label: 'Wall Designs', href: '#catalog', onClick: () => onSelectCategory?.('wall-designs') },
-    { label: 'Interior Plans', href: '#catalog', onClick: () => onSelectCategory?.('interior-plans') },
-    { label: 'Room Visualizer', href: '#visualizer' },
-    { label: 'Spatial Services', href: '#services' },
-    { label: 'Atelier Philosophy', href: '#philosophy' },
+    { label: 'Wall Art', href: '#catalog', onClick: () => onSelectCategory?.('wall-designs') },
+    { label: 'Room Plans', href: '#catalog', onClick: () => onSelectCategory?.('interior-plans') },
+    { label: 'Design Services', href: '#services' },
+    { label: 'Our Approach', href: '#philosophy' },
   ];
 
   return (
     <>
-      {/* Top Architectural Announcement Bar */}
-      <div className="bg-studio-900 text-studio-100 text-xs tracking-widest uppercase py-2 px-4 text-center flex items-center justify-center space-x-3">
-        <span className="hidden sm:inline opacity-75">Complimentary White-Glove Global Shipping on orders over $500</span>
-        <span className="text-studio-400 font-semibold">•</span>
+      {/* Top Announcement Bar */}
+      <div className="bg-studio-900 text-studio-100 text-xs tracking-wider uppercase py-2 px-4 text-center flex items-center justify-center space-x-3">
+        <span className="hidden sm:inline opacity-80">Free worldwide shipping on orders over $500</span>
+        <span className="hidden sm:inline text-studio-500">•</span>
         <button
           onClick={onOpenQuiz}
           className="underline hover:text-white transition-colors inline-flex items-center space-x-1 font-medium cursor-pointer"
         >
-          <span>Find Your Interior Style Quiz</span>
+          <span>Take our 2-minute style quiz</span>
           <ArrowRight className="w-3 h-3 ml-1" />
         </button>
       </div>
@@ -65,7 +64,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz, onSelectCategory }) 
 
           {/* Left Navigation (Desktop) */}
           <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.slice(0, 3).map(link => (
+            {navLinks.slice(0, 2).map(link => (
               <a
                 key={link.label}
                 href={link.href}
@@ -83,14 +82,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz, onSelectCategory }) 
               A U R A
             </span>
             <span className="block text-[9px] uppercase tracking-[0.3em] text-studio-500 font-sans mt-0.5">
-              Studio & Atelier
+              Interior Studio
             </span>
           </a>
 
           {/* Right Navigation & Cart (Desktop) */}
           <div className="flex items-center space-x-6">
             <nav className="hidden md:flex items-center space-x-8">
-              {navLinks.slice(3).map(link => (
+              {navLinks.slice(2).map(link => (
                 <a
                   key={link.label}
                   href={link.href}
@@ -179,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz, onSelectCategory }) 
                   className="w-full py-3 px-4 bg-studio-900 text-white text-xs uppercase tracking-widest flex items-center justify-center space-x-2 rounded-sm"
                 >
                   <Sparkles className="w-4 h-4 text-studio-300" />
-                  <span>Take Spatial Style Quiz</span>
+                  <span>Take Style Quiz</span>
                 </button>
               </div>
             </div>

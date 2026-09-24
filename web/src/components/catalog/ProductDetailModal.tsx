@@ -114,7 +114,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   ${product.price} USD
                 </span>
                 <span className="text-[11px] text-sage-700 bg-sage-50 px-2 py-0.5 rounded font-medium">
-                  Complimentary White-Glove Transit
+                  Free Shipping Included
                 </span>
               </div>
 
@@ -126,7 +126,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     activeTab === 'details' ? 'border-studio-900 text-studio-900' : 'border-transparent text-studio-400 hover:text-studio-700'
                   }`}
                 >
-                  Concept
+                  Overview
                 </button>
                 <button
                   onClick={() => setActiveTab('specs')}
@@ -134,7 +134,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     activeTab === 'specs' ? 'border-studio-900 text-studio-900' : 'border-transparent text-studio-400 hover:text-studio-700'
                   }`}
                 >
-                  Architectural Specs
+                  Specifications
                 </button>
                 <button
                   onClick={() => setActiveTab('curator')}
@@ -142,7 +142,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     activeTab === 'curator' ? 'border-studio-900 text-studio-900' : 'border-transparent text-studio-400 hover:text-studio-700'
                   }`}
                 >
-                  Curator Notes
+                  Features & Notes
                 </button>
               </div>
 
@@ -153,10 +153,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 )}
                 {activeTab === 'specs' && (
                   <div className="space-y-2">
-                    <p><strong className="text-studio-800">Materiality:</strong> {product.architecturalDetails?.material || 'Archival substrate'}</p>
-                    <p><strong className="text-studio-800">Surface Finish:</strong> {product.architecturalDetails?.finish || 'Museum ultra-matte'}</p>
-                    <p><strong className="text-studio-800">Provenance:</strong> {product.architecturalDetails?.origin || 'AURA Master Ateliers'}</p>
-                    <p><strong className="text-studio-800">Craftsmanship Lead Time:</strong> {product.architecturalDetails?.leadTime || 'Handcrafted to order'}</p>
+                    <p><strong className="text-studio-800">Material:</strong> {product.architecturalDetails?.material || 'Archival substrate'}</p>
+                    <p><strong className="text-studio-800">Finish:</strong> {product.architecturalDetails?.finish || 'Museum ultra-matte'}</p>
+                    <p><strong className="text-studio-800">Origin:</strong> {product.architecturalDetails?.origin || 'AURA Studios'}</p>
+                    <p><strong className="text-studio-800">Lead Time:</strong> {product.architecturalDetails?.leadTime || 'Handcrafted to order'}</p>
                   </div>
                 )}
                 {activeTab === 'curator' && (
@@ -172,7 +172,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               {product.dimensions && product.dimensions.length > 0 && (
                 <div className="space-y-2 pt-2">
                   <label className="text-[11px] uppercase tracking-wider font-semibold text-studio-700 block">
-                    Select Dimensions / Scale:
+                    Select Size:
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {product.dimensions.map(dim => (
@@ -196,7 +196,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               {product.frames && product.frames.length > 0 && (
                 <div className="space-y-2 pt-3">
                   <label className="text-[11px] uppercase tracking-wider font-semibold text-studio-700 block">
-                    Frame Moulding & Mounting:
+                    Select Frame Finish:
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {product.frames.map(frame => (
@@ -225,7 +225,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   className="flex-1 py-3.5 px-6 bg-studio-900 hover:bg-studio-800 text-white text-xs uppercase tracking-widest font-semibold rounded-sm shadow-md transition-all flex items-center justify-center space-x-2"
                 >
                   <ShoppingBag className="w-4 h-4" />
-                  <span>{isAdded ? 'Added to Bag ✓' : 'Add to Bag'}</span>
+                  <span>{isAdded ? 'Added to Cart ✓' : 'Add to Cart'}</span>
                 </button>
 
                 {product.category === 'wall-designs' && onOpenVisualizer && (
@@ -235,10 +235,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       onOpenVisualizer(product.id);
                     }}
                     className="py-3.5 px-4 border border-studio-900 text-studio-900 hover:bg-studio-100 text-xs uppercase tracking-widest font-semibold rounded-sm transition-colors flex items-center space-x-1.5"
-                    title="Preview in 3D Room Visualizer"
+                    title="Preview in Room Visualizer"
                   >
                     <Sparkles className="w-4 h-4 text-studio-600" />
-                    <span className="hidden sm:inline">Try on Wall</span>
+                    <span className="hidden sm:inline">Try in Room</span>
                   </button>
                 )}
               </div>
@@ -246,11 +246,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <div className="grid grid-cols-2 gap-2 text-[10px] text-studio-500 pt-1">
                 <span className="flex items-center space-x-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-sage-600" />
-                  <span>100-Year Archival Guarantee</span>
+                  <span>100-Year Quality Guarantee</span>
                 </span>
                 <span className="flex items-center space-x-1">
                   <Truck className="w-3.5 h-3.5 text-studio-500" />
-                  <span>White-Glove Insured Delivery</span>
+                  <span>Insured Tracked Delivery</span>
                 </span>
               </div>
             </div>

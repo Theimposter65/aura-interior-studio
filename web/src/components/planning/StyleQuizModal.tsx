@@ -96,7 +96,7 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
             </span>
             <div>
               <h3 className="font-serif text-xl text-studio-900 font-normal">
-                Atelier Spatial Philosophy Quiz
+                Find Your Interior Style
               </h3>
               <p className="text-[11px] text-studio-500 uppercase tracking-wider">
                 {recommendedTier ? 'Recommendation Ready' : `Step ${currentStep + 1} of ${quizQuestions.length}`}
@@ -129,13 +129,13 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
               <div className="text-center space-y-2">
                 <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-sage-100 text-sage-800 rounded-full text-xs font-semibold uppercase tracking-wider">
                   <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Curated Match Identified</span>
+                  <span>Recommended Package</span>
                 </span>
                 <h4 className="font-serif text-3xl text-studio-900">
                   {recommendedTier.name}
                 </h4>
                 <p className="text-xs text-studio-500 max-w-md mx-auto">
-                  Based on your spatial scope, design certainty needs, and investment budget, our Lead Architect recommends this advisory tier.
+                  Based on your space, preferred style, and budget, this design package is the best fit for your project.
                 </p>
               </div>
 
@@ -144,7 +144,7 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
                 <div className="flex justify-between items-baseline border-b border-studio-100 pb-4">
                   <div>
                     <span className="text-xs uppercase tracking-wider text-studio-400 font-semibold block">
-                      Advisory Package
+                      Design Package
                     </span>
                     <span className="font-serif text-2xl font-semibold text-studio-900">
                       ${recommendedTier.price} USD
@@ -157,7 +157,7 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
 
                 <div className="space-y-2 text-xs text-studio-600">
                   <p className="font-semibold text-studio-800 uppercase tracking-wider text-[11px]">
-                    Included in your bespoke match:
+                    What's included in this package:
                   </p>
                   <ul className="space-y-1.5">
                     {recommendedTier.deliverables.map((d, i) => (
@@ -176,7 +176,7 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
                   onClick={handleProceedToBooking}
                   className="flex-1 py-3.5 px-6 bg-studio-900 hover:bg-studio-800 text-white text-xs uppercase tracking-widest font-semibold rounded-sm shadow-md transition-all flex items-center justify-center space-x-2"
                 >
-                  <span>Book Consultation With This Match</span>
+                  <span>Book Consultation For This Package</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <button

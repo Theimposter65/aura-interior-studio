@@ -87,9 +87,9 @@ export const CartDrawer: React.FC = () => {
                 <div className="w-16 h-16 bg-sage-100 text-sage-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle2 className="w-10 h-10 stroke-[1.8]" />
                 </div>
-                <h3 className="font-serif text-3xl text-studio-900">Bespoke Order Confirmed</h3>
+                <h3 className="font-serif text-3xl text-studio-900">Order Confirmed</h3>
                 <p className="text-xs text-studio-600 leading-relaxed max-w-xs mx-auto">
-                  Thank you for entrusting your space with AURA Atelier. Our master curators have received your acquisition protocol.
+                  Thank you for your order! We have received your request and will send confirmation and tracking details to your email.
                 </p>
                 <div className="bg-white p-4 rounded-lg border border-studio-200/80 text-left text-xs space-y-2 mt-6">
                   <div className="flex justify-between font-mono text-studio-500">
@@ -97,19 +97,19 @@ export const CartDrawer: React.FC = () => {
                     <span className="font-semibold text-studio-800">AUR-{(Math.random() * 90000 + 10000).toFixed(0)}</span>
                   </div>
                   <div className="flex justify-between font-mono text-studio-500">
-                    <span>Acquisition Total:</span>
+                    <span>Total:</span>
                     <span className="font-semibold text-studio-800">${total} USD</span>
                   </div>
                   <div className="flex justify-between font-mono text-studio-500">
-                    <span>Dispatch Protocol:</span>
-                    <span className="text-sage-700 font-semibold">White-Glove Insured</span>
+                    <span>Shipping:</span>
+                    <span className="text-sage-700 font-semibold">Insured Delivery</span>
                   </div>
                 </div>
                 <button
                   onClick={handleFinishOrder}
                   className="w-full mt-6 py-3.5 px-6 bg-studio-900 hover:bg-studio-800 text-white text-xs uppercase tracking-widest transition-all rounded-sm shadow-md"
                 >
-                  Return to Atelier
+                  Continue Shopping
                 </button>
               </div>
             ) : items.length === 0 ? (
@@ -117,15 +117,15 @@ export const CartDrawer: React.FC = () => {
                 <div className="w-16 h-16 rounded-full bg-studio-100 flex items-center justify-center mx-auto text-studio-400">
                   <Sparkles className="w-7 h-7 stroke-[1.4]" />
                 </div>
-                <h3 className="font-serif text-2xl text-studio-800">Your bag is serene and quiet</h3>
+                <h3 className="font-serif text-2xl text-studio-800">Your bag is empty</h3>
                 <p className="text-xs text-studio-500 max-w-xs mx-auto leading-relaxed">
-                  Discover our limited mineral wall murals, turnkey 3D spatial plans, or test pieces in the interactive room visualizer.
+                  Explore our handcrafted wall art collection or browse our interior planning packages.
                 </p>
                 <button
                   onClick={closeCart}
                   className="mt-4 inline-flex items-center space-x-2 px-6 py-3 bg-studio-900 text-white text-xs uppercase tracking-widest hover:bg-studio-800 transition-colors rounded-sm"
                 >
-                  <span>Explore Collections</span>
+                  <span>Start Shopping</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -209,7 +209,7 @@ export const CartDrawer: React.FC = () => {
                     type="text"
                     value={promoInput}
                     onChange={e => setPromoInput(e.target.value)}
-                    placeholder="Privilege Code (e.g. ATELIER10)"
+                    placeholder="Discount Code (e.g. ATELIER10)"
                     className="flex-1 text-xs px-3 py-2 border border-studio-300 rounded focus:outline-none focus:border-studio-800 uppercase tracking-wider"
                   />
                   <button
@@ -242,20 +242,20 @@ export const CartDrawer: React.FC = () => {
                 </div>
                 {promoDiscount > 0 && (
                   <div className="flex justify-between text-sage-700">
-                    <span>Privilege Discount</span>
+                    <span>Discount</span>
                     <span>-${promoDiscount}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-studio-600">
-                  <span>White-Glove Delivery</span>
-                  <span>{shipping === 0 ? <span className="text-sage-700 font-medium">Complimentary</span> : `$${shipping}`}</span>
+                  <span>Delivery</span>
+                  <span>{shipping === 0 ? <span className="text-sage-700 font-medium">Free</span> : `$${shipping}`}</span>
                 </div>
                 <div className="flex justify-between text-studio-600">
-                  <span>Estimated Architectural Tax (8%)</span>
+                  <span>Estimated Tax (8%)</span>
                   <span>${tax}</span>
                 </div>
                 <div className="flex justify-between text-sm font-semibold text-studio-900 pt-2 border-t border-studio-200">
-                  <span>Total Acquisition</span>
+                  <span>Total</span>
                   <span className="font-serif text-lg">${total} USD</span>
                 </div>
               </div>
@@ -267,10 +267,10 @@ export const CartDrawer: React.FC = () => {
                 className="w-full py-4 bg-studio-900 hover:bg-studio-800 text-white text-xs uppercase tracking-[0.2em] font-medium transition-all flex items-center justify-center space-x-2 rounded-sm shadow-md"
               >
                 {isCheckingOut ? (
-                  <span>Securing Acquisition Protocol...</span>
+                  <span>Processing checkout...</span>
                 ) : (
                   <>
-                    <span>Proceed to Bespoke Checkout</span>
+                    <span>Proceed to Checkout</span>
                     <ArrowRight className="w-4 h-4 ml-1" />
                   </>
                 )}
@@ -279,12 +279,12 @@ export const CartDrawer: React.FC = () => {
               <div className="flex items-center justify-center space-x-4 text-[10px] text-studio-400 pt-1">
                 <span className="flex items-center space-x-1">
                   <ShieldCheck className="w-3 h-3 text-sage-600" />
-                  <span>Insured Transit</span>
+                  <span>Insured Shipping</span>
                 </span>
                 <span>•</span>
                 <span className="flex items-center space-x-1">
                   <Truck className="w-3 h-3" />
-                  <span>Global Atelier Logistics</span>
+                  <span>Tracked Delivery</span>
                 </span>
               </div>
             </div>

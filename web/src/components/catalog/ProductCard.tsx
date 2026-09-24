@@ -60,7 +60,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             className="flex-1 py-2.5 px-3 bg-white/95 hover:bg-white text-studio-900 text-xs uppercase tracking-wider font-semibold rounded shadow-md backdrop-blur-sm flex items-center justify-center space-x-1.5 transition-colors"
           >
             <Eye className="w-3.5 h-3.5 text-studio-700" />
-            <span>Inspect</span>
+            <span>View Details</span>
           </button>
 
           {product.category === 'wall-designs' && onOpenVisualizer && (
@@ -78,7 +78,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
           <button
             onClick={handleQuickAdd}
-            title="Quick Add to Bag"
+            title="Add to Cart"
             className="p-2.5 bg-studio-900 hover:bg-studio-800 text-white rounded shadow-md transition-colors"
           >
             <ShoppingBag className="w-4 h-4" />

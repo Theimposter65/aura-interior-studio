@@ -80,10 +80,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         <div className="p-6 border-b border-studio-200 flex items-center justify-between bg-white">
           <div>
             <h3 className="font-serif text-2xl text-studio-900 font-normal">
-              Schedule Architectural Consultation
+              Book Your Design Consultation
             </h3>
             <p className="text-[11px] text-studio-500 uppercase tracking-wider mt-0.5">
-              Direct Advisory with AURA Lead Spatial Architect
+              1-on-1 virtual design session with our interior team
             </p>
           </div>
           <button
@@ -101,10 +101,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <CheckCircle2 className="w-10 h-10 stroke-[1.8]" />
             </div>
             <h4 className="font-serif text-3xl text-studio-900">
-              Consultation Protocol Scheduled
+              Consultation Booked
             </h4>
             <p className="text-xs text-studio-600 max-w-sm mx-auto leading-relaxed">
-              We have reserved your spatial design session with our Senior Architectural Team. A preliminary questionnaire and calendar invite have been dispatched.
+              Thank you for booking! We have received your details. Our design team will confirm your consultation time and send a video meeting link to your email.
             </p>
 
             <div className="bg-white p-5 rounded border border-studio-200 text-left text-xs space-y-2.5 max-w-md mx-auto">
@@ -113,7 +113,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <span className="font-mono font-semibold text-studio-900">{bookingRef}</span>
               </div>
               <div className="flex justify-between border-b border-studio-100 pb-2">
-                <span className="text-studio-500">Service Tier:</span>
+                <span className="text-studio-500">Service Package:</span>
                 <span className="font-semibold text-studio-900">{selectedTier.name} (${selectedTier.price})</span>
               </div>
               <div className="flex justify-between border-b border-studio-100 pb-2">
@@ -292,12 +292,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <div className="flex items-center justify-center space-x-4 text-[10px] text-studio-400 pt-3">
                 <span className="flex items-center space-x-1">
                   <ShieldCheck className="w-3 h-3 text-sage-600" />
-                  <span>Complimentary 14-Day Re-scheduling</span>
+                  <span>Free 14-Day Rescheduling</span>
                 </span>
                 <span>•</span>
                 <span className="flex items-center space-x-1">
                   <Clock className="w-3 h-3" />
-                  <span>45-Min Dedicated Video Protocol</span>
+                  <span>45-Minute Video Consultation</span>
                 </span>
               </div>
             </div>

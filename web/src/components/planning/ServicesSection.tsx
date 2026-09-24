@@ -30,13 +30,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
         <span className="text-[10px] uppercase tracking-[0.3em] text-studio-500 font-semibold block">
-          Spatial Architecture & Advisory
+          Design Services
         </span>
         <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-studio-900 font-normal leading-tight">
-          Bespoke Interior Planning Services
+          Interior Design Packages
         </h2>
         <p className="text-xs sm:text-sm text-studio-600 leading-relaxed max-w-2xl mx-auto">
-          Whether rejuvenating a single living pavilion or engineering a turnkey luxury residence, our senior architectural design team guides every millwork detail, lighting Kelvin, and material texture.
+          From single-room layouts to full home design, our team helps you choose the right furniture, colors, and lighting with confidence.
         </p>
 
         {/* Style Quiz Prompt Banner */}
@@ -46,7 +46,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
             className="inline-flex items-center space-x-2.5 px-6 py-2.5 bg-studio-100 hover:bg-studio-200 text-studio-900 rounded-full text-xs font-semibold uppercase tracking-wider transition-all border border-studio-200 shadow-sm"
           >
             <Sparkles className="w-4 h-4 text-studio-600" />
-            <span>Unsure which tier fits your project? Take our 2-Minute Style Quiz</span>
+            <span>Not sure which package fits your home? Take our 2-Minute Style Quiz</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -96,7 +96,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 {/* Price Display */}
                 <div className="pb-6 border-b border-studio-100 mb-6">
                   <span className="text-[10px] uppercase tracking-wider text-studio-400 block font-semibold">
-                    Advisory Investment
+                    Package Price
                   </span>
                   <div className="flex items-baseline space-x-2">
                     <span className="font-serif text-3xl font-semibold text-studio-900">
@@ -109,7 +109,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 {/* Deliverables Checklist */}
                 <div className="space-y-3 mb-8">
                   <span className="text-[11px] uppercase tracking-wider font-semibold text-studio-700 block">
-                    Curated Deliverables:
+                    What's Included:
                   </span>
                   <ul className="space-y-2.5 text-xs text-studio-600">
                     {tier.deliverables.map((item, idx) => (
@@ -125,7 +125,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
               {/* Action Button & Ideal For */}
               <div className="pt-6 border-t border-studio-100 space-y-4">
                 <div className="text-[11px] text-studio-500 leading-relaxed bg-studio-50 p-3 rounded">
-                  <strong className="text-studio-700 block mb-0.5">Ideal Scope:</strong>
+                  <strong className="text-studio-700 block mb-0.5">Best for:</strong>
                   {tier.idealFor}
                 </div>
 
@@ -138,7 +138,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   }`}
                 >
                   <Calendar className="w-4 h-4" />
-                  <span>Schedule Consultation</span>
+                  <span>Book Consultation</span>
                 </button>
               </div>
             </div>
