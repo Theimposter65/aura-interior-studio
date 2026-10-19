@@ -87,12 +87,12 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
       />
 
       {/* Modal Dialog Card */}
-      <div className="relative bg-studio-50 w-full max-w-2xl rounded-sm shadow-2xl overflow-hidden z-10 border border-studio-200 animate-fadeIn">
+      <div className="relative bg-white/95 backdrop-blur-2xl w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden z-10 border border-white/80 animate-fadeIn">
         {/* Header */}
-        <div className="p-6 border-b border-studio-200 flex items-center justify-between bg-white">
+        <div className="p-6 border-b border-studio-200/60 flex items-center justify-between bg-white/50">
           <div className="flex items-center space-x-2.5">
-            <span className="p-1.5 bg-studio-100 text-studio-900 rounded-full">
-              <Sparkles className="w-4 h-4 text-studio-700" />
+            <span className="p-1.5 bg-amber-100 text-studio-900 rounded-full">
+              <Sparkles className="w-4 h-4 text-amber-600" />
             </span>
             <div>
               <h3 className="font-serif text-xl text-studio-900 font-normal">
@@ -105,7 +105,7 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-studio-400 hover:text-studio-900 rounded-full hover:bg-studio-100 transition-colors"
+            className="p-2 text-studio-400 hover:text-studio-900 rounded-full hover:bg-studio-100 transition-colors apple-press"
           >
             <X className="w-5 h-5" />
           </button>

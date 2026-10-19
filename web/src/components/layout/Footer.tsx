@@ -74,7 +74,7 @@ export const Footer: React.FC = () => {
             </div>
 
             {subscribed ? (
-              <div className="p-4 bg-studio-800/80 border border-studio-700 rounded text-xs text-emerald-300 flex items-center space-x-2">
+              <div className="p-4 bg-emerald-950/40 border border-emerald-500/30 rounded-2xl text-xs text-emerald-300 flex items-center space-x-2 backdrop-blur-md">
                 <Check className="w-4 h-4 text-emerald-400" />
                 <span>Thank you for subscribing. Welcome to The Artistic Tales Atelier.</span>
               </div>
@@ -86,11 +86,11 @@ export const Footer: React.FC = () => {
                   onChange={e => setEmail(e.target.value)}
                   placeholder="Enter your email address"
                   required
-                  className="bg-studio-800 border border-studio-700 px-4 py-3 text-xs text-studio-100 placeholder-studio-500 rounded focus:outline-none focus:border-studio-400 flex-1 tracking-wider"
+                  className="bg-white/5 border border-white/15 px-5 py-3 text-xs text-white placeholder-studio-500 rounded-full focus:outline-none focus:border-amber-300 flex-1 tracking-wider backdrop-blur-md"
                 />
                 <button
                   type="submit"
-                  className="bg-studio-100 hover:bg-white text-studio-900 px-6 py-3 text-xs uppercase tracking-widest font-semibold rounded transition-colors flex items-center justify-center space-x-2"
+                  className="bg-amber-400 hover:bg-amber-300 text-studio-950 px-7 py-3 text-xs uppercase tracking-widest font-semibold rounded-full transition-all flex items-center justify-center space-x-2 apple-press shadow-md"
                 >
                   <span>Subscribe</span>
                   <ArrowRight className="w-3.5 h-3.5" />

@@ -11,6 +11,7 @@ import {
   Eye,
   X
 } from 'lucide-react';
+import { LiquidGlassPill } from '../glass/LiquidGlassPill';
 
 interface PortfolioCardItem {
   id: string;
@@ -141,19 +142,23 @@ export const HorizontalPortfolio: React.FC = () => {
   };
 
   return (
-    <section id="portfolio" className="py-20 bg-studio-900 text-white overflow-hidden relative">
-      {/* Background Ambience */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-studio-800/30 via-studio-950/80 to-studio-950 pointer-events-none" />
+    <section id="portfolio" className="py-24 bg-studio-950 text-white overflow-hidden relative">
+      {/* Background Refractive Vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-amber-500/10 via-studio-950/70 to-studio-950 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Header with Title & Navigation Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-studio-300 text-[10px] uppercase tracking-[0.25em]">
-              <Sparkles className="w-3 h-3 text-amber-300" />
-              <span>Studio Portfolio & Creations</span>
-            </div>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-studio-50 font-normal">
+            <LiquidGlassPill
+              variant="dark"
+              size="sm"
+              icon={<Sparkles className="w-3 h-3 text-amber-300" />}
+              className="uppercase tracking-[0.25em] text-[10px]"
+            >
+              Studio Portfolio & Creations
+            </LiquidGlassPill>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-white font-normal tracking-tight">
               Curated Works & Spatial Art
             </h2>
             <p className="text-xs sm:text-sm text-studio-300 max-w-xl font-light italic">
@@ -161,44 +166,43 @@ export const HorizontalPortfolio: React.FC = () => {
             </p>
           </div>
 
-          {/* Desktop Arrow Controls */}
+          {/* Desktop Arrow Controls (Liquid Glass Buttons) */}
           <div className="hidden sm:flex items-center space-x-3">
             <button
               onClick={() => scroll('left')}
               aria-label="Scroll Left"
-              className="p-3 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white transition-all backdrop-blur-md active:scale-95"
+              className="p-3 rounded-full border border-white/25 bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-xl apple-press shadow-sm"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={() => scroll('right')}
               aria-label="Scroll Right"
-              className="p-3 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white transition-all backdrop-blur-md active:scale-95"
+              className="p-3 rounded-full border border-white/25 bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-xl apple-press shadow-sm"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        {/* Scrollable Category Filter Pills */}
-        <div className="flex items-center space-x-2 overflow-x-auto pb-4 mb-8 scrollbar-none no-scrollbar">
+        {/* Scrollable Category Filter Pills (Liquid Glass Pills) */}
+        <div className="flex items-center space-x-2.5 overflow-x-auto pb-4 mb-8 scrollbar-none no-scrollbar">
           {CATEGORY_TABS.map(tab => (
-            <button
+            <LiquidGlassPill
               key={tab.key}
+              active={activeTab === tab.key}
+              variant={activeTab === tab.key ? 'amber' : 'dark'}
+              size="md"
               onClick={() => {
                 setActiveTab(tab.key);
                 if (scrollContainerRef.current) {
                   scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
                 }
               }}
-              className={`px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-all uppercase tracking-wider ${
-                activeTab === tab.key
-                  ? 'bg-amber-300 text-studio-950 shadow-md font-semibold'
-                  : 'bg-white/5 hover:bg-white/10 text-studio-300 border border-white/10'
-              }`}
+              className="whitespace-nowrap uppercase tracking-wider text-[11px]"
             >
               {tab.label}
-            </button>
+            </LiquidGlassPill>
           ))}
         </div>
 
@@ -210,13 +214,13 @@ export const HorizontalPortfolio: React.FC = () => {
         ) : (
           <div
             ref={scrollContainerRef}
-            className="flex space-x-5 overflow-x-auto pb-8 pt-2 snap-x snap-mandatory scroll-smooth scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent -mx-6 px-6 md:-mx-12 md:px-12"
+            className="flex space-x-6 overflow-x-auto pb-8 pt-2 snap-x snap-mandatory scroll-smooth scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent -mx-6 px-6 md:-mx-12 md:px-12"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {filteredItems.map(item => (
               <div
                 key={item.id}
-                className="flex-shrink-0 w-[280px] sm:w-[320px] md:w-[350px] snap-start group relative rounded-lg overflow-hidden bg-studio-950/60 border border-white/10 hover:border-amber-300/40 transition-all duration-300 shadow-xl flex flex-col justify-between"
+                className="flex-shrink-0 w-[280px] sm:w-[320px] md:w-[350px] snap-start group relative rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xl border border-white/15 hover:border-amber-300/50 transition-all duration-300 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)] flex flex-col justify-between"
               >
                 {/* Image Container with Ambient Overlay */}
                 <div className="relative aspect-[4/5] overflow-hidden bg-studio-950">
@@ -224,9 +228,9 @@ export const HorizontalPortfolio: React.FC = () => {
                     src={item.imageUrl}
                     alt={item.title}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     onError={e => {
-                      // Fallback to placeholder if not loaded yet
                       const target = e.target as HTMLImageElement;
                       target.onerror = null;
                       target.src =
@@ -235,9 +239,9 @@ export const HorizontalPortfolio: React.FC = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-studio-950 via-studio-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
 
-                  {/* Category Pill Tag */}
+                  {/* Category Pill Tag (Liquid Glass Pill) */}
                   <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-1 rounded-sm bg-studio-900/80 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider text-amber-200 font-medium">
+                    <span className="px-2.5 py-1 rounded-full bg-studio-950/70 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider text-amber-200 font-medium">
                       {item.categoryTag}
                     </span>
                   </div>
@@ -245,41 +249,48 @@ export const HorizontalPortfolio: React.FC = () => {
                   {/* Quick View Button */}
                   <button
                     onClick={() => setSelectedPreview(item)}
-                    className="absolute top-3 right-3 p-2 rounded-full bg-studio-900/80 hover:bg-white hover:text-studio-900 text-white backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    className="absolute top-3 right-3 p-2.5 rounded-full bg-studio-950/70 hover:bg-white hover:text-studio-950 text-white backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 apple-press shadow-md"
                     aria-label="Quick View"
                   >
                     <Eye className="w-3.5 h-3.5" />
                   </button>
                 </div>
 
-                {/* Card Meta Content */}
-                <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
-                  <div className="space-y-1">
+                {/* Card Meta Content with Prism Rim */}
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-3.5 relative">
+                  <div className="space-y-1.5">
                     <h3 className="font-serif text-lg text-white font-normal group-hover:text-amber-200 transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-xs text-studio-400 font-light line-clamp-2">
-                      {item.tagline}
+                    <p className="text-xs text-studio-300 italic line-clamp-2 font-light">
+                      "{item.tagline}"
                     </p>
                   </div>
 
                   <div className="pt-3 border-t border-white/10 flex items-center justify-between">
-                    {item.priceNote ? (
-                      <span className="text-xs font-semibold text-amber-300">
-                        {item.priceNote}
-                      </span>
-                    ) : (
-                      <span className="text-[11px] text-studio-400 uppercase tracking-wider">
-                        Custom Commission
-                      </span>
-                    )}
+                    <div>
+                      {item.priceNote ? (
+                        <div>
+                          <span className="text-[10px] uppercase tracking-wider text-studio-400 block">
+                            Estimate
+                          </span>
+                          <span className="text-xs font-serif text-amber-300 font-medium">
+                            {item.priceNote}
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="text-[11px] text-studio-400 font-light">
+                          Custom Commission
+                        </span>
+                      )}
+                    </div>
 
                     <button
                       onClick={() => handleWhatsAppCommission(item)}
-                      className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-white/10 hover:bg-amber-400 hover:text-studio-950 text-white text-[11px] font-medium transition-all"
+                      className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-amber-400 hover:text-studio-950 text-white text-[11px] font-medium border border-white/20 transition-all apple-press"
                     >
-                      <span>Inquire</span>
                       <MessageCircle className="w-3 h-3" />
+                      <span>Inquire</span>
                     </button>
                   </div>
                 </div>
@@ -287,28 +298,23 @@ export const HorizontalPortfolio: React.FC = () => {
             ))}
           </div>
         )}
-
-        {/* Mobile Swipe Hint */}
-        {filteredItems.length > 0 && (
-          <div className="flex sm:hidden items-center justify-center space-x-2 text-[11px] text-studio-400 pt-2">
-            <span>← Swipe horizontally to explore collection →</span>
-          </div>
-        )}
       </div>
 
-      {/* Quick View Modal */}
+      {/* Lightbox / Quick View Modal (Liquid Crystal Sheet) */}
       {selectedPreview && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-          <div className="relative max-w-2xl w-full bg-studio-900 border border-white/20 rounded-lg overflow-hidden shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-studio-950/80 backdrop-blur-xl animate-fadeIn">
+          <div className="relative max-w-2xl w-full rounded-2xl overflow-hidden bg-studio-950/90 border border-white/25 shadow-2xl backdrop-blur-2xl">
+            {/* Close Button */}
             <button
               onClick={() => setSelectedPreview(null)}
-              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-studio-950/80 text-white hover:bg-white hover:text-studio-950 transition-all"
+              className="absolute top-4 right-4 z-20 p-2 rounded-full bg-studio-900/80 text-white hover:bg-white hover:text-studio-950 transition-colors border border-white/20 apple-press"
+              aria-label="Close Preview"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="max-h-[85vh] overflow-y-auto">
-              <div className="aspect-[4/3] bg-studio-950 overflow-hidden">
+              <div className="relative aspect-[4/3] bg-studio-950">
                 <img
                   src={selectedPreview.imageUrl}
                   alt={selectedPreview.title}
@@ -316,39 +322,40 @@ export const HorizontalPortfolio: React.FC = () => {
                 />
               </div>
 
-              <div className="p-6 space-y-4">
-                <div className="space-y-1">
-                  <span className="text-[10px] uppercase tracking-widest text-amber-300 font-semibold">
+              <div className="p-6 md:p-8 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs uppercase tracking-widest text-amber-300 font-semibold px-2.5 py-1 rounded-full bg-amber-400/10 border border-amber-400/30">
                     {selectedPreview.categoryTag}
                   </span>
-                  <h3 className="font-serif text-2xl text-white font-normal">
-                    {selectedPreview.title}
-                  </h3>
-                  <p className="text-sm text-studio-300 font-light">
-                    {selectedPreview.tagline}
-                  </p>
+                  {selectedPreview.priceNote && (
+                    <span className="font-serif text-lg text-white">
+                      {selectedPreview.priceNote}
+                    </span>
+                  )}
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-white/10">
-                  {selectedPreview.priceNote && (
-                    <div>
-                      <p className="text-[10px] uppercase tracking-wider text-studio-400">Estimate Range</p>
-                      <p className="text-base font-semibold text-amber-300">{selectedPreview.priceNote}</p>
-                    </div>
-                  )}
+                <h3 className="font-serif text-2xl md:text-3xl text-white font-normal">
+                  {selectedPreview.title}
+                </h3>
 
-                  <div className="flex items-center space-x-3">
-                    <button
-                      onClick={() => {
-                        handleWhatsAppCommission(selectedPreview);
-                        setSelectedPreview(null);
-                      }}
-                      className="flex-1 sm:flex-initial px-6 py-3 rounded bg-amber-400 hover:bg-amber-300 text-studio-950 font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center space-x-2"
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                      <span>Commission via WhatsApp</span>
-                    </button>
-                  </div>
+                <p className="text-sm text-studio-300 italic font-light">
+                  "{selectedPreview.tagline}"
+                </p>
+
+                <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={() => handleWhatsAppCommission(selectedPreview)}
+                    className="flex-1 py-3 px-6 rounded-full bg-amber-400 hover:bg-amber-300 text-studio-950 text-xs uppercase tracking-widest font-semibold flex items-center justify-center space-x-2 transition-all apple-press shadow-lg"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Inquire via WhatsApp</span>
+                  </button>
+                  <button
+                    onClick={() => setSelectedPreview(null)}
+                    className="py-3 px-6 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs uppercase tracking-widest border border-white/20 transition-all apple-press"
+                  >
+                    Close
+                  </button>
                 </div>
               </div>
             </div>
@@ -358,3 +365,5 @@ export const HorizontalPortfolio: React.FC = () => {
     </section>
   );
 };
+
+export default HorizontalPortfolio;

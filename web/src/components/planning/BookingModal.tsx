@@ -75,9 +75,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       />
 
       {/* Modal Dialog Card */}
-      <div className="relative bg-studio-50 w-full max-w-xl rounded-sm shadow-2xl overflow-hidden z-10 border border-studio-200 animate-fadeIn">
+      <div className="relative bg-white/95 backdrop-blur-2xl w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden z-10 border border-white/80 animate-fadeIn">
         {/* Header */}
-        <div className="p-6 border-b border-studio-200 flex items-center justify-between bg-white">
+        <div className="p-6 border-b border-studio-200/60 flex items-center justify-between bg-white/50">
           <div>
             <h3 className="font-serif text-2xl text-studio-900 font-normal">
               Book Your Design Consultation
@@ -88,7 +88,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </div>
           <button
             onClick={handleClose}
-            className="p-2 text-studio-400 hover:text-studio-900 rounded-full hover:bg-studio-100 transition-colors"
+            className="p-2 text-studio-400 hover:text-studio-900 rounded-full hover:bg-studio-100 transition-colors apple-press"
           >
             <X className="w-5 h-5" />
           </button>
