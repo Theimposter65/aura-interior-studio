@@ -19,7 +19,10 @@ export const InquirySection: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email) return;
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!trimmedName || !trimmedEmail || !emailRegex.test(trimmedEmail)) return;
 
     setSubmitting(true);
     setTimeout(() => {

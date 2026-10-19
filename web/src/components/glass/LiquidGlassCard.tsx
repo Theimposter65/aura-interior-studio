@@ -33,10 +33,16 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({
 
     if (rafId.current) cancelAnimationFrame(rafId.current);
 
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     rafId.current = requestAnimationFrame(() => {
-      const angles = calculateTiltAngles(pointerX, pointerY, rect, maxTilt);
+      const angles = prefersReducedMotion
+        ? { rotateX: 0, rotateY: 0 }
+        : calculateTiltAngles(pointerX, pointerY, rect, maxTilt);
       const spec = calculateSpecularHighlight(pointerX, pointerY, rect);
-      setTilt({ rotateX: angles.rotateX, rotateY: angles.rotateY });
+      setTilt(angles);
       setSpecular(spec);
     });
   }, [interactive, maxTilt]);
@@ -84,12 +90,12 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({
       }}
       className={`
         relative rounded-xl border backdrop-blur-2xl saturate-[190%]
-        overflow-hidden will-change-transform ${variantStyles} ${className}
+        overflow-hidden will-change-transform ${variant === 'dark' ? 'liquid-glass-dark' : 'liquid-glass-light'} ${variantStyles} ${className}
       `}
       {...rest}
     >
       {/* Specular Spotlight & Fresnel Glare Layer */}
-      {interactive && isHovered && (
+      {interactive && (
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
@@ -116,4 +122,5 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({
   );
 };
 
+export const LiquidGlassContainer = LiquidGlassCard;
 export default LiquidGlassCard;

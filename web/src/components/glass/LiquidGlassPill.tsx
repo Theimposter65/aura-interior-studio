@@ -42,7 +42,7 @@ export const LiquidGlassPill: React.FC<LiquidGlassPillProps> = ({
       type="button"
       onClick={onClick}
       className={`
-        inline-flex items-center justify-center rounded-full
+        glass-frosted-pill inline-flex items-center justify-center rounded-full
         backdrop-blur-xl saturate-[180%] border
         transition-all duration-200 ease-out
         apple-press tracking-wide cursor-pointer
