@@ -17,51 +17,49 @@ export const BeforeAfterSlider: React.FC = () => {
   const [isSideBySide, setIsSideBySide] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<DOMRect | null>(null);
 
   const currentProject: TransformationItem = transformationItems[currentIndex] || transformationItems[0];
 
   const handleMove = useCallback((clientX: number) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    if (rect.width <= 0) return;
+    const rect = rectRef.current || (containerRef.current ? containerRef.current.getBoundingClientRect() : null);
+    if (!rect || rect.width <= 0) return;
     const x = clientX - rect.left;
     const clampedX = Math.max(0, Math.min(x, rect.width));
     const percent = (clampedX / rect.width) * 100;
     setSliderPosition(percent);
   }, []);
 
-  const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (isDragging && e.touches[0]) {
-      handleMove(e.touches[0].clientX);
+  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      // ignore
     }
-  }, [isDragging, handleMove]);
+    if (containerRef.current) {
+      rectRef.current = containerRef.current.getBoundingClientRect();
+    }
+    setIsDragging(true);
+    handleMove(e.clientX);
+  }, [handleMove]);
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (isDragging) {
       handleMove(e.clientX);
     }
   }, [isDragging, handleMove]);
 
-  const handleStopDragging = useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
-  useEffect(() => {
+  const handlePointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    rectRef.current = null;
     if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleStopDragging);
-      window.addEventListener('touchmove', handleTouchMove);
-      window.addEventListener('touchend', handleStopDragging);
-      window.addEventListener('touchcancel', handleStopDragging);
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch {
+        // pointer may already be released
+      }
+      setIsDragging(false);
     }
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleStopDragging);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleStopDragging);
-      window.removeEventListener('touchcancel', handleStopDragging);
-    };
-  }, [isDragging, handleMouseMove, handleTouchMove, handleStopDragging]);
+  }, [isDragging]);
 
   const nextProject = () => {
     setCurrentIndex(prev => (prev + 1) % transformationItems.length);
@@ -150,8 +148,10 @@ export const BeforeAfterSlider: React.FC = () => {
             /* Split Interactive Slider with Refractive Crystal Handle */
             <div
               ref={containerRef}
-              onMouseDown={() => setIsDragging(true)}
-              onTouchStart={() => setIsDragging(true)}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
               className="relative aspect-[16/10] sm:aspect-[16/9] w-full rounded-2xl overflow-hidden cursor-ew-resize select-none shadow-2xl bg-studio-950 touch-none border border-white/40"
             >
               {/* After Image (Background Layer) */}
@@ -192,7 +192,13 @@ export const BeforeAfterSlider: React.FC = () => {
                 <div className="w-[2px] h-full bg-gradient-to-b from-white/90 via-amber-200 to-white/90 shadow-[0_0_12px_rgba(255,255,255,0.8)]" />
 
                 {/* Central Liquid Glass Crystal Handle with Prismatic Chromatic Rim */}
-                <div className="absolute w-11 h-11 rounded-full bg-white/75 backdrop-blur-xl border border-white/90 shadow-[0_8px_25px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.95),inset_1px_0_2px_rgba(120,205,255,0.4),inset_-1px_0_2px_rgba(255,160,215,0.35)] flex items-center justify-center space-x-1 pointer-events-auto cursor-grab active:cursor-grabbing apple-press">
+                <div
+                  style={{
+                    transform: isDragging ? 'scale(1.15)' : 'scale(1)',
+                    transition: 'transform 140ms cubic-bezier(0.16, 1, 0.3, 1)',
+                  }}
+                  className="absolute w-11 h-11 rounded-full bg-white/75 backdrop-blur-xl border border-white/90 shadow-[0_8px_25px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.95),inset_1px_0_2px_rgba(120,205,255,0.4),inset_-1px_0_2px_rgba(255,160,215,0.35)] flex items-center justify-center space-x-1 pointer-events-auto cursor-grab active:cursor-grabbing apple-press"
+                >
                   <div className="w-1 h-3.5 bg-studio-700/60 rounded-full" />
                   <div className="w-1 h-3.5 bg-studio-700/60 rounded-full" />
                 </div>

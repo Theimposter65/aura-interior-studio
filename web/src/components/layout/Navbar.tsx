@@ -64,18 +64,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
       </div>
 
       {/* Floating Apple Liquid Glass Dynamic Island Header */}
-      <header className="sticky top-2 z-40 px-4 sm:px-6 transition-all duration-300">
+      <header className="sticky top-2 z-40 px-4 sm:px-6 transition-all duration-300 apple-nav-edge-mask">
         <div
           ref={navRef}
           onPointerMove={handlePointerMove}
           className={`
             relative max-w-7xl mx-auto rounded-2xl md:rounded-full
-            backdrop-blur-2xl saturate-[190%] border
+            backdrop-blur-2xl saturate-[190%] border border-t-white/80
             transition-all duration-300 overflow-hidden
             ${
               isScrolled
-                ? 'bg-white/70 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.15),inset_0_1px_1px_rgba(255,255,255,0.9)] border-white/60 py-2.5 px-5 md:px-8'
-                : 'bg-white/50 shadow-[0_12px_32px_-10px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,0.75)] border-white/50 py-3.5 px-6 md:px-10'
+                ? 'bg-white/75 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.15),inset_0_1px_1px_rgba(255,255,255,0.9)] border-white/60 py-2.5 px-5 md:px-8'
+                : 'bg-white/55 shadow-[0_12px_32px_-10px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,0.75)] border-white/50 py-3.5 px-6 md:px-10'
             }
           `}
         >

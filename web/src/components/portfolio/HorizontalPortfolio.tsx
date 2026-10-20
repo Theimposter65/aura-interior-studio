@@ -12,6 +12,7 @@ import {
   X
 } from 'lucide-react';
 import { LiquidGlassPill } from '../glass/LiquidGlassPill';
+import { projectMomentum, rubberbandDistance, VelocityTracker } from '../../utils/appleSpringPhysics';
 
 interface PortfolioCardItem {
   id: string;
@@ -40,6 +41,10 @@ export const HorizontalPortfolio: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('all-statements');
   const [selectedPreview, setSelectedPreview] = useState<PortfolioCardItem | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const velocityTrackerRef = useRef(new VelocityTracker());
+  const dragStartRef = useRef({ x: 0, scrollLeft: 0, isDown: false, hasDragged: false });
+  const [isGrabbing, setIsGrabbing] = useState(false);
+  const [overscrollOffset, setOverscrollOffset] = useState(0);
 
   // Filter items based on active tab
   const getFilteredItems = (): PortfolioCardItem[] => {
@@ -134,6 +139,100 @@ export const HorizontalPortfolio: React.FC = () => {
     }
   };
 
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
+    if (!scrollContainerRef.current) return;
+
+    dragStartRef.current = {
+      x: e.clientX,
+      scrollLeft: scrollContainerRef.current.scrollLeft,
+      isDown: true,
+      hasDragged: false,
+    };
+    velocityTrackerRef.current.reset();
+    velocityTrackerRef.current.addPoint(e.clientX, e.clientY);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragStartRef.current.isDown || !scrollContainerRef.current) return;
+
+    const deltaX = e.clientX - dragStartRef.current.x;
+
+    if (!dragStartRef.current.hasDragged) {
+      if (Math.abs(deltaX) > 8) {
+        dragStartRef.current.hasDragged = true;
+        setIsGrabbing(true);
+        try {
+          e.currentTarget.setPointerCapture(e.pointerId);
+        } catch {
+          // ignore if already captured
+        }
+      } else {
+        return;
+      }
+    }
+
+    velocityTrackerRef.current.addPoint(e.clientX, e.clientY);
+
+    const container = scrollContainerRef.current;
+    const maxScroll = Math.max(0, container.scrollWidth - container.clientWidth);
+    const rawTarget = dragStartRef.current.scrollLeft - deltaX;
+
+    if (rawTarget < 0) {
+      const resisted = rubberbandDistance(-rawTarget, container.clientWidth, 0.55);
+      setOverscrollOffset(resisted);
+      container.scrollLeft = 0;
+    } else if (rawTarget > maxScroll) {
+      const overshoot = rawTarget - maxScroll;
+      const resisted = rubberbandDistance(overshoot, container.clientWidth, 0.55);
+      setOverscrollOffset(-resisted);
+      container.scrollLeft = maxScroll;
+    } else {
+      setOverscrollOffset(0);
+      container.scrollLeft = rawTarget;
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragStartRef.current.isDown) return;
+    dragStartRef.current.isDown = false;
+    setOverscrollOffset(0);
+
+    if (dragStartRef.current.hasDragged && scrollContainerRef.current) {
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch {
+        // ignore
+      }
+      setIsGrabbing(false);
+
+      const { vx } = velocityTrackerRef.current.getVelocity(performance.now());
+      const projectedDelta = projectMomentum(-vx, 0.998);
+
+      const container = scrollContainerRef.current;
+      const currentScroll = container.scrollLeft;
+      const targetScroll = currentScroll + projectedDelta;
+      const maxScroll = Math.max(0, container.scrollWidth - container.clientWidth);
+
+      const firstCard = container.firstElementChild as HTMLElement | null;
+      const cardPitch = firstCard && firstCard.offsetWidth > 0 ? firstCard.offsetWidth + 24 : 344;
+
+      const nearestCardIndex = Math.round(targetScroll / cardPitch);
+      const snappedScroll = Math.max(0, Math.min(nearestCardIndex * cardPitch, maxScroll));
+
+      const prefersReduced =
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      container.scrollTo({
+        left: snappedScroll,
+        behavior: prefersReduced ? 'auto' : 'smooth',
+      });
+    } else {
+      setIsGrabbing(false);
+    }
+  };
+
   const handleWhatsAppCommission = (item: PortfolioCardItem) => {
     const text = encodeURIComponent(
       `Hello The Artistic Tales! I saw "${item.title}" (${item.categoryTag}) on your website portfolio and would love to inquire about commissioning a similar piece for my space.`
@@ -214,8 +313,22 @@ export const HorizontalPortfolio: React.FC = () => {
         ) : (
           <div
             ref={scrollContainerRef}
-            className="flex space-x-6 overflow-x-auto pb-8 pt-2 snap-x snap-mandatory scroll-smooth scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent -mx-6 px-6 md:-mx-12 md:px-12"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+            className={`
+              flex space-x-6 overflow-x-auto pb-8 pt-2
+              scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent
+              -mx-6 px-6 md:-mx-12 md:px-12 select-none touch-pan-y will-change-transform
+              ${isGrabbing ? 'snap-none scroll-auto cursor-grabbing' : 'snap-x snap-mandatory scroll-smooth cursor-grab'}
+            `}
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              transform: overscrollOffset !== 0 ? `translateX(${overscrollOffset}px)` : undefined,
+              transition: isGrabbing ? 'none' : 'transform 320ms cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
           >
             {filteredItems.map(item => (
               <div
@@ -248,7 +361,11 @@ export const HorizontalPortfolio: React.FC = () => {
 
                   {/* Quick View Button */}
                   <button
-                    onClick={() => setSelectedPreview(item)}
+                    onClick={() => {
+                      if (!dragStartRef.current.hasDragged) {
+                        setSelectedPreview(item);
+                      }
+                    }}
                     className="absolute top-3 right-3 p-2.5 rounded-full bg-studio-950/70 hover:bg-white hover:text-studio-950 text-white backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 apple-press shadow-md"
                     aria-label="Quick View"
                   >

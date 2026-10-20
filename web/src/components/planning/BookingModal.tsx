@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Calendar, CheckCircle2, ShieldCheck, Clock, User, Mail, Phone, Home } from 'lucide-react';
 import { serviceTiers } from '../../data/services';
 import { ConsultationBooking } from '../../types';
+import { rubberbandDistance, VelocityTracker } from '../../utils/appleSpringPhysics';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -31,6 +32,51 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [bookingRef, setBookingRef] = useState('');
+
+  const [dragY, setDragY] = useState(0);
+  const dragStartY = React.useRef(0);
+  const isDraggingModal = React.useRef(false);
+  const modalVelocityTracker = React.useRef(new VelocityTracker());
+
+  const handleModalPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    dragStartY.current = e.clientY;
+    isDraggingModal.current = true;
+    modalVelocityTracker.current.reset();
+    modalVelocityTracker.current.addPoint(e.clientX, e.clientY);
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleModalPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingModal.current) return;
+    modalVelocityTracker.current.addPoint(e.clientX, e.clientY);
+    const dy = e.clientY - dragStartY.current;
+    if (dy > 0) {
+      setDragY(dy);
+    } else {
+      setDragY(rubberbandDistance(dy, 350, 0.55));
+    }
+  };
+
+  const handleModalPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingModal.current) return;
+    isDraggingModal.current = false;
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      // ignore
+    }
+    const { vy } = modalVelocityTracker.current.getVelocity(performance.now());
+    if (dragY > 100 || vy > 400) {
+      handleClose();
+      setDragY(0);
+    } else {
+      setDragY(0);
+    }
+  };
 
   const selectedTier = serviceTiers.find(t => t.id === formData.tierId) || serviceTiers[1];
 
@@ -75,7 +121,24 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       />
 
       {/* Modal Dialog Card */}
-      <div className="relative bg-white/95 backdrop-blur-2xl w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden z-10 border border-white/80 animate-fadeIn">
+      <div
+        style={{
+          transform: `translateY(${dragY}px)`,
+          transition: isDraggingModal.current ? 'none' : 'transform 280ms cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
+        className="relative bg-white/95 backdrop-blur-2xl w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden z-10 border border-white/80 apple-materialize"
+      >
+        {/* Mobile Sheet Grab Handle with Touch Tracking */}
+        <div
+          onPointerDown={handleModalPointerDown}
+          onPointerMove={handleModalPointerMove}
+          onPointerUp={handleModalPointerUp}
+          onPointerCancel={handleModalPointerUp}
+          className="pt-3 pb-1 cursor-grab active:cursor-grabbing sm:hidden touch-none"
+        >
+          <div className="w-12 h-1.5 bg-studio-300/80 rounded-full mx-auto" />
+        </div>
+
         {/* Header */}
         <div className="p-6 border-b border-studio-200/60 flex items-center justify-between bg-white/50">
           <div>
