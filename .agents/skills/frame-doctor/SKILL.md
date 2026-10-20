@@ -18,13 +18,14 @@ node_version=$(node -e "process.exit(parseInt(process.versions.node) >= 18 ? 0 :
 echo "Node.js: $(node --version) — $node_version"
 ```
 
-### 2. CLAUDE.md
+### 2. GEMINI.md / AGENTS.md
 
 ```bash
-if [ -f "CLAUDE.md" ]; then
-  echo "CLAUDE.md: OK ($(grep -c "## " CLAUDE.md) sections)"
+if [ -f "GEMINI.md" ] || [ -f "AGENTS.md" ]; then
+  rule_file=$([ -f "GEMINI.md" ] && echo "GEMINI.md" || echo "AGENTS.md")
+  echo "GEMINI.md / AGENTS.md: OK ($(grep -c "## " "$rule_file") sections)"
 else
-  echo "CLAUDE.md: MISSING"
+  echo "GEMINI.md / AGENTS.md: MISSING"
 fi
 ```
 
@@ -93,9 +94,9 @@ fi
 ### 6. Settings
 
 ```bash
-if [ -f ".claude/settings.json" ]; then
+if [ -f ".frame/config.json" ]; then
   echo "settings.json: OK"
-  if grep -q "hooks" .claude/settings.json; then
+  if grep -q "hooks" .frame/config.json; then
     echo "  Hooks configured: OK"
   else
     echo "  Hooks configured: MISSING — run npx the-frame-ai update"
@@ -108,7 +109,7 @@ fi
 ### 7. Commands
 
 ```bash
-command_count=$(ls .claude/commands/frame:*.md 2>/dev/null | wc -l | tr -d ' ')
+command_count=$(ls .agents/skills/frame-*/SKILL.md 2>/dev/null | wc -l | tr -d ' ')
 if [ "$command_count" -ge 33 ]; then
   echo "Commands: $command_count — OK"
 elif [ "$command_count" -ge 1 ]; then
@@ -121,7 +122,7 @@ fi
 ### 8. Agents
 
 ```bash
-agent_count=$(ls .claude/agents/*.md 2>/dev/null | wc -l | tr -d ' ')
+agent_count=$(ls .agents/skills/*/SKILL.md 2>/dev/null | wc -l | tr -d ' ')
 if [ "$agent_count" -ge 9 ]; then
   echo "Agents: $agent_count — OK"
 elif [ "$agent_count" -ge 5 ]; then
@@ -135,8 +136,8 @@ fi
 
 ```bash
 for hook in safety-net.sh git-safety.sh quality-gate.sh session-init.sh delivery-gate.sh auto-pilot.sh pre-compact.sh; do
-  if [ -f ".claude/hooks/$hook" ]; then
-    if [ -x ".claude/hooks/$hook" ]; then
+  if [ -f ".frame/$hook" ]; then
+    if [ -x ".frame/$hook" ]; then
       echo "$hook: OK (executable)"
     else
       echo "$hook: WARNING — not executable (chmod +x needed)"
@@ -185,7 +186,7 @@ Compare the two lists:
 |   Node.js            v20.x — OK                                     |
 |                                                                      |
 |  Core Files:                                                         |
-|   CLAUDE.md          OK (N sections)                                 |
+|   GEMINI.md / AGENTS.md OK (N sections)                                 |
 |   .planning/         OK (4/4 files)                                  |
 |   .planning/memory/  OK (4/4 files)                                  |
 |   .frame/config.json OK (language: en)                               |

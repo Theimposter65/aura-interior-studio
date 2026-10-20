@@ -1,4 +1,4 @@
-<!-- FRAME:PRINCIPLES:START — framework-owned, refreshed by /frame:upgrade. Do not hand-edit; override in the project sections of CLAUDE.md / GEMINI.md / AGENTS.md instead. -->
+<!-- FRAME:PRINCIPLES:START — framework-owned, refreshed by /frame:upgrade. Do not hand-edit; override in the project sections of GEMINI.md / AGENTS.md / GEMINI.md / AGENTS.md instead. -->
 ## FRAME Framework
 
 This project uses FRAME (Framework for AI-Assisted Solo Development).
@@ -17,7 +17,7 @@ This project uses FRAME (Framework for AI-Assisted Solo Development).
 - `/frame:ship` — git + PR
 - `/frame:debug <issue>` — systematic debugging
 - `/frame:retrospective` — retrospective + memory update
-- `/frame:evolve` — promote proven learnings into permanent CLAUDE.md rules
+- `/frame:evolve` — promote proven learnings into permanent GEMINI.md / AGENTS.md rules
 - `/frame:cleanup-memory` — trim and archive memory files
 
 **Key files**:
@@ -41,7 +41,7 @@ This project uses FRAME (Framework for AI-Assisted Solo Development).
 - **product decision** — the answer needs intent that does not exist in the repo (what the feature should do, scope and priority, business rules and policy, money semantics, who may access what, UX and copy, legal/retention, external commitments). **Only these are asked** — in research, or as an autopilot halt.
 - Touching a sensitive area (auth, money, migrations, routing) does **not** make a decision product-class. Hashing a password wrong, a token leaked into logs, an unindexed query on the payments table — technical, one right answer, fix it. "Which roles may refund an order" — product, ask.
 
-**Universal principles** (language-independent; project Rules in CLAUDE.md / GEMINI.md / AGENTS.md override these on conflict):
+**Universal principles** (language-independent; project Rules in GEMINI.md / AGENTS.md / GEMINI.md / AGENTS.md override these on conflict):
 - ❌ Skip verification steps — D→P→D: always confirm an LLM change with a deterministic check
 - ❌ Skip tests for new features
 - ❌ Edit a file on assumptions — fact-check who imports it and what breaks first

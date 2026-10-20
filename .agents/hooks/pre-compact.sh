@@ -1,7 +1,7 @@
 #!/bin/bash
 # pre-compact.sh - Auto-saves STATE.md before context compaction
 
-PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "${CLAUDE_PROJECT_DIR:-.}")
+PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "${ANTIGRAVITY_PROJECT_DIR:-.}")
 STATE_FILE="$PROJECT_ROOT/.planning/STATE.md"
 
 if [ ! -f "$STATE_FILE" ]; then

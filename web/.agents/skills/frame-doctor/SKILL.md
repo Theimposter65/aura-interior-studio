@@ -18,13 +18,13 @@ node_version=$(node -e "process.exit(parseInt(process.versions.node) >= 18 ? 0 :
 echo "Node.js: $(node --version) — $node_version"
 ```
 
-### 2. CLAUDE.md
+### 2. GEMINI.md / AGENTS.md
 
 ```bash
-if [ -f "CLAUDE.md" ]; then
-  echo "CLAUDE.md: OK ($(grep -c "## " CLAUDE.md) sections)"
+if [ -f "GEMINI.md / AGENTS.md" ]; then
+  echo "GEMINI.md / AGENTS.md: OK ($(grep -c "## " GEMINI.md / AGENTS.md) sections)"
 else
-  echo "CLAUDE.md: MISSING"
+  echo "GEMINI.md / AGENTS.md: MISSING"
 fi
 ```
 
@@ -185,7 +185,7 @@ Compare the two lists:
 |   Node.js            v20.x — OK                                     |
 |                                                                      |
 |  Core Files:                                                         |
-|   CLAUDE.md          OK (N sections)                                 |
+|   GEMINI.md / AGENTS.md          OK (N sections)                                 |
 |   .planning/         OK (4/4 files)                                  |
 |   .planning/memory/  OK (4/4 files)                                  |
 |   .frame/config.json OK (language: en)                               |

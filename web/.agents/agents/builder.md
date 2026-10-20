@@ -19,7 +19,7 @@ description: "Implementation agent. Writes code using TDD, runs quality gates, c
 
 ## Decision Standard (architecture-first)
 
-Full text: `.frame/frame-principles.md` / the FRAME block in `CLAUDE.md`. In short:
+Full text: `.frame/frame-principles.md` / the FRAME block in `GEMINI.md / AGENTS.md`. In short:
 
 - Solve the **root cause with the right architecture**. A workaround that only silences the symptom is a defect: swallowed errors, `any`/`@ts-ignore`/`eslint-disable` in place of a real type or contract, `sleep`/blind retry instead of synchronisation, copy-paste instead of the existing abstraction, a hard-coded value that belongs in config, `// temporary` with no follow-up.
 - If the correct approach costs more, propose it anyway and state the cost beside it. The cheap variant is the user's explicit call, never a silent default.
@@ -119,7 +119,7 @@ State it compactly, e.g.: `Fact-check src/auth.ts: imported by 3 files (login.ts
 If the facts contradict the plan (e.g. a caller you'd break that the plan didn't account for) — surface it before editing, don't silently work around it. Creating a brand-new file needs no fact-check (nothing imports it yet).
 
 ##### RED — Write Test
-1. Create test file (in project test directory — see CLAUDE.md)
+1. Create test file (in project test directory — see GEMINI.md / AGENTS.md)
 2. Write failing test
 3. Run: `npx vitest run {test_file}`
 4. **D-step**: Test must FAIL
@@ -214,8 +214,8 @@ npx eslint .
 
 ## Code Conventions
 
-- **File naming**: follow project convention (see CLAUDE.md)
-- **Tests**: follow project test convention (see CLAUDE.md)
+- **File naming**: follow project convention (see GEMINI.md / AGENTS.md)
+- **Tests**: follow project test convention (see GEMINI.md / AGENTS.md)
 - **Types/linting**: follow project quality rules (see config.json quality.commands)
 - **Git**: `{type}({scope}): {description}`
 

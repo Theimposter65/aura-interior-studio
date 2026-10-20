@@ -67,9 +67,9 @@ npx the-frame-ai@latest update . 2>&1
 
 Show the full output.
 
-### Step 6.5: Re-sync the FRAME Principles block in CLAUDE.md
+### Step 6.5: Re-sync the FRAME Principles block in GEMINI.md / AGENTS.md
 
-`update` refreshed the framework-owned principles into `.frame/frame-principles.md`. Splice that block into the project `CLAUDE.md` between the `FRAME:PRINCIPLES` markers — **without touching anything outside the markers** (the project's Tech Stack, Rules, Conventions, Anti-Patterns are yours and stay verbatim).
+`update` refreshed the framework-owned principles into `.frame/frame-principles.md`. Splice that block into the project `GEMINI.md / AGENTS.md` between the `FRAME:PRINCIPLES` markers — **without touching anything outside the markers** (the project's Tech Stack, Rules, Conventions, Anti-Patterns are yours and stay verbatim).
 
 ```bash
 node -e '
@@ -77,10 +77,10 @@ node -e '
   const S = "<!-- FRAME:PRINCIPLES:START", E = "FRAME:PRINCIPLES:END -->";
   if (!fs.existsSync(".frame/frame-principles.md")) { console.log("no principles file — skip"); process.exit(0); }
   const block = fs.readFileSync(".frame/frame-principles.md", "utf8").trim();
-  let md = fs.readFileSync("CLAUDE.md", "utf8");
+  let md = fs.readFileSync("GEMINI.md / AGENTS.md", "utf8");
   const s = md.indexOf(S), e = md.indexOf(E);
   if (s === -1 || e === -1) {
-    // Older CLAUDE.md without markers: append the block once, do not restructure the rest.
+    // Older GEMINI.md / AGENTS.md without markers: append the block once, do not restructure the rest.
     md = md.trimEnd() + "\n\n" + block + "\n";
     console.log("markers not found — appended principles block");
   } else {
@@ -88,7 +88,7 @@ node -e '
     md = md.slice(0, s) + block + "\n" + md.slice(end);
     console.log("principles block re-synced between markers");
   }
-  fs.writeFileSync("CLAUDE.md", md);
+  fs.writeFileSync("GEMINI.md / AGENTS.md", md);
 '
 ```
 

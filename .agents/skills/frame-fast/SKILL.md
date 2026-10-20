@@ -43,7 +43,7 @@ git worktree add "../{project}-hotfix-$SLUG" -b "hotfix/$SLUG"
 If `.planning/BOARD.md` exists, append a row for `hotfix/$SLUG` with status `active` and type `hotfix` — `/frame:integrate` will pick the branch up with the batch. Then hand off and **STOP**:
 
 > Hotfix worktree ready — the fix runs isolated from the work in this tree.
-> → `cd ../{project}-hotfix-$SLUG && claude` → `/frame:fast "{task}"`
+> → `cd ../{project}-hotfix-$SLUG && agy` → `/frame:fast "{task}"`
 > Merge path: `/frame:integrate` takes `hotfix/$SLUG` first with the batch, or `git merge hotfix/$SLUG` from main once it's free.
 
 #### Running inside a hotfix worktree

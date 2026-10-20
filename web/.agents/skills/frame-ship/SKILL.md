@@ -202,7 +202,7 @@ fi
 
 ## AUTO mode (driven by /frame:auto)
 
-Applies **only** when the autopilot marker exists **and belongs to this session**: `M="$(git rev-parse --git-dir)/frame-autopilot"; [ -f "$M" ] && [ "$(grep -s '^session=' "$M" | cut -d= -f2-)" = "${CLAUDE_CODE_SESSION_ID:-}" ]`. Standalone runs — and other sessions sharing this tree with someone else's flight — ignore this section.
+Applies **only** when the autopilot marker exists **and belongs to this session**: `M="$(git rev-parse --git-dir)/frame-autopilot"; [ -f "$M" ] && [ "$(grep -s '^session=' "$M" | cut -d= -f2-)" = "${ANTIGRAVITY_SESSION_ID:-${SESSION_ID:-default}}" ]`. Standalone runs — and other sessions sharing this tree with someone else's flight — ignore this section.
 
 - **Skip Step 5 (push) and Step 6 (PR) entirely** — no questions; the flight ends at the local commit. Report both as manual follow-ups: "push/PR — run /frame:ship or push manually when ready."
 - **Readiness passport NOT READY** → stops as usual, and the stop halts the flight. The Evidence row never asks: `manual` rows without a ticked test-plan line stay `PENDING manual` and halt the flight with the pending items — a human check is the one thing autopilot cannot do for you.

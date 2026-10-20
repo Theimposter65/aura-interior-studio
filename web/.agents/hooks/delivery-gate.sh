@@ -12,7 +12,7 @@ read -r input
 [ "${FRAME_DELIVERY_GATE:-on}" = "off" ] && exit 0
 
 # Avoid infinite Stop loops: if this hook already blocked once and the model
-# continued, Claude Code sets stop_hook_active=true — let it stop now.
+# continued, Google Antigravity / Gemini sets stop_hook_active=true — let it stop now.
 STOP_ACTIVE=$(node -e "try{const i=JSON.parse(process.argv[1]);process.stdout.write(i.stop_hook_active?'1':'')}catch{}" -- "$input" 2>/dev/null)
 [ "$STOP_ACTIVE" = "1" ] && exit 0
 

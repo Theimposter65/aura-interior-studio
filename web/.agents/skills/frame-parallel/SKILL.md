@@ -135,7 +135,7 @@ This cache lets `/frame:fast` and `/frame:debug` do their overlap check by readi
 +======================================================================+
 
 Next: open a second terminal and run:
-  cd ../{project}-{feature} && claude
+  cd ../{project}-{feature} && agy
   → /frame:build {feature}
 
 Meanwhile you can start the next feature here: /frame:research <next>

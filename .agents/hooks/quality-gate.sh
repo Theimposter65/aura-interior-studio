@@ -57,7 +57,7 @@ fi
 if [ -z "$TYPECHECK_CMD" ] && echo "$FILE_PATH" | grep -qiE '\.(ts|tsx)$'; then
   TYPECHECK_CMD="npx tsc --noEmit"
 fi
-# Lint: report only, never --fix (avoid mutating files under Claude)
+# Lint: report only, never --fix (avoid mutating files under Antigravity)
 if [ -z "$LINT_CMD" ] && echo "$FILE_PATH" | grep -qiE '\.(ts|tsx|js|jsx|mjs|cjs)$'; then
   LINT_CMD="npx eslint \"$FILE_PATH\""
 fi

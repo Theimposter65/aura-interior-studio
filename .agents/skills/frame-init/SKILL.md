@@ -5,11 +5,11 @@ description: "Initialize project: scan codebase, fill MAP.md, STATE.md, and memo
 
 # /frame-init (or /frame:init) -- Project Initialization & Refresh
 
-> **This is a slash command** — run it inside Claude Code after `npx the-frame init` has already installed the framework.
-> It scans your codebase and fills MAP.md, CLAUDE.md, and CONTEXT.md.
+> **This is a slash command** — run it inside Google Antigravity / Gemini after `npx the-frame init` has already installed the framework.
+> It scans your codebase and fills MAP.md, GEMINI.md / AGENTS.md, and CONTEXT.md.
 > Not to be confused with `the-frame init` (the CLI installer).
 
-Scans the project and fills MAP.md, CLAUDE.md, and CONTEXT.md with a complete project map.
+Scans the project and fills MAP.md, GEMINI.md / AGENTS.md, and CONTEXT.md with a complete project map.
 
 **Re-runnable.** Run it again any time the project grows — new stack, new modules, new
 dependencies. On a second run it works in **REFRESH mode**: it updates the auto-generated
@@ -23,7 +23,7 @@ Check whether the project has already been mapped:
 
 ```bash
 grep -l "filled by /frame:init\|to be filled after /frame:init" \
-  .planning/MAP.md CLAUDE.md .planning/CONTEXT.md 2>/dev/null
+  .planning/MAP.md GEMINI.md / AGENTS.md .planning/CONTEXT.md 2>/dev/null
 ```
 
 - **Placeholders still present** → **FIRST RUN**. Fill everything (Steps 6–10 as written).
@@ -36,7 +36,7 @@ Sections are split into two groups. Never cross the line.
 
 | File | Auto-owned (regenerate) | User-owned (NEVER overwrite) |
 |------|-------------------------|------------------------------|
-| `CLAUDE.md` | Tech Stack, Architecture, Key Patterns | Code Conventions, Rules, Anti-Patterns, FRAME Framework |
+| `GEMINI.md / AGENTS.md` | Tech Stack, Architecture, Key Patterns | Code Conventions, Rules, Anti-Patterns, FRAME Framework |
 | `MAP.md` | Quick Facts, Architecture Pattern, Entry Points, Key Layers, Data Flow, Key Patterns, File Inventory | Tech Debt / Notes (append only — keep existing lines) |
 | `CONTEXT.md` | `## Technical Context` section only | everything else |
 | `STATE.md` | — | **DO NOT touch Phase/Status.** Only append a refresh note (Step 9). |
@@ -46,7 +46,7 @@ Sections are split into two groups. Never cross the line.
 Before overwriting any auto-owned section, **back up the files once**:
 
 ```bash
-mkdir -p .planning/.backup && cp CLAUDE.md .planning/MAP.md .planning/CONTEXT.md .planning/.backup/ 2>/dev/null
+mkdir -p .planning/.backup && cp GEMINI.md / AGENTS.md .planning/MAP.md .planning/CONTEXT.md .planning/.backup/ 2>/dev/null
 ```
 
 When you rewrite an auto-owned section, replace ONLY that section (match on its `##` heading,
@@ -216,9 +216,9 @@ Keep the map **token-lean** — target under ~200 lines / ~1500 tokens. Prefer o
 {Anything notable spotted during scanning}
 ```
 
-### Step 7: Update CLAUDE.md
+### Step 7: Update GEMINI.md / AGENTS.md
 
-Fill / refresh **only** these three sections — this is the main file Claude reads on every run:
+Fill / refresh **only** these three sections — this is the main file Gemini reads on every run:
 
 - **Tech Stack** — specific stack from Step 1
 - **Architecture** — brief description from Step 6
@@ -276,7 +276,7 @@ Only add what was actually found — no placeholders. If a line is already prese
 ╠══════════════════════════════════════════╣
 ║  Filled:                                 ║
 ║    ✓ MAP.md — project map                ║
-║    ✓ CLAUDE.md — stack + architecture    ║
+║    ✓ GEMINI.md / AGENTS.md — stack + architecture    ║
 ║    ✓ CONTEXT.md — technical context      ║
 ║    ✓ STATE.md — phase set to SETUP       ║
 ║    ✓ memory/conventions.md               ║
@@ -304,7 +304,7 @@ Only add what was actually found — no placeholders. If a line is already prese
 ║    • Patterns:  {new patterns, or "—"}   ║
 ╠══════════════════════════════════════════╣
 ║  Updated (auto sections only):           ║
-║    ✓ MAP.md   ✓ CLAUDE.md   ✓ CONTEXT.md ║
+║    ✓ MAP.md   ✓ GEMINI.md / AGENTS.md   ✓ CONTEXT.md ║
 ║  Preserved: your Conventions / Rules /   ║
 ║  Anti-Patterns / STATE phase / notes.    ║
 ║  Backup: .planning/.backup/              ║
@@ -316,7 +316,7 @@ If nothing meaningful changed, say so plainly: "No significant changes since the
 ## Result
 
 - `.planning/MAP.md` — complete project map
-- `CLAUDE.md` — stack and architecture sections filled
+- `GEMINI.md / AGENTS.md` — stack and architecture sections filled
 - `.planning/CONTEXT.md` — technical context filled
 - `.planning/STATE.md` — status updated (FIRST RUN only)
 - `.planning/memory/conventions.md` — conventions from scan

@@ -35,7 +35,7 @@ if echo "$COMMAND" | grep -qiE 'git(\s+-\S+)*\s+commit'; then
   GATE_STATUS_FILE="$(git rev-parse --git-dir 2>/dev/null)/frame-gate-status"
   if [ -f "$GATE_STATUS_FILE" ] && head -1 "$GATE_STATUS_FILE" 2>/dev/null | grep -q '^fail'; then
     GATE_FILE=$(sed -n '2p' "$GATE_STATUS_FILE" 2>/dev/null)
-    deny "FRAME Git Safety: quality gate is red (last failure: ${GATE_FILE:-typecheck/lint}). Fix the reported errors — the gate turns green after the next clean check on a changed file. (Fixed outside Claude? Clear manually: rm $GATE_STATUS_FILE)"
+    deny "FRAME Git Safety: quality gate is red (last failure: ${GATE_FILE:-typecheck/lint}). Fix the reported errors — the gate turns green after the next clean check on a changed file. (Fixed outside Antigravity? Clear manually: rm $GATE_STATUS_FILE)"
   fi
 fi
 

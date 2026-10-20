@@ -62,7 +62,7 @@ Resolve `{feature}` first (from args or STATE.md). Then match one case:
 - **Case A — already inside a linked worktree** (`--git-common-dir` output contains `worktrees/`): you are isolated already. Skip the rest of Step 0 and go to Step 0.1 (checkpoint). This is the normal state when you opened the worktree's terminal.
 
 - **Case B — in main, and `{feature}` already has a worktree** (a board row for `{feature}` whose worktree exists in `git worktree list`): do **not** build it here. STOP:
-  > `{feature}` is being built in `../{project}-{feature}`. Continue there: `cd ../{project}-{feature} && claude` → `/frame:build {feature}`.
+  > `{feature}` is being built in `../{project}-{feature}`. Continue there: `cd ../{project}-{feature} && agy` → `/frame:build {feature}`.
 
 - **Case C — in main, and a *different* feature is active in flight** (BOARD.md has ≥1 `active` row for another feature whose worktree exists): building `{feature}` here would tie up main and share the tree with a second unfinished feature. Offer isolation:
   ```
@@ -71,7 +71,7 @@ Resolve `{feature}` first (from args or STATE.md). Then match one case:
      → Set up an isolated worktree for {feature}? [Y/n]
   ```
   - **Y (default)** → run the `/frame:parallel start {feature}` procedure (file-overlap check against active features → create worktree + `feature/{feature}` branch → copy context → register the board row). Then STOP:
-    > Worktree ready at `../{project}-{feature}`. Build it there: `cd ../{project}-{feature} && claude` → `/frame:build {feature}`. Main stays free for your next research/plan.
+    > Worktree ready at `../{project}-{feature}`. Build it there: `cd ../{project}-{feature} && agy` → `/frame:build {feature}`. Main stays free for your next research/plan.
   - **n** → build here in main (shared tree). Warn once: "Building in main — not isolated; /frame:integrate won't see it as a separate branch." Then continue to Step 0.1.
 
 - **Case D — in main, nothing else in flight** (no BOARD.md, or no `active` rows for other features): this is the only feature going right now. Build here in main normally — no worktree overhead. Continue to Step 0.1.
@@ -347,12 +347,12 @@ Next step is **not** `/frame:review` (it requires a plan and will STOP at its co
 
 ## AUTO mode (driven by /frame:auto)
 
-Applies **only** when the autopilot marker exists **and belongs to this session**: `M="$(git rev-parse --git-dir)/frame-autopilot"; [ -f "$M" ] && [ "$(grep -s '^session=' "$M" | cut -d= -f2-)" = "${CLAUDE_CODE_SESSION_ID:-}" ]`. Standalone runs — and other sessions sharing this tree with someone else's flight — ignore this section.
+Applies **only** when the autopilot marker exists **and belongs to this session**: `M="$(git rev-parse --git-dir)/frame-autopilot"; [ -f "$M" ] && [ "$(grep -s '^session=' "$M" | cut -d= -f2-)" = "${ANTIGRAVITY_SESSION_ID:-${SESSION_ID:-default}}" ]`. Standalone runs — and other sessions sharing this tree with someone else's flight — ignore this section.
 
 - **High-risk tasks are pre-confirmed** — running `/frame:auto` on a feature whose research is closed *is* the confirmation; the Step 2 briefing listed every `Risk: high` task for the record. Skip the Step 4 up-front ask **and** the Risk-Strategy per-task "wait for user confirmation"; still create the checkpoints. High risk means more care (checkpoint, smaller steps, tighter verification), never a pause.
 - **Step 0 Case C (another feature in flight)** → do **not** ask and do **not** build in main. Take the manual "Y" path unattended: run the `/frame:parallel start {feature}` procedure (file-overlap check against active features → worktree + `feature/{feature}` branch → context copy → board row), **then halt the flight** with the hand-off — autopilot cannot follow the work into another terminal, but it leaves the next flight one command away:
   > ⛔ AUTOPILOT HALT: {other} is mid-flight in this tree. Worktree for {feature} is ready at `../{project}-{feature}`.
-  > → `cd ../{project}-{feature} && claude` → `/frame:auto {feature}` (plan.md is done — it engages and goes straight to build).
+  > → `cd ../{project}-{feature} && agy` → `/frame:auto {feature}` (plan.md is done — it engages and goes straight to build).
 
   If the overlap check finds a file conflict with an active feature, halt without creating the worktree and report the conflict instead.
 - **Technical ambiguity is decided, not escalated.** Where a task leaves a choice the code can answer — which layer owns a concern, which contract to extend, how to handle an error path, which existing abstraction to reuse — pick the architecturally correct option per the Decision Standard, implement it, and log it in the Decision Log with the rejected alternatives. Never fall back to a workaround (a swallowed error, an `any`, a duplicated block) because the correct option is bigger; if the correct option contradicts the plan, that is the deviation protocol, below.

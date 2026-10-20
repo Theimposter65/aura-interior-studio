@@ -32,7 +32,7 @@
 - {file2} — {purpose}
 
 ## Patterns
-- Follow project conventions in CLAUDE.md
+- Follow project conventions in GEMINI.md / AGENTS.md
 - Use project-specific patterns from .planning/memory/
 
 ## DO NOT

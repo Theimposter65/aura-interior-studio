@@ -7,7 +7,7 @@ description: "Autopilot: run plan → build → review → fix → ship unattend
 
 Takes a researched feature and drives it through the whole pipeline without you: **plan → build → review → (fix → re-review)×N → ship (local commit)**. **It asks nothing.** Research is where you decided what to build; from `/frame:auto` on, the pipeline runs unattended until it produces a local commit or hits a halt.
 
-**The only reason to interrupt you is a product decision** — something the repo cannot answer (a business rule, a policy, scope, money semantics, who may access what). Everything technical — the architecture, the contracts, an error path, a security control's implementation, a HIGH review finding on auth or billing code — the pipeline resolves itself, to the **right architectural solution, not a workaround** (see the Decision Standard in CLAUDE.md / `.frame/frame-principles.md`).
+**The only reason to interrupt you is a product decision** — something the repo cannot answer (a business rule, a policy, scope, money semantics, who may access what). Everything technical — the architecture, the contracts, an error path, a security control's implementation, a HIGH review finding on auth or billing code — the pipeline resolves itself, to the **right architectural solution, not a workaround** (see the Decision Standard in GEMINI.md / AGENTS.md / `.frame/frame-principles.md`).
 
 **What autopilot never does**: push, create a PR, take a product decision on your behalf, ship past a red gate, or improvise around an architectural mismatch with the plan.
 
@@ -23,7 +23,7 @@ Where the flight ends depends on where it runs — detect once at preflight via 
 - **Main flight** (not a linked worktree) → full pipeline, lands at **SHIP: a local commit** (push/PR manual).
 - **Worktree flight** (`--git-common-dir` contains `worktrees/`) → this feature is one of several being built in parallel. The flight lands at **review approve** and **skips SHIP**: `/frame:integrate` (run manually from main when the batch is ready) requires each worktree's STATE.md to read `Phase: REVIEW / Status: ready to ship` — running ship in the worktree would set `SHIP/Shipped` and fail integrate's readiness check. Merging the batch and the single final ship stay manual by design.
 
-The parallel pattern end-to-end: `/frame:auto feature-1` in main; for every next feature just run `/frame:auto feature-N` from main again — preflight detects the busy tree, prepares the worktree itself, and hands off (`cd ../{project}-feature-N && claude` → `/frame:auto feature-N`). When all flights have landed — one `/frame:integrate` from main, then `/frame:ship` from the integration branch.
+The parallel pattern end-to-end: `/frame:auto feature-1` in main; for every next feature just run `/frame:auto feature-N` from main again — preflight detects the busy tree, prepares the worktree itself, and hands off (`cd ../{project}-feature-N && agy` → `/frame:auto feature-N`). When all flights have landed — one `/frame:integrate` from main, then `/frame:ship` from the integration branch.
 
 ## How it executes phases
 
@@ -31,17 +31,17 @@ The parallel pattern end-to-end: `/frame:auto feature-1` in main; for every next
 
 | Phase | Procedure file |
 |-------|----------------|
-| PLAN | `.claude/commands/frame:plan.md` |
-| BUILD | `.claude/commands/frame:build.md` |
-| REVIEW | `.claude/commands/frame:review.md` |
-| FIX | `.claude/commands/frame:fix.md` |
-| SHIP | `.claude/commands/frame:ship.md` |
+| PLAN | `.agents/skills/frame-plan/SKILL.md` |
+| BUILD | `.agents/skills/frame-build/SKILL.md` |
+| REVIEW | `.agents/skills/frame-review/SKILL.md` |
+| FIX | `.agents/skills/frame-fix/SKILL.md` |
+| SHIP | `.agents/skills/frame-ship/SKILL.md` |
 
 Those files stay the single source of truth. Each of them carries an **`## AUTO mode`** section describing how its interactive points behave when the autopilot marker is present — apply those overrides, nothing else changes.
 
 **The autopilot marker.** While the pipeline runs, `$GIT_DIR/frame-autopilot` exists (where `GIT_DIR=$(git rev-parse --git-dir)`). It is the deterministic signal that (a) tells the phase commands to apply their AUTO overrides, and (b) lets the `auto-pilot.sh` Stop hook re-engage the pipeline if the session stops mid-flight. **Every exit path — finish or halt — must remove it.**
 
-The marker's `session=` line binds the flight to the session that engaged it (`$CLAUDE_CODE_SESSION_ID`). `$GIT_DIR` is shared by every chat working in this tree — the session binding is what keeps the Stop hook and the AUTO overrides from firing in unrelated sessions. Tree-level checks (busy-tree routing here, hotfix routing in `/frame:fast` and `/frame:debug`) deliberately ignore it: for them "some flight is live in this tree" is exactly the question.
+The marker's `session=` line binds the flight to the session that engaged it (`$ANTIGRAVITY_SESSION_ID`). `$GIT_DIR` is shared by every chat working in this tree — the session binding is what keeps the Stop hook and the AUTO overrides from firing in unrelated sessions. Tree-level checks (busy-tree routing here, hotfix routing in `/frame:fast` and `/frame:debug`) deliberately ignore it: for them "some flight is live in this tree" is exactly the question.
 
 ## Instructions
 
@@ -74,7 +74,7 @@ The marker's `session=` line binds the flight to the session that engaged it (`$
    [ -f "../{project}-{feature}/.frame/config.json" ] || { mkdir -p "../{project}-{feature}/.frame"; cp .frame/config.json "../{project}-{feature}/.frame/" 2>/dev/null || true; }
    ```
    Register a board row if `.planning/BOARD.md` exists (`{feature} | active | ../{project}-{feature}`). Then **STOP** with the hand-off:
-   > Worktree ready. → `cd ../{project}-{feature} && claude` → `/frame:auto {feature}`
+   > Worktree ready. → `cd ../{project}-{feature} && agy` → `/frame:auto {feature}`
    > (plan is created there; the flight lands integrate-ready — see "Two landing modes")
 
 4. **Detect the landing mode** (see "Two landing modes"): `git rev-parse --git-common-dir` → main flight or worktree flight.
@@ -97,7 +97,7 @@ Otherwise execute the `/frame:plan {feature}` procedure (AUTO overrides apply: r
 There is **no confirmation gate**. Read the fresh plan.md, engage the autopilot, print the briefing as a *report* of what is now flying, and go straight to Step 3:
 
 ```bash
-printf 'feature=%s\nround=0\nreview=%s\nsession=%s\n' "{feature}" "{standard|strict}" "${CLAUDE_CODE_SESSION_ID:-}" > "$(git rev-parse --git-dir)/frame-autopilot"
+printf 'feature=%s\nround=0\nreview=%s\nsession=%s\n' "{feature}" "{standard|strict}" "${ANTIGRAVITY_SESSION_ID:-${SESSION_ID:-default}}" > "$(git rev-parse --git-dir)/frame-autopilot"
 rm -f "$(git rev-parse --git-dir)/frame-autopilot-nudges"
 ```
 
@@ -134,7 +134,7 @@ Execute the `/frame:build {feature}` procedure with its AUTO overrides:
 - Another feature already in flight (build Step 0, Case C): build's AUTO override **prepares the worktree for `{feature}` itself** (overlap check → worktree + `feature/{feature}` branch → context copy → board row), then the flight halts with the exact hand-off:
   ```
   ⛔ AUTOPILOT HALT: {other} is mid-flight in this tree. Worktree for {feature} is ready.
-  → cd ../{project}-{feature} && claude → /frame:auto {feature}
+  → cd ../{project}-{feature} && agy → /frame:auto {feature}
   (plan.md is already done — the new flight picks it up and goes straight to build)
   ```
   Autopilot cannot follow the work into another terminal — but it leaves everything one command away.

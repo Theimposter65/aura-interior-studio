@@ -59,7 +59,7 @@ if [ ! -f "$STATE_FILE" ] || ! grep -q "^- Phase:" "$STATE_FILE" 2>/dev/null; th
 
   Next step: run /frame:init (or /frame-init in Antigravity)
   This will scan your project and fill in
-  MAP.md, rules (GEMINI.md / CLAUDE.md), and STATE.md.
+  MAP.md, rules (GEMINI.md / GEMINI.md / AGENTS.md), and STATE.md.
 EOF
 )
   emit_output "$TEXT"

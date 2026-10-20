@@ -53,7 +53,7 @@ git ls-files | grep -v "^node_modules\|^vendor\|^dist\|^build" | wc -l
 Read `.frame/config.json` and `.planning/MAP.md` to determine:
 - `frontend` presence → A11Y on/off
 - `database` presence → DATA full or reduced
-- LLM code present (grep for `openai|anthropic|langchain|claude` in source) → SEC AI/LLM block on/off
+- LLM code present (grep for `openai|anthropic|langchain|claude|gemini|google` in source) → SEC AI/LLM block on/off
 - PRIV auto-enable: `grep -qiE "userData|GDPR|PII|personal data" .planning/MAP.md` (MAP.md has no dedicated field — a text match in Quick Facts / Tech Debt / Notes counts)
 - `--priv` flag → PRIV enabled regardless
 

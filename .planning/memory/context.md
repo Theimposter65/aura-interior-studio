@@ -1,7 +1,7 @@
 ---
 title: Context
 description: Current working context — what's happening now, recent decisions, health
-note: Tracks the CURRENT working context. For project architecture overview, see MAP.md. For project conventions and git format, see CLAUDE.md.
+note: Tracks the CURRENT working context. For project architecture overview, see MAP.md. For project conventions and git format, see GEMINI.md / AGENTS.md.
 ---
 
 # Project Context

@@ -57,7 +57,7 @@ If nothing selected → **STOP**: "No confirmed FAIL findings to fix. Review rec
 
 Group selected findings so that **no two groups touch the same file — source *or* test**:
 - Findings whose `File` is the same path → one group (one fixer handles them together, so two fixers never edit the same file).
-- **Also compute each group's likely test file** (project convention — the sibling `*.test.*`/`*_test.*`, or the mirrored path under the test dir; see CLAUDE.md). A fixer that changes logic will touch it. Treat the test file as owned by the group, exactly like the source file.
+- **Also compute each group's likely test file** (project convention — the sibling `*.test.*`/`*_test.*`, or the mirrored path under the test dir; see GEMINI.md / AGENTS.md). A fixer that changes logic will touch it. Treat the test file as owned by the group, exactly like the source file.
 - Two groups are safe to run in parallel only when their **`File` sets AND their test-file sets are both disjoint**. If group A's source or test file overlaps group B's test file → **merge A and B into one group** (one fixer owns that test file). This mirrors `/frame:build`'s pre-wave `Files: ∪ Test:` conflict check — without it two parallel fixers clobber a shared `*.test.*` in the shared tree.
 - Findings in fully distinct files (no source/test overlap) → separate groups → run in parallel.
 
@@ -234,7 +234,7 @@ then execute the `/frame:review` procedure from its Step 0 in this session (it r
 
 ## AUTO mode (driven by /frame:auto)
 
-Applies **only** when the autopilot marker exists **and belongs to this session**: `M="$(git rev-parse --git-dir)/frame-autopilot"; [ -f "$M" ] && [ "$(grep -s '^session=' "$M" | cut -d= -f2-)" = "${CLAUDE_CODE_SESSION_ID:-}" ]`. Standalone runs — and other sessions sharing this tree with someone else's flight — ignore this section.
+Applies **only** when the autopilot marker exists **and belongs to this session**: `M="$(git rev-parse --git-dir)/frame-autopilot"; [ -f "$M" ] && [ "$(grep -s '^session=' "$M" | cut -d= -f2-)" = "${ANTIGRAVITY_SESSION_ID:-${CLAUDE_CODE_SESSION_ID:-default}}" ]`. Standalone runs — and other sessions sharing this tree with someone else's flight — ignore this section.
 
 - **Step 3 never asks.** The product screen still runs and its outcome is binary: every `Class: technical` finding is fixed unattended (any severity, any file — auth/money/migrations included); any `Class: product` finding → **halt the flight** with the decision it needs ("run /frame:fix {feature} yourself, or answer here"). Technical findings in the same batch are fixed and committed before the halt, so the halt is only about the decision.
 - **`Remaining` non-empty after Step 8** (STILL_OPEN or FAILED/BLOCKED) → halts the flight — fix already retried and re-reviewed; re-spawning the same fixers unattended would loop.

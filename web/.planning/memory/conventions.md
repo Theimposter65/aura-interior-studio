@@ -21,4 +21,4 @@ Code conventions and standards discovered during /frame:init scan.
 
 ## Git Commit Format
 
-See CLAUDE.md for the canonical git commit format.
+See GEMINI.md / AGENTS.md for the canonical git commit format.
