@@ -1,29 +1,28 @@
 # STATE.md — Current Position
 
 ## Current Position
-- Phase: REVIEW
-- Feature: apple-liquid-glass
-- Status: Review complete, ready to ship
-- Review: docs/specs/apple-liquid-glass/review.md
-- Finished: 2026-10-19T22:51:00Z
+- Phase: SHIP
+- Feature: apple-design-system
+- Status: Shipped & Deployed
+- Spec: docs/specs/apple-design-system/spec.md
+- Review: docs/specs/apple-design-system/review.md
+- Evidence: docs/specs/apple-design-system/evidence.md
+- Live URL: https://theimposter65.github.io/aura-interior-studio/
+- Commit (main): c745554
+- Commit (gh-pages): 27e7efa
+- Adaptation: Framework adapted for Google Antigravity & Gemini models (agy)
+- Finished: 2026-10-20T03:45:00Z
 
 ## Completed
-- [x] Apple design skill installed (`apple-design/SKILL.md`)
-- [x] Research complete (`docs/specs/apple-liquid-glass/research.md`)
-- [x] Specification complete (`docs/specs/apple-liquid-glass/spec.md`)
-- [x] Plan decomposed into 4 waves (`docs/specs/apple-liquid-glass/plan.md`)
-- [x] Optical physics engine & unit tests (`src/utils/glassPhysics.ts`, `src/test/glassPhysics.test.ts`)
-- [x] Procedural SVG refraction filters & micro-surface grain (`src/components/glass/LiquidGlassFilter.tsx`)
-- [x] Apple Liquid Glass components (`LiquidGlassCard.tsx`, `LiquidGlassPill.tsx`, `LiquidBackground.tsx`)
-- [x] Floating Liquid Glass dynamic island navbar (`src/components/layout/Navbar.tsx`)
-- [x] Hero section with Apple optical typography (`src/App.tsx`)
-- [x] Horizontal portfolio with liquid crystal card frames (`src/components/portfolio/HorizontalPortfolio.tsx`)
-- [x] Before/After transformation slider with liquid crystal handle (`src/components/portfolio/BeforeAfterSlider.tsx`)
-- [x] Atelier pricing matrix with liquid glass tiers (`src/components/pricing/PricingSection.tsx`)
-- [x] Consultation form, modals, journal & instagram with liquid glass finishes
-- [x] Quality gates passed: `tsc` (0 errors), `vitest` (50/50 passed), `eslint` (0 errors), `build` (clean)
-- [x] Evidence artifacts captured E1–E5
+- [x] Apple design skill adapted and integrated (`apple-design/SKILL.md`)
+- [x] Full FRAME framework adapted for Google Antigravity & Gemini models (`agy`)
+- [x] Mathematical physics engine: `projectMomentum`, `rubberbandDistance`, damped springs, velocity tracking (`src/utils/appleSpringPhysics.ts`)
+- [x] 18 unit tests in `src/test/appleSpringPhysics.test.ts` (100% passing)
+- [x] Direct 1:1 pointer gesture tracking with `setPointerCapture`, directional hysteresis, and visual rubber-banding (`HorizontalPortfolio.tsx`)
+- [x] Element-level touch/pointer tracking with tactile scale feedback (`BeforeAfterSlider.tsx`)
+- [x] Apple sheet modals with top grab handles, `apple-materialize` entrance, and velocity-aware downward swipe-to-dismiss (`BookingModal.tsx`, `StyleQuizModal.tsx`)
+- [x] Floating liquid glass dynamic island navbar with specular gradient border and edge mask
+- [x] WWDC optical typography (`font-optical-sizing: auto`, tracking, leading)
+- [x] Full accessibility support (`prefers-reduced-motion` and `prefers-reduced-transparency`)
+- [x] Quality gates passed: `tsc` (0 errors), `vitest` (68/68 passed), `eslint` (0 errors), `build` (clean)
 - [x] Review panel approval: 3/3 PASS
-
-## Notes
-- Autopilot proceeding to Step 6: SHIP (local commit)

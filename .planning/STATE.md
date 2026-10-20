@@ -2,12 +2,13 @@
 
 ## Current Position
 - Phase: SHIP
-- Feature: apple-liquid-glass
+- Feature: apple-design-system
 - Status: Shipped & Deployed
-- Spec: docs/specs/apple-liquid-glass/spec.md
-- Review: docs/specs/apple-liquid-glass/review.md
-- Evidence: docs/specs/apple-liquid-glass/evidence.md
+- Spec: docs/specs/apple-design-system/spec.md
+- Review: docs/specs/apple-design-system/review.md
+- Evidence: docs/specs/apple-design-system/evidence.md
 - Live URL: https://theimposter65.github.io/aura-interior-studio/
-- Commit (main): 7505d4a
-- Commit (gh-pages): 7e4d39e
-- Finished: 2026-10-20T03:26:00Z
+- Commit (main): c745554
+- Commit (gh-pages): 27e7efa
+- Adaptation: Framework adapted for Google Antigravity & Gemini models (agy)
+- Finished: 2026-10-20T03:45:00Z
