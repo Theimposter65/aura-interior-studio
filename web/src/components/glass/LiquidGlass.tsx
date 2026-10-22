@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import { buildGlassMaps, refractionProfile } from '../../utils/liquidGlassMap';
-import { REFRACTIVE_INDEX_BLUE, REFRACTIVE_INDEX_GREEN, REFRACTIVE_INDEX_RED } from '../../utils/glassPhysics';
+import { acquireGlass, glassKey, type BakedGlass } from '../../utils/glassBaker';
+import type { GlassBakeRequest } from '../../utils/glassBakeCore';
+import { hasGpuAcceleration } from '../../utils/renderCapability';
 
 export type GlassTone = 'clear' | 'light' | 'dark';
 
@@ -14,7 +15,7 @@ export interface LiquidGlassProps extends React.HTMLAttributes<HTMLElement> {
   bezel?: number;
   /** Glass thickness in px. Thicker glass bends the backdrop further; 0 gives frosted glass with no lensing. */
   thickness?: number;
-  /** Backdrop blur (px) applied before refraction. */
+  /** Backdrop blur (px) applied before refraction — run by the compositor's blur, not the SVG filter. */
   blur?: number;
   /** Grows and brightens under the pointer while pressed — for buttons and other controls. */
   interactive?: boolean;
@@ -29,20 +30,24 @@ export interface LiquidGlassProps extends React.HTMLAttributes<HTMLElement> {
 /**
  * SVG filters inside `backdrop-filter` are Chromium-only. WebKit parses the syntax but renders
  * nothing, so `CSS.supports` cannot be trusted — gate on the engine and let others fall back to
- * the frosted material defined in CSS.
+ * the frosted material defined in CSS. Live refraction also needs a GPU compositor: rasterised on
+ * the CPU it re-filters the moving backdrop every frame and halves scrolling, so software-rendered
+ * browsers get the frosted material too.
  */
-const supportsBackdropSvg = (() => {
+const supportsLensing = (() => {
   if (typeof navigator === 'undefined' || typeof CSS === 'undefined') return false;
   const ua = navigator.userAgent;
-  return /Chrome\/\d+/.test(ua) && !/Firefox|FxiOS|CriOS/.test(ua) && CSS.supports('backdrop-filter', 'blur(1px)');
+  const chromium = /Chrome\/\d+/.test(ua) && !/Firefox|FxiOS|CriOS/.test(ua) && CSS.supports('backdrop-filter', 'blur(1px)');
+  return chromium && hasGpuAcceleration();
 })();
 
-interface BakedGlass {
-  displacementUrl: string;
-  specularUrl: string;
-  /** feDisplacementMap scale per channel — each traced with its own index of refraction. */
-  scale: { r: number; g: number; b: number };
-}
+/**
+ * Chromium cannot compute output bounds for `url()` backdrop filters, so it never culls them:
+ * every lensed surface re-runs its filter on every frame, on screen or not. Lensing is therefore
+ * attached only while a surface is near the viewport; elsewhere it rests as frosted glass. The
+ * margin swaps the material in before the surface scrolls into view.
+ */
+const VIEWPORT_MARGIN = '200px 0px';
 
 // Literal class names so Tailwind keeps the layered material rules.
 const TONE_CLASS: Record<GlassTone, string> = {
@@ -50,46 +55,6 @@ const TONE_CLASS: Record<GlassTone, string> = {
   light: 'lg-light',
   dark: 'lg-dark',
 };
-
-const bakeCache = new Map<string, BakedGlass>();
-const BAKE_CACHE_LIMIT = 48;
-
-function toDataUrl(data: Uint8ClampedArray<ArrayBuffer>, width: number, height: number): string | null {
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return null;
-  ctx.putImageData(new ImageData(data, width, height), 0, 0);
-  return canvas.toDataURL('image/png');
-}
-
-function bakeGlass(width: number, height: number, radius: number, bezel: number, thickness: number): BakedGlass | null {
-  const dpr = Math.min(2, Math.max(1, window.devicePixelRatio || 1));
-  const key = `${width}x${height}:${radius}:${bezel}:${thickness}@${dpr}`;
-  const cached = bakeCache.get(key);
-  if (cached) return cached;
-
-  const maps = buildGlassMaps({ width, height, radius, bezel }, { thickness, ior: REFRACTIVE_INDEX_GREEN }, dpr);
-  const displacementUrl = toDataUrl(maps.displacement, maps.width, maps.height);
-  const specularUrl = toDataUrl(maps.specular, maps.width, maps.height);
-  if (!displacementUrl || !specularUrl) return null;
-
-  // feDisplacementMap shifts by scale × (channel − 0.5); the map spans ±0.5, so scale = 2 × peak shift.
-  const peak = (ior: number) => 2 * refractionProfile(bezel, { thickness, ior }).max;
-  const baked: BakedGlass = {
-    displacementUrl,
-    specularUrl,
-    scale: { r: peak(REFRACTIVE_INDEX_RED), g: 2 * maps.maxShift, b: peak(REFRACTIVE_INDEX_BLUE) },
-  };
-
-  if (bakeCache.size >= BAKE_CACHE_LIMIT) {
-    const oldest = bakeCache.keys().next().value;
-    if (oldest !== undefined) bakeCache.delete(oldest);
-  }
-  bakeCache.set(key, baked);
-  return baked;
-}
 
 export const LiquidGlass = React.forwardRef<HTMLElement, LiquidGlassProps>(function LiquidGlass(
   {
@@ -111,9 +76,10 @@ export const LiquidGlass = React.forwardRef<HTMLElement, LiquidGlassProps>(funct
 ) {
   const localRef = useRef<HTMLElement | null>(null);
   const [size, setSize] = useState<{ w: number; h: number } | null>(null);
+  const [inView, setInView] = useState(false);
   const [baked, setBaked] = useState<BakedGlass | null>(null);
   const filterId = `lg-${useId().replace(/:/g, '')}`;
-  const lensing = supportsBackdropSvg && thickness > 0;
+  const lensing = supportsLensing && thickness > 0;
 
   const setRefs = useCallback(
     (node: HTMLElement | null) => {
@@ -133,17 +99,49 @@ export const LiquidGlass = React.forwardRef<HTMLElement, LiquidGlassProps>(funct
       setSize(prev => (prev && prev.w === w && prev.h === h ? prev : { w, h }));
     };
     measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(node);
-    return () => observer.disconnect();
+    const resize = new ResizeObserver(measure);
+    resize.observe(node);
+    const visibility = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      rootMargin: VIEWPORT_MARGIN,
+    });
+    visibility.observe(node);
+    return () => {
+      resize.disconnect();
+      visibility.disconnect();
+    };
   }, [lensing]);
 
+  const request: GlassBakeRequest | null =
+    lensing && size && size.w >= 4 && size.h >= 4
+      ? {
+          width: size.w,
+          height: size.h,
+          radius: radius === 'capsule' ? size.h / 2 : radius,
+          bezel: Math.min(bezel, size.h / 2, size.w / 2),
+          thickness,
+          scale: Math.min(2, Math.max(1, window.devicePixelRatio || 1)),
+        }
+      : null;
+  const key = request ? glassKey(request) : null;
+  const requestRef = useRef(request);
+  requestRef.current = request;
+
+  // Borrow maps only while near the viewport; identical surfaces share one bake in the worker.
+  // `key` encodes every field of the request, so it alone decides when to re-acquire.
   useEffect(() => {
-    if (!lensing || !size || size.w < 4 || size.h < 4) return;
-    const r = radius === 'capsule' ? size.h / 2 : radius;
-    const b = Math.min(bezel, size.h / 2, size.w / 2);
-    setBaked(bakeGlass(size.w, size.h, r, b, thickness));
-  }, [lensing, size, radius, bezel, thickness]);
+    const current = requestRef.current;
+    if (!current || !inView) return;
+    let cancelled = false;
+    const { promise, release } = acquireGlass(current);
+    promise.then(
+      result => !cancelled && setBaked(result),
+      () => !cancelled && setBaked(null) // bake failed: stay on the frosted material
+    );
+    return () => {
+      cancelled = true;
+      release();
+    };
+  }, [key, inView]);
 
   // Specular glint follows the pointer through CSS variables — no re-render per move.
   const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
@@ -163,22 +161,27 @@ export const LiquidGlass = React.forwardRef<HTMLElement, LiquidGlassProps>(funct
   };
 
   const radiusCss = radius === 'capsule' ? '9999px' : `${radius}px`;
-  const active = lensing && size && baked;
+  const lens = inView && size && baked && baked.key === key ? baked : null;
 
   return (
     <Tag
       ref={setRefs}
-      className={`lg ${TONE_CLASS[tone]} ${active ? 'lg-lensed' : ''} ${interactive ? 'lg-interactive' : ''} ${className}`}
+      className={`lg ${TONE_CLASS[tone]} ${lens ? 'lg-lensed' : ''} ${interactive ? 'lg-interactive' : ''} ${className}`}
       style={{
         borderRadius: radiusCss,
-        ...(active ? { backdropFilter: `url(#${filterId})`, WebkitBackdropFilter: `url(#${filterId})` } : null),
+        // Blur in the CSS filter list takes Chromium's fast compositor blur path (an SVG
+        // feGaussianBlur in the same chain is several times slower) and samples past the edges
+        // instead of fading to transparent, so the SVG filter is left with only the optics.
+        ...(lens
+          ? { backdropFilter: `blur(${blur}px) url(#${filterId})`, WebkitBackdropFilter: `blur(${blur}px) url(#${filterId})` }
+          : null),
         ...style,
       }}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       {...rest}
     >
-      {active && (
+      {lens && size && (
         <svg aria-hidden="true" className="lg-defs" width="0" height="0">
           <filter
             id={filterId}
@@ -190,20 +193,25 @@ export const LiquidGlass = React.forwardRef<HTMLElement, LiquidGlassProps>(funct
             primitiveUnits="userSpaceOnUse"
             colorInterpolationFilters="sRGB"
           >
-            <feGaussianBlur in="SourceGraphic" stdDeviation={blur} result="frost" />
-            <feImage href={baked.displacementUrl} x="0" y="0" width={size.w} height={size.h} preserveAspectRatio="none" result="field" />
-            {/* Dispersion: each channel refracts with its own index, fringing the rim like a prism */}
-            <feDisplacementMap in="frost" in2="field" scale={baked.scale.r} xChannelSelector="R" yChannelSelector="G" result="dispR" />
-            <feColorMatrix in="dispR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
-            <feDisplacementMap in="frost" in2="field" scale={baked.scale.g} xChannelSelector="R" yChannelSelector="G" result="dispG" />
-            <feColorMatrix in="dispG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g" />
-            <feDisplacementMap in="frost" in2="field" scale={baked.scale.b} xChannelSelector="R" yChannelSelector="G" result="dispB" />
-            <feColorMatrix in="dispB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b" />
-            <feBlend in="r" in2="g" mode="screen" result="rg" />
-            <feBlend in="rg" in2="b" mode="screen" result="refracted" />
+            <feImage href={lens.displacementUrl} x="0" y="0" width={size.w} height={size.h} preserveAspectRatio="none" result="field" />
+            {lens.channelScales ? (
+              <>
+                {/* Visible dispersion: each channel refracts with its own index, fringing the rim like a prism */}
+                <feDisplacementMap in="SourceGraphic" in2="field" scale={lens.channelScales.r} xChannelSelector="R" yChannelSelector="G" result="dispR" />
+                <feColorMatrix in="dispR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
+                <feDisplacementMap in="SourceGraphic" in2="field" scale={lens.channelScales.g} xChannelSelector="R" yChannelSelector="G" result="dispG" />
+                <feColorMatrix in="dispG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g" />
+                <feDisplacementMap in="SourceGraphic" in2="field" scale={lens.channelScales.b} xChannelSelector="R" yChannelSelector="G" result="dispB" />
+                <feColorMatrix in="dispB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b" />
+                <feBlend in="r" in2="g" mode="screen" result="rg" />
+                <feBlend in="rg" in2="b" mode="screen" result="refracted" />
+              </>
+            ) : (
+              <feDisplacementMap in="SourceGraphic" in2="field" scale={lens.scale} xChannelSelector="R" yChannelSelector="G" result="refracted" />
+            )}
             <feColorMatrix in="refracted" type="saturate" values="1.4" result="vivid" />
             {/* Fresnel rim reflection + key-light glint, traced from the same bevel normals */}
-            <feImage href={baked.specularUrl} x="0" y="0" width={size.w} height={size.h} preserveAspectRatio="none" result="specular" />
+            <feImage href={lens.specularUrl} x="0" y="0" width={size.w} height={size.h} preserveAspectRatio="none" result="specular" />
             <feComposite in="specular" in2="vivid" operator="over" />
           </filter>
         </svg>
