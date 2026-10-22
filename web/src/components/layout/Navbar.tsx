@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ShoppingBag, Sparkles, Menu, X, ArrowRight } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ShoppingBag, Sparkles, Menu, X, ChevronRight } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { ArtisticTalesLogo } from '../common/ArtisticTalesLogo';
-import { calculateSpecularHighlight } from '../../utils/glassPhysics';
+import { LiquidGlass } from '../glass/LiquidGlass';
 
 export interface NavLinkItem {
   label: string;
@@ -22,184 +22,169 @@ interface NavbarProps {
   onOpenQuiz?: () => void;
 }
 
+/**
+ * Glass adapts to what sits beneath it: sections marked `data-nav-theme="dark"` flip the bar to
+ * the dark material with light labels, exactly like system chrome over dark content.
+ */
+function useThemeBeneath(barRef: React.RefObject<HTMLElement>): 'light' | 'dark' {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const bar = barRef.current?.getBoundingClientRect();
+      const probeY = bar ? bar.top + bar.height / 2 : 40;
+      const sections = document.querySelectorAll<HTMLElement>('[data-nav-theme]');
+      let next: 'light' | 'dark' = 'light';
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= probeY && rect.bottom >= probeY) {
+          next = section.dataset.navTheme === 'dark' ? 'dark' : 'light';
+        }
+      });
+      setTheme(next);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [barRef]);
+  return theme;
+}
+
 export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
   const { itemCount, openCart } = useCart();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const navRef = useRef<HTMLDivElement>(null);
-  const [specular, setSpecular] = useState({ percentX: 50, percentY: 50 });
+  const barRef = useRef<HTMLElement>(null);
+  const theme = useThemeBeneath(barRef);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const dark = theme === 'dark';
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    if (!mobileMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mobileMenuOpen]);
 
-  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (!navRef.current) return;
-    const rect = navRef.current.getBoundingClientRect();
-    const spec = calculateSpecularHighlight(e.clientX - rect.left, e.clientY - rect.top, rect);
-    setSpecular({ percentX: spec.percentX, percentY: spec.percentY });
-  }, []);
-
-  const navLinks = NAV_LINKS;
+  const label = dark ? 'text-white/90 hover:text-white' : 'text-studio-900/80 hover:text-studio-900';
+  const iconButton = `relative grid place-items-center w-9 h-9 rounded-full transition-colors apple-press ${
+    dark ? 'text-white hover:bg-white/15' : 'text-studio-900 hover:bg-black/5'
+  }`;
 
   return (
     <>
-      {/* Top Refractive Announcement Pill Bar */}
-      <div className="bg-studio-950/90 text-studio-100 text-[11px] tracking-wider uppercase py-2 px-4 text-center flex items-center justify-center space-x-3 backdrop-blur-md border-b border-white/10 z-50 relative">
-        <span className="hidden sm:inline opacity-80">Goa • Gujarat • Worldwide Commissions</span>
-        <span className="hidden sm:inline text-studio-600">•</span>
+      {/* Ribbon */}
+      <div className="relative z-50 bg-studio-50 text-center px-4 py-2.5 type-callout text-studio-900">
+        <span className="hidden sm:inline text-studio-600">Goa · Gujarat · Worldwide commissions. </span>
         <a
           href="https://wa.me/917567979307"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-amber-300 hover:text-amber-200 transition-colors inline-flex items-center space-x-1 font-medium cursor-pointer apple-press"
+          className="link-chevron"
         >
-          <span>Chat with Space Stylist on WhatsApp</span>
-          <ArrowRight className="w-3 h-3 ml-1" />
+          Chat with a space stylist on WhatsApp
+          <ChevronRight className="w-3.5 h-3.5" />
         </a>
       </div>
 
-      {/* Floating Apple Liquid Glass Dynamic Island Header */}
-      <header className="sticky top-2 z-40 px-4 sm:px-6 transition-all duration-300 apple-nav-edge-mask">
-        <div
-          ref={navRef}
-          onPointerMove={handlePointerMove}
-          className={`
-            relative max-w-7xl mx-auto rounded-2xl md:rounded-full
-            backdrop-blur-2xl saturate-[190%] border border-t-white/80
-            transition-all duration-300 overflow-hidden
-            ${
-              isScrolled
-                ? 'bg-white/75 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.15),inset_0_1px_1px_rgba(255,255,255,0.9)] border-white/60 py-2.5 px-5 md:px-8'
-                : 'bg-white/55 shadow-[0_12px_32px_-10px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,0.75)] border-white/50 py-3.5 px-6 md:px-10'
-            }
-          `}
+      {/* Floating glass bar — zero-height sticky rail so content scrolls beneath the glass */}
+      <div className="sticky top-3 z-40 h-0 px-3 sm:px-6">
+        <LiquidGlass
+          ref={barRef}
+          as="header"
+          tone={dark ? 'dark' : 'light'}
+          bezel={22}
+          thickness={40}
+          blur={4}
+          className={`mx-auto max-w-5xl h-14 pl-2 pr-2 sm:pl-3 flex items-center justify-between gap-2 transition-colors duration-300 ${
+            dark ? 'text-white' : 'text-studio-900'
+          }`}
         >
-          {/* Moving Specular Caustic Spotlight */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-200"
-            style={{
-              background: `radial-gradient(circle 320px at ${specular.percentX}% ${specular.percentY}%, rgba(255, 255, 255, 0.45), transparent 70%)`,
-            }}
-          />
+          <a href="#" className="flex items-center gap-2.5 rounded-full pr-2 apple-press" aria-label="The Artistic Tales — home">
+            <ArtisticTalesLogo size="xs" />
+            <span className="font-display text-[15px] font-semibold tracking-[-0.01em] whitespace-nowrap">
+              The Artistic Tales
+            </span>
+          </a>
 
-          {/* Prism Bevel Rim */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-full z-10 border border-white/50 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.9),inset_0_-1px_1px_0_rgba(0,0,0,0.05)]"
-          />
+          <nav aria-label="Primary" className="hidden md:flex items-center">
+            {NAV_LINKS.map(link => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={link.onClick}
+                className={`px-3 py-1.5 rounded-full text-[13px] tracking-[-0.005em] transition-colors ${label} ${
+                  dark ? 'hover:bg-white/10' : 'hover:bg-black/5'
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
 
-          <div className="relative z-20 flex items-center justify-between">
-            {/* Mobile Menu Button */}
+          <div className="flex items-center gap-1">
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-studio-900 hover:text-studio-600 transition-colors apple-press rounded-full hover:bg-white/40"
-              aria-label="Toggle Navigation"
+              type="button"
+              onClick={onOpenQuiz}
+              className={`hidden sm:inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[13px] font-medium apple-press transition-colors ${
+                dark ? 'bg-white/15 hover:bg-white/25 text-white' : 'bg-black/5 hover:bg-black/10 text-studio-900'
+              }`}
+            >
+              <Sparkles className={`w-3.5 h-3.5 ${dark ? 'text-accent-light' : 'text-accent'}`} />
+              Style quiz
+            </button>
+
+            <button type="button" onClick={openCart} className={iconButton} aria-label={`Shopping bag, ${itemCount} items`}>
+              <ShoppingBag className="w-[18px] h-[18px] stroke-[1.7]" />
+              {itemCount > 0 && (
+                <span className="absolute top-0.5 right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-accent text-white text-[10px] font-semibold grid place-items-center animate-fadeIn">
+                  {itemCount}
+                </span>
+              )}
+            </button>
+
+            <button
+              ref={menuButtonRef}
+              type="button"
+              onClick={() => setMobileMenuOpen(open => !open)}
+              className={`md:hidden ${iconButton}`}
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-
-            {/* Left Navigation (Desktop) */}
-            <nav className="hidden md:flex items-center space-x-6">
-              {navLinks.slice(0, 3).map(link => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={link.onClick}
-                  className="text-[11px] uppercase tracking-[0.2em] text-studio-700 hover:text-studio-950 font-medium transition-all py-1 px-2.5 rounded-full hover:bg-white/50 apple-press"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-
-            {/* Brand Center Monogram Logo */}
-            <a href="#" className="flex items-center space-x-2.5 group apple-press">
-              <ArtisticTalesLogo size="sm" />
-              <div className="text-left">
-                <span className="block font-serif text-base md:text-lg tracking-wider text-studio-900 font-medium group-hover:text-studio-700 transition-colors leading-tight">
-                  The Artistic Tales
-                </span>
-                <span className="block text-[8px] uppercase tracking-[0.25em] text-studio-500 font-sans -mt-0.5">
-                  Interior Space Stylist
-                </span>
-              </div>
-            </a>
-
-            {/* Right Navigation & Cart (Desktop) */}
-            <div className="flex items-center space-x-3.5">
-              <nav className="hidden md:flex items-center space-x-6">
-                {navLinks.slice(3).map(link => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className="text-[11px] uppercase tracking-[0.2em] text-studio-700 hover:text-studio-950 font-medium transition-all py-1 px-2.5 rounded-full hover:bg-white/50 apple-press"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </nav>
-
-              {/* INR Currency Badge (Liquid Glass Pill) */}
-              <div className="hidden lg:flex items-center text-[10px] font-semibold text-studio-800 border border-white/60 rounded-full px-2.5 py-1 bg-white/40 backdrop-blur-md shadow-sm">
-                <span>INR (₹)</span>
-              </div>
-
-              {/* Style Quiz Action Button */}
-              <button
-                onClick={onOpenQuiz}
-                className="hidden sm:inline-flex items-center space-x-1.5 text-[11px] uppercase tracking-wider px-3.5 py-1.5 bg-white/60 hover:bg-white/80 text-studio-900 rounded-full transition-all border border-white/70 shadow-sm backdrop-blur-md apple-press font-medium"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                <span>Style Quiz</span>
-              </button>
-
-              {/* Cart Trigger */}
-              <button
-                onClick={openCart}
-                className="relative p-2 text-studio-900 hover:text-studio-600 transition-colors rounded-full hover:bg-white/50 apple-press"
-                aria-label="View Shopping Bag"
-              >
-                <ShoppingBag className="w-4 h-4 stroke-[1.8]" />
-                {itemCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-studio-900 text-white text-[9px] font-semibold w-4 h-4 rounded-full flex items-center justify-center animate-fadeIn shadow-sm">
-                    {itemCount}
-                  </span>
-                )}
-              </button>
-            </div>
           </div>
-        </div>
-      </header>
+        </LiquidGlass>
 
-      {/* Mobile Drawer Menu (Liquid Crystal Sheet) */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-studio-950/50 backdrop-blur-md md:hidden flex animate-fadeIn">
-          <div className="w-4/5 max-w-sm bg-white/90 backdrop-blur-2xl h-full p-8 flex flex-col justify-between shadow-2xl border-r border-white/60">
-            <div>
-              <div className="flex items-center justify-between pb-6 border-b border-studio-200/60">
-                <div className="flex items-center space-x-2.5">
-                  <ArtisticTalesLogo size="sm" />
-                  <div>
-                    <span className="font-serif text-base tracking-wider block font-semibold text-studio-900">THE ARTISTIC TALES</span>
-                    <span className="text-[8px] uppercase tracking-widest text-studio-500 block">Space Stylist</span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="p-2 text-studio-700 hover:text-studio-950 apple-press"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <nav className="mt-8 flex flex-col space-y-4">
-                {navLinks.map(link => (
+        {/* Mobile menu — grows out of the bar that summoned it */}
+        {mobileMenuOpen && (
+          <>
+            <div className="fixed inset-0 -z-10 md:hidden" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
+            <LiquidGlass
+              id="mobile-menu"
+              tone="light"
+              radius={28}
+              bezel={22}
+              thickness={0}
+              className="md:hidden mx-auto max-w-5xl mt-2 p-3 text-studio-900 apple-materialize origin-top !bg-white/80"
+              style={{ backdropFilter: 'blur(30px) saturate(180%)', WebkitBackdropFilter: 'blur(30px) saturate(180%)' }}
+            >
+              <nav aria-label="Mobile" className="flex flex-col">
+                {NAV_LINKS.map(link => (
                   <a
                     key={link.label}
                     href={link.href}
@@ -207,44 +192,32 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
                       link.onClick?.();
                       setMobileMenuOpen(false);
                     }}
-                    className="font-serif text-2xl text-studio-900 hover:text-amber-600 transition-colors py-1 apple-press"
+                    className="flex items-center justify-between px-4 py-3 rounded-2xl text-[19px] font-semibold tracking-[-0.015em] hover:bg-black/5 apple-press"
                   >
                     {link.label}
+                    <ChevronRight className="w-4 h-4 text-studio-400" />
                   </a>
                 ))}
               </nav>
-
-              <div className="mt-8 pt-6 border-t border-studio-200/60 space-y-3">
-                <a
-                  href="#contact"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full py-3 px-4 bg-studio-950 text-white text-xs uppercase tracking-widest flex items-center justify-center space-x-2 rounded-xl apple-press font-medium shadow-md"
-                >
-                  <span>Book Consultation</span>
+              <div className="grid grid-cols-2 gap-2 p-1 pt-3 mt-2 border-t border-black/5">
+                <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="btn btn-primary btn-sm">
+                  Book a consultation
                 </a>
-
                 <button
+                  type="button"
                   onClick={() => {
                     setMobileMenuOpen(false);
                     onOpenQuiz?.();
                   }}
-                  className="w-full py-3 px-4 bg-white/80 border border-white/90 text-studio-900 text-xs uppercase tracking-widest flex items-center justify-center space-x-2 rounded-xl apple-press backdrop-blur-md font-medium shadow-sm"
+                  className="btn btn-quiet btn-sm"
                 >
-                  <Sparkles className="w-4 h-4 text-amber-500" />
-                  <span>Take Style Quiz</span>
+                  Style quiz
                 </button>
               </div>
-            </div>
-
-            <div className="text-xs text-studio-500 pt-6 border-t border-studio-200/60 space-y-1">
-              <p className="font-medium text-studio-800">Goa • Gujarat • Worldwide Commissions</p>
-              <p>thisisartistictales@gmail.com</p>
-              <p>+91 75679 79307</p>
-            </div>
-          </div>
-          <div className="flex-1" onClick={() => setMobileMenuOpen(false)} />
-        </div>
-      )}
+            </LiquidGlass>
+          </>
+        )}
+      </div>
     </>
   );
 };

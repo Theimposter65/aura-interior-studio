@@ -1,4 +1,18 @@
 /** @type {import('tailwindcss').Config} */
+
+// Apple's system font: SF Pro on Apple platforms, Inter as the closest metric match elsewhere.
+const appleSans = [
+  '-apple-system',
+  'BlinkMacSystemFont',
+  '"SF Pro Text"',
+  '"SF Pro Display"',
+  'Inter',
+  '"Helvetica Neue"',
+  'Helvetica',
+  'Arial',
+  'sans-serif',
+];
+
 export default {
   content: [
     "./index.html",
@@ -7,25 +21,37 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Apple neutral ramp (light → dark). Kept under the `studio` name so existing surfaces follow.
         studio: {
-          50: '#FAF8F5',   // Cream / Alabaster
-          100: '#F4EFEB',  // Warm Linen
-          200: '#E7DDD3',  // Oat / Light Sand
-          300: '#D5C4B4',  // Warm Greige
-          400: '#B89F8B',  // Muted Clay
-          500: '#9B7E67',  // Bronze Earth
-          600: '#7E634F',  // Deep Walnut
-          700: '#614B3B',  // Espresso
-          800: '#3D3126',  // Charcoal Umber
-          900: '#1F1A14',  // Deep Noir
-          950: '#120F0C',  // Obsidian Studio
+          50: '#F5F5F7',   // Page / section gray
+          100: '#F0F0F2',
+          200: '#E8E8ED',  // Hairlines
+          300: '#D2D2D7',  // Separators
+          400: '#A1A1A6',  // Tertiary label on dark
+          500: '#86868B',  // Tertiary label
+          600: '#6E6E73',  // Secondary label
+          700: '#424245',
+          800: '#333336',  // Elevated dark tile
+          900: '#1D1D1F',  // Primary label
+          950: '#000000',  // Dark section
         },
+        // Apple interaction tint
+        accent: {
+          50: '#E8F2FD',
+          light: '#2997FF', // Links & tint on dark surfaces
+          DEFAULT: '#0071E3',
+          hover: '#0077ED',
+          dark: '#0066CC',  // Links on light surfaces
+        },
+        star: '#FF9F0A', // systemOrange
         sage: {
           50: '#F4F7F5',
           100: '#E4ECE6',
           200: '#C7D9CC',
           500: '#698772',
+          600: '#4E6B57',
           700: '#435C4A',
+          800: '#2F4335',
         },
         terracotta: {
           50: '#FDF7F5',
@@ -36,14 +62,29 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['Cormorant Garamond', 'Playfair Display', 'Georgia', 'serif'],
-        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+        sans: appleSans,
+        display: ['"SF Pro Display"', ...appleSans],
+        serif: ['"SF Pro Display"', ...appleSans],
+      },
+      borderRadius: {
+        tile: '28px',
       },
       boxShadow: {
-        'art': '0 20px 40px -15px rgba(31, 26, 20, 0.08)',
-        'art-lg': '0 30px 60px -20px rgba(31, 26, 20, 0.15)',
+        'art': '0 2px 12px rgba(0, 0, 0, 0.06)',
+        'art-lg': '0 12px 40px rgba(0, 0, 0, 0.12)',
         'frame': '0 10px 30px -10px rgba(0, 0, 0, 0.25)',
-      }
+        'tile': '0 2px 12px rgba(0, 0, 0, 0.04)',
+        'tile-hover': '0 12px 40px rgba(0, 0, 0, 0.10)',
+      },
+      keyframes: {
+        fadeIn: {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+      },
+      animation: {
+        fadeIn: 'fadeIn 240ms ease-out',
+      },
     },
   },
   plugins: [],

@@ -1,12 +1,6 @@
 import React from 'react';
 import { pricingCategories, PRICING_FOOTNOTE } from '../../data/newPortfolioData';
-import {
-  Sparkles,
-  ArrowRight,
-  Info
-} from 'lucide-react';
-import { LiquidGlassCard } from '../glass/LiquidGlassCard';
-import { LiquidGlassPill } from '../glass/LiquidGlassPill';
+import { ChevronRight } from 'lucide-react';
 
 interface PricingSectionProps {
   onOpenBooking?: () => void;
@@ -20,134 +14,65 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenBooking })
     window.open(`https://wa.me/917567979307?text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
+  const openBooking = () => {
+    if (onOpenBooking) onOpenBooking();
+    else document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section id="pricing" className="py-24 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <LiquidGlassPill
-            variant="amber"
-            size="sm"
-            icon={<Sparkles className="w-3.5 h-3.5 text-amber-600" />}
-            className="uppercase tracking-[0.25em] text-[10px] font-semibold"
-          >
-            Transparent Atelier Pricing
-          </LiquidGlassPill>
-
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-studio-900 font-normal tracking-tight">
-            Honest Investment in Timeless Art
-          </h2>
-
-          <p className="text-xs sm:text-sm md:text-base text-studio-600 font-light max-w-2xl mx-auto leading-relaxed">
-            Direct artist pricing with zero hidden surcharges. All custom commissions and spatial styling projects are estimated with absolute clarity.
+    <section id="pricing" className="bg-studio-50 py-24 sm:py-32">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <header className="max-w-3xl">
+          <p className="type-eyebrow text-studio-600">Pricing</p>
+          <h2 className="type-headline mt-2">Honest pricing for timeless art.</h2>
+          <p className="type-subhead text-studio-600 mt-4">
+            Direct artist pricing with no hidden surcharges. Every commission and styling project is estimated up front.
           </p>
-        </div>
+        </header>
 
-        {/* Pricing Cards Grid (Liquid Glass Cards with 3D Tilt & Specular Physics) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {pricingCategories.map(cat => (
-            <LiquidGlassCard
-              key={cat.id}
-              variant={cat.badge ? 'metallic' : 'light'}
-              maxTilt={6}
-              className="p-7 flex flex-col justify-between"
-            >
-              <div className="space-y-5">
-                {/* Header */}
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-serif text-2xl text-studio-900 font-normal">
-                      {cat.title}
-                    </h3>
-                    {cat.badge && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-amber-400/25 border border-amber-400/50 text-amber-900 text-[10px] font-semibold tracking-wider uppercase backdrop-blur-md">
-                        {cat.badge}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-xs text-studio-600 font-light">
-                    {cat.tagline}
-                  </p>
-                </div>
+            <article key={cat.id} className="tile p-8 flex flex-col">
+              {cat.badge && <p className="text-[14px] font-semibold text-[#B64400]">{cat.badge}</p>}
+              <h3 className="type-title mt-1">{cat.title}</h3>
+              <p className="mt-2 type-callout text-studio-600">{cat.tagline}</p>
 
-                {/* Items List */}
-                <div className="space-y-3 pt-3 border-t border-white/40">
-                  {cat.items.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="p-3.5 rounded-xl bg-white/40 border border-white/60 space-y-1 shadow-sm backdrop-blur-md"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-studio-900">
-                          {item.label}
-                        </span>
-                        <span className="text-sm font-serif font-semibold text-amber-800">
-                          {item.rate}
-                        </span>
-                      </div>
-                      {item.subtext && (
-                        <p className="text-[11px] text-studio-600 leading-snug font-light">
-                          {item.subtext}
-                        </p>
-                      )}
+              <dl className="mt-6 flex-1 divide-y divide-studio-200 border-t border-studio-200">
+                {cat.items.map(item => (
+                  <div key={item.label} className="py-4">
+                    <div className="flex items-baseline justify-between gap-4">
+                      <dt className="type-callout font-medium">{item.label}</dt>
+                      <dd className="type-callout font-semibold whitespace-nowrap">{item.rate}</dd>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    {item.subtext && <dd className="mt-1 type-footnote text-studio-500">{item.subtext}</dd>}
+                  </div>
+                ))}
+              </dl>
 
-              {/* Action Button */}
-              <div className="pt-6 mt-6 border-t border-white/40">
-                <button
-                  onClick={() => handleInquirePricing(cat.title)}
-                  className="w-full py-3 px-4 rounded-full bg-studio-950 hover:bg-studio-800 text-white text-xs font-medium uppercase tracking-wider transition-all flex items-center justify-center space-x-2 apple-press shadow-md"
-                >
-                  <span>Inquire for {cat.title}</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-amber-300" />
-                </button>
-              </div>
-            </LiquidGlassCard>
+              <button
+                type="button"
+                onClick={() => handleInquirePricing(cat.title)}
+                className="link-chevron mt-6 self-start text-left text-[17px]"
+              >
+                Inquire about {cat.title.toLowerCase()}
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </article>
           ))}
         </div>
 
-        {/* Mandatory Footnote Banner (Frosted Amber Glass Pill) */}
-        <div className="mt-12 p-4 rounded-2xl bg-amber-400/10 border border-amber-300/40 backdrop-blur-xl flex items-center justify-center space-x-3 text-center shadow-sm">
-          <Info className="w-4 h-4 text-amber-700 flex-shrink-0" />
-          <p className="text-xs sm:text-sm font-serif text-amber-950 font-medium italic">
-            *{PRICING_FOOTNOTE}
-          </p>
-        </div>
+        <p className="mt-8 type-footnote text-studio-500">*{PRICING_FOOTNOTE}</p>
 
-        {/* Custom Project Consultation Callout (Dark Liquid Glass Panel) */}
-        <div className="mt-8">
-          <LiquidGlassCard variant="dark" maxTilt={3} className="p-8 md:p-10">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="space-y-2 text-center md:text-left">
-                <h4 className="font-serif text-2xl md:text-3xl font-normal text-white">
-                  Have a Custom Layout or Multi-Room Project?
-                </h4>
-                <p className="text-xs sm:text-sm text-studio-300 font-light max-w-xl leading-relaxed">
-                  We provide turnkey spatial design, site measurements, custom surface preparations, and shipping logistics across India and globally.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto shrink-0">
-                <button
-                  onClick={() => {
-                    if (onOpenBooking) {
-                      onOpenBooking();
-                    } else {
-                      const el = document.getElementById('contact');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                  className="w-full sm:w-auto px-7 py-3 rounded-full bg-amber-400 hover:bg-amber-300 text-studio-950 text-xs uppercase tracking-widest font-semibold transition-all apple-press shadow-lg flex items-center justify-center space-x-2"
-                >
-                  <span>Book Consultation</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          </LiquidGlassCard>
+        <div className="mt-12 tile-dark bg-studio-950 p-8 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="max-w-xl">
+            <h3 className="type-title">Planning a custom layout or multi-room project?</h3>
+            <p className="mt-3 text-studio-400">
+              Turnkey spatial design, site measurements, surface preparation and shipping — across India and worldwide.
+            </p>
+          </div>
+          <button type="button" onClick={openBooking} className="btn btn-primary shrink-0">
+            Book a consultation
+          </button>
         </div>
       </div>
     </section>

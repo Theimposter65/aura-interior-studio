@@ -62,7 +62,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 alt={product.title}
                 className="w-full h-full object-cover transition-all duration-500"
               />
-              <span className="absolute top-3 left-3 bg-studio-900/80 backdrop-blur-sm text-white text-[9px] uppercase tracking-widest px-2.5 py-1 rounded">
+              <span className="absolute top-3 left-3 bg-studio-900/80 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded">
                 {product.category.replace('-', ' ')}
               </span>
             </div>
@@ -102,24 +102,24 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 <span className="underline cursor-pointer">{product.reviewsCount} Atelier Reviews</span>
               </div>
 
-              <h2 className="font-serif text-3xl text-studio-900 font-normal leading-tight">
+              <h2 className="font-display tracking-tight text-3xl text-studio-900 font-semibold leading-tight">
                 {product.title}
               </h2>
-              <p className="text-xs text-studio-500 mt-1 uppercase tracking-wider">
+              <p className="text-xs text-studio-500 mt-1">
                 {product.subtitle}
               </p>
 
               <div className="mt-4 flex items-baseline space-x-3">
-                <span className="font-serif text-2xl font-semibold text-studio-900">
+                <span className="font-display tracking-tight text-2xl font-semibold text-studio-900">
                   ${product.price} USD
                 </span>
-                <span className="text-[11px] text-sage-700 bg-sage-50 px-2 py-0.5 rounded font-medium">
+                <span className="text-[13px] text-sage-700 bg-sage-50 px-2 py-0.5 rounded font-medium">
                   Free Shipping Included
                 </span>
               </div>
 
               {/* Tabs: Details / Technical Specs / Curator */}
-              <div className="flex space-x-6 border-b border-studio-200 mt-6 text-xs uppercase tracking-wider font-medium">
+              <div className="flex space-x-6 border-b border-studio-200 mt-6 text-xs font-medium">
                 <button
                   onClick={() => setActiveTab('details')}
                   className={`pb-2.5 transition-colors border-b-2 ${
@@ -171,7 +171,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               {/* Dimension Selection */}
               {product.dimensions && product.dimensions.length > 0 && (
                 <div className="space-y-2 pt-2">
-                  <label className="text-[11px] uppercase tracking-wider font-semibold text-studio-700 block">
+                  <label className="text-[13px] font-semibold text-studio-700 block">
                     Select Size:
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -195,7 +195,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               {/* Frame Selection */}
               {product.frames && product.frames.length > 0 && (
                 <div className="space-y-2 pt-3">
-                  <label className="text-[11px] uppercase tracking-wider font-semibold text-studio-700 block">
+                  <label className="text-[13px] font-semibold text-studio-700 block">
                     Select Frame Finish:
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -222,7 +222,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <div className="flex items-center space-x-3">
                 <button
                   onClick={handleAdd}
-                  className="flex-1 py-3.5 px-6 bg-studio-900 hover:bg-studio-800 text-white text-xs uppercase tracking-widest font-semibold rounded-sm shadow-md transition-all flex items-center justify-center space-x-2"
+                  className="flex-1 py-3.5 px-6 bg-studio-900 hover:bg-studio-800 text-white text-xs font-semibold rounded-sm shadow-md transition-all flex items-center justify-center space-x-2"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   <span>{isAdded ? 'Added to Cart ✓' : 'Add to Cart'}</span>
@@ -234,7 +234,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       onClose();
                       onOpenVisualizer(product.id);
                     }}
-                    className="py-3.5 px-4 border border-studio-900 text-studio-900 hover:bg-studio-100 text-xs uppercase tracking-widest font-semibold rounded-sm transition-colors flex items-center space-x-1.5"
+                    className="py-3.5 px-4 border border-studio-900 text-studio-900 hover:bg-studio-100 text-xs font-semibold rounded-sm transition-colors flex items-center space-x-1.5"
                     title="Preview in Room Visualizer"
                   >
                     <Sparkles className="w-4 h-4 text-studio-600" />
@@ -243,7 +243,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-[10px] text-studio-500 pt-1">
+              <div className="grid grid-cols-2 gap-2 text-xs text-studio-500 pt-1">
                 <span className="flex items-center space-x-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-sage-600" />
                   <span>100-Year Quality Guarantee</span>

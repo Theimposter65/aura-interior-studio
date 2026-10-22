@@ -1,15 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { transformationItems } from '../../data/newPortfolioData';
 import { TransformationItem } from '../../types';
-import {
-  Sparkles,
-  Columns,
-  Split,
-  ChevronLeft,
-  ChevronRight,
-  MessageCircle
-} from 'lucide-react';
-import { LiquidGlassPill } from '../glass/LiquidGlassPill';
+import { Columns, Split, ChevronLeft, ChevronRight, ChevronsLeftRight, MessageCircle } from 'lucide-react';
+import { LiquidGlass } from '../glass/LiquidGlass';
 
 export const BeforeAfterSlider: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -78,188 +71,153 @@ export const BeforeAfterSlider: React.FC = () => {
     window.open(`https://wa.me/917567979307?text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
-  return (
-    <section id="transformations" className="py-24 relative">
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
-        {/* Section Heading */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-          <div className="space-y-2">
-            <LiquidGlassPill
-              variant="light"
-              size="sm"
-              icon={<Sparkles className="w-3 h-3 text-amber-600" />}
-              className="uppercase tracking-[0.25em] text-[10px]"
-            >
-              Before & After Transformations
-            </LiquidGlassPill>
-            <h2 className="font-serif text-3xl sm:text-4xl text-studio-900 font-normal tracking-tight">
-              From Plain Rooms to Living Art
-            </h2>
-            <p className="text-xs sm:text-sm text-studio-600 font-light max-w-xl">
-              18 real room revitalizations across holiday villas, private apartments, and experiential Airbnbs. Slide across or view side-by-side.
-            </p>
-          </div>
+  const onSliderKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const step = e.shiftKey ? 10 : 2;
+    if (e.key === 'ArrowLeft') setSliderPosition(p => Math.max(0, p - step));
+    else if (e.key === 'ArrowRight') setSliderPosition(p => Math.min(100, p + step));
+    else if (e.key === 'Home') setSliderPosition(0);
+    else if (e.key === 'End') setSliderPosition(100);
+    else return;
+    e.preventDefault();
+  };
 
-          {/* Toggle Display Mode & Project Navigation (Liquid Glass Controls) */}
-          <div className="flex items-center space-x-3">
+  const imageTag = (label: string, side: 'left' | 'right') => (
+    <LiquidGlass
+      tone="dark"
+      bezel={12}
+      thickness={16}
+      className={`absolute bottom-4 ${side === 'left' ? 'left-4' : 'right-4'} z-10 px-3.5 py-1.5 text-[13px] font-semibold text-white`}
+    >
+      {label}
+    </LiquidGlass>
+  );
+
+  return (
+    <section id="transformations" className="bg-white py-24 sm:py-32">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <header className="max-w-3xl">
+            <p className="type-eyebrow text-studio-600">Before and after</p>
+            <h2 className="type-headline mt-2">From plain rooms to living art.</h2>
+            <p className="type-subhead text-studio-600 mt-4">
+              {transformationItems.length} real rooms across holiday villas, apartments and Airbnbs. Drag across to compare.
+            </p>
+          </header>
+
+          <div className="flex items-center gap-3">
             <button
+              type="button"
               onClick={() => setIsSideBySide(prev => !prev)}
-              className="px-4 py-2 rounded-full border border-white/70 bg-white/60 hover:bg-white/80 text-studio-800 text-xs font-medium flex items-center space-x-2 transition-all backdrop-blur-md shadow-sm apple-press"
+              aria-pressed={isSideBySide}
+              className="btn btn-quiet btn-sm"
             >
-              {isSideBySide ? (
-                <>
-                  <Split className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Split Slider Mode</span>
-                </>
-              ) : (
-                <>
-                  <Columns className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Side-by-Side Mode</span>
-                </>
-              )}
+              {isSideBySide ? <Split className="w-4 h-4" /> : <Columns className="w-4 h-4" />}
+              {isSideBySide ? 'Slider' : 'Side by side'}
             </button>
 
-            <div className="flex items-center space-x-1.5 border border-white/60 rounded-full bg-white/50 backdrop-blur-md p-1 shadow-sm">
-              <button
-                onClick={prevProject}
-                aria-label="Previous Project"
-                className="p-1.5 rounded-full hover:bg-white/80 text-studio-700 transition-colors apple-press"
-              >
+            <div className="flex items-center rounded-full bg-studio-200/70 p-1">
+              <button type="button" onClick={prevProject} aria-label="Previous project" className="grid place-items-center w-8 h-8 rounded-full hover:bg-white apple-press">
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <span className="text-xs font-serif px-2 font-medium text-studio-800">
-                {currentProject.projectNumber} / {transformationItems.length}
+              <span className="px-2 text-[14px] font-medium tabular-nums" aria-live="polite">
+                {currentProject.projectNumber} of {transformationItems.length}
               </span>
-              <button
-                onClick={nextProject}
-                aria-label="Next Project"
-                className="p-1.5 rounded-full hover:bg-white/80 text-studio-700 transition-colors apple-press"
-              >
+              <button type="button" onClick={nextProject} aria-label="Next project" className="grid place-items-center w-8 h-8 rounded-full hover:bg-white apple-press">
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Transformation Showcase Container (Liquid Glass Frame) */}
-        <div className="rounded-3xl border border-white/70 bg-white/45 backdrop-blur-2xl saturate-[185%] p-4 sm:p-6 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.12),inset_0_1px_1px_rgba(255,255,255,0.9)] space-y-6">
-          {/* Main Visual Comparison Canvas */}
+        <div className="mt-12">
           {!isSideBySide ? (
-            /* Split Interactive Slider with Refractive Crystal Handle */
             <div
               ref={containerRef}
+              role="slider"
+              tabIndex={0}
+              aria-label={`Compare before and after: ${currentProject.title}`}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(sliderPosition)}
+              aria-valuetext={`${Math.round(sliderPosition)}% before`}
+              onKeyDown={onSliderKey}
               onPointerDown={handlePointerDown}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
               onPointerCancel={handlePointerUp}
-              className="relative aspect-[16/10] sm:aspect-[16/9] w-full rounded-2xl overflow-hidden cursor-ew-resize select-none shadow-2xl bg-studio-950 touch-none border border-white/40"
+              className="relative aspect-[4/3] sm:aspect-[16/9] w-full rounded-tile overflow-hidden cursor-ew-resize select-none bg-studio-950 touch-none"
             >
-              {/* After Image (Background Layer) */}
               <img
                 src={currentProject.afterImageUrl}
-                alt={`${currentProject.title} - After Transformation`}
+                alt={`${currentProject.title} — after`}
                 className="absolute inset-0 w-full h-full object-cover"
                 loading="lazy"
                 decoding="async"
+                draggable={false}
               />
-              <div className="absolute bottom-4 right-4 z-10 px-3 py-1 rounded-full bg-studio-950/70 backdrop-blur-md border border-white/20 text-white text-[11px] font-semibold tracking-wider uppercase">
-                After
-              </div>
+              {imageTag('After', 'right')}
 
-              {/* Before Image (Revealed Overlay Layer) */}
               <div
                 className="absolute inset-0 overflow-hidden pointer-events-none"
-                style={{ clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)` }}
+                style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
               >
                 <img
                   src={currentProject.beforeImageUrl}
-                  alt={`${currentProject.title} - Before Transformation`}
+                  alt={`${currentProject.title} — before`}
                   className="absolute inset-0 w-full h-full object-cover"
                   loading="lazy"
                   decoding="async"
+                  draggable={false}
                 />
-                <div className="absolute bottom-4 left-4 z-10 px-3 py-1 rounded-full bg-studio-950/70 backdrop-blur-md border border-white/20 text-white text-[11px] font-semibold tracking-wider uppercase">
-                  Before
-                </div>
+                {imageTag('Before', 'left')}
               </div>
 
-              {/* Liquid Glass Crystal Divider Line & Handle */}
+              {/* Seam + glass lens handle: the lens magnifies the boundary it sits on */}
               <div
-                className="absolute top-0 bottom-0 pointer-events-none z-20 flex items-center justify-center -translate-x-1/2"
+                className="absolute inset-y-0 z-20 -translate-x-1/2 flex items-center justify-center pointer-events-none"
                 style={{ left: `${sliderPosition}%` }}
               >
-                {/* Optical Glass Split Beam */}
-                <div className="w-[2px] h-full bg-gradient-to-b from-white/90 via-amber-200 to-white/90 shadow-[0_0_12px_rgba(255,255,255,0.8)]" />
-
-                {/* Central Liquid Glass Crystal Handle with Prismatic Chromatic Rim */}
-                <div
+                <div className="w-0.5 h-full bg-white/90 shadow-[0_0_8px_rgba(0,0,0,0.25)]" />
+                <LiquidGlass
+                  tone="clear"
+                  bezel={22}
+                  thickness={34}
+                  blur={0.4}
+                  className="absolute w-14 h-14 grid place-items-center text-white"
                   style={{
-                    transform: isDragging ? 'scale(1.15)' : 'scale(1)',
-                    transition: 'transform 140ms cubic-bezier(0.16, 1, 0.3, 1)',
+                    transform: isDragging ? 'scale(1.12)' : 'scale(1)',
+                    transition: 'transform 420ms var(--ease-spring)',
                   }}
-                  className="absolute w-11 h-11 rounded-full bg-white/75 backdrop-blur-xl border border-white/90 shadow-[0_8px_25px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.95),inset_1px_0_2px_rgba(120,205,255,0.4),inset_-1px_0_2px_rgba(255,160,215,0.35)] flex items-center justify-center space-x-1 pointer-events-auto cursor-grab active:cursor-grabbing apple-press"
                 >
-                  <div className="w-1 h-3.5 bg-studio-700/60 rounded-full" />
-                  <div className="w-1 h-3.5 bg-studio-700/60 rounded-full" />
-                </div>
+                  <ChevronsLeftRight className="w-5 h-5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]" />
+                </LiquidGlass>
               </div>
             </div>
           ) : (
-            /* Side-by-Side Mode */
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg border border-white/40 bg-studio-950">
-                <img
-                  src={currentProject.beforeImageUrl}
-                  alt={`${currentProject.title} - Before`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-studio-950/70 backdrop-blur-md border border-white/20 text-white text-xs font-semibold tracking-wider uppercase">
-                  Before
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {([
+                ['Before', currentProject.beforeImageUrl, 'left'],
+                ['After', currentProject.afterImageUrl, 'right'],
+              ] as const).map(([label, src, side]) => (
+                <div key={label} className="relative aspect-[4/3] rounded-tile overflow-hidden bg-studio-950">
+                  <img src={src} alt={`${currentProject.title} — ${label.toLowerCase()}`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                  {imageTag(label, side)}
                 </div>
-              </div>
-
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg border border-white/40 bg-studio-950">
-                <img
-                  src={currentProject.afterImageUrl}
-                  alt={`${currentProject.title} - After`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="absolute bottom-3 right-3 px-3 py-1 rounded-full bg-studio-950/70 backdrop-blur-md border border-white/20 text-white text-xs font-semibold tracking-wider uppercase">
-                  After
-                </div>
-              </div>
+              ))}
             </div>
           )}
 
-          {/* Project Details Strip with Quick Commission Link */}
-          <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-white/40">
+          <div className="mt-8 flex flex-col sm:flex-row sm:items-end justify-between gap-5">
             <div>
-              <div className="flex items-center space-x-2">
-                <span className="text-xs uppercase tracking-widest text-amber-700 font-semibold px-2 py-0.5 rounded-full bg-amber-400/20 border border-amber-300/40">
-                  Project #{currentProject.projectNumber}
-                </span>
-                {currentProject.roomType && (
-                  <span className="text-xs text-studio-500 font-serif">• {currentProject.roomType}</span>
-                )}
-              </div>
-              <h3 className="font-serif text-xl sm:text-2xl text-studio-900 font-normal mt-1">
-                {currentProject.title}
-              </h3>
-              <p className="text-xs text-studio-600 font-light mt-0.5">
-                Authentic transformation captured on-site. Drag the crystal slider to inspect fine mural and styling details.
+              <p className="text-[14px] font-semibold text-studio-500">
+                Project {currentProject.projectNumber}
+                {currentProject.roomType && ` · ${currentProject.roomType}`}
               </p>
+              <h3 className="type-title mt-1">{currentProject.title}</h3>
             </div>
-
-            <button
-              onClick={handleWhatsAppInquiry}
-              className="px-5 py-2.5 rounded-full bg-studio-950 hover:bg-studio-800 text-white text-xs uppercase tracking-wider font-semibold flex items-center justify-center space-x-2 transition-all apple-press shadow-md shrink-0"
-            >
-              <MessageCircle className="w-3.5 h-3.5 text-amber-300" />
-              <span>Inquire Transformation</span>
+            <button type="button" onClick={handleWhatsAppInquiry} className="btn btn-primary shrink-0">
+              <MessageCircle className="w-4 h-4" />
+              Ask about this transformation
             </button>
           </div>
         </div>

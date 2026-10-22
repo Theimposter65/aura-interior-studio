@@ -154,14 +154,14 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
         {/* Header */}
         <div className="p-6 border-b border-studio-200/60 flex items-center justify-between bg-white/50">
           <div className="flex items-center space-x-2.5">
-            <span className="p-1.5 bg-amber-100 text-studio-900 rounded-full">
-              <Sparkles className="w-4 h-4 text-amber-600" />
+            <span className="p-1.5 bg-accent-50 text-studio-900 rounded-full">
+              <Sparkles className="w-4 h-4 text-accent-dark" />
             </span>
             <div>
-              <h3 className="font-serif text-xl text-studio-900 font-normal">
+              <h3 className="font-display tracking-tight text-xl text-studio-900 font-semibold">
                 Find Your Interior Style
               </h3>
-              <p className="text-[11px] text-studio-500 uppercase tracking-wider">
+              <p className="text-[13px] text-studio-500">
                 {recommendedTier ? 'Recommendation Ready' : `Step ${currentStep + 1} of ${quizQuestions.length}`}
               </p>
             </div>
@@ -190,11 +190,11 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
             /* Results Screen */
             <div className="space-y-6 animate-fadeIn">
               <div className="text-center space-y-2">
-                <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-sage-100 text-sage-800 rounded-full text-xs font-semibold uppercase tracking-wider">
+                <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-sage-100 text-sage-800 rounded-full text-xs font-semibold">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>Recommended Package</span>
                 </span>
-                <h4 className="font-serif text-3xl text-studio-900">
+                <h4 className="font-display tracking-tight text-3xl text-studio-900">
                   {recommendedTier.name}
                 </h4>
                 <p className="text-xs text-studio-500 max-w-md mx-auto">
@@ -203,13 +203,13 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
               </div>
 
               {/* Matched Tier Card */}
-              <div className="bg-white p-6 rounded border border-studio-200/80 shadow-sm space-y-4">
+              <div className="bg-white p-6 rounded-xl border border-studio-200/80 shadow-sm space-y-4">
                 <div className="flex justify-between items-baseline border-b border-studio-100 pb-4">
                   <div>
-                    <span className="text-xs uppercase tracking-wider text-studio-400 font-semibold block">
+                    <span className="text-xs text-studio-400 font-semibold block">
                       Design Package
                     </span>
-                    <span className="font-serif text-2xl font-semibold text-studio-900">
+                    <span className="font-display tracking-tight text-2xl font-semibold text-studio-900">
                       ₹{recommendedTier.price.toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -219,7 +219,7 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
                 </div>
 
                 <div className="space-y-2 text-xs text-studio-600">
-                  <p className="font-semibold text-studio-800 uppercase tracking-wider text-[11px]">
+                  <p className="font-semibold text-studio-800 text-[13px]">
                     What's included in this package:
                   </p>
                   <ul className="space-y-1.5">
@@ -237,14 +237,14 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
                   onClick={handleProceedToBooking}
-                  className="flex-1 py-3.5 px-6 bg-studio-900 hover:bg-studio-800 text-white text-xs uppercase tracking-widest font-semibold rounded-sm shadow-md transition-all flex items-center justify-center space-x-2"
+                  className="flex-1 py-3.5 px-6 bg-accent hover:bg-accent-hover text-white text-[15px] font-semibold rounded-full shadow-md transition-all flex items-center justify-center space-x-2"
                 >
                   <span>Book Consultation For This Package</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleRetake}
-                  className="py-3.5 px-4 bg-white border border-studio-200 text-studio-600 hover:text-studio-900 text-xs uppercase tracking-wider rounded-sm transition-colors"
+                  className="py-3.5 px-4 bg-white border border-studio-200 text-studio-600 hover:text-studio-900 text-xs rounded-xl transition-colors"
                 >
                   Retake Quiz
                 </button>
@@ -254,7 +254,7 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
             /* Questions Flow */
             <div className="space-y-6">
               <div>
-                <h4 className="font-serif text-2xl text-studio-900 font-normal leading-snug">
+                <h4 className="font-display tracking-tight text-2xl text-studio-900 font-semibold leading-snug">
                   {question.title}
                 </h4>
                 <p className="text-xs text-studio-500 mt-1">
@@ -267,12 +267,12 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
                   <button
                     key={option.id}
                     onClick={() => handleSelectOption(option.id)}
-                    className="text-left p-4 rounded bg-white border border-studio-200 hover:border-studio-900 hover:shadow-sm transition-all duration-200 group"
+                    className="text-left p-4 rounded-xl bg-white border border-studio-200 hover:border-studio-900 hover:shadow-sm transition-all duration-200 group"
                   >
                     <p className="text-xs font-semibold text-studio-900 group-hover:text-studio-700">
                       {option.label}
                     </p>
-                    <p className="text-[11px] text-studio-500 mt-1 leading-relaxed">
+                    <p className="text-[13px] text-studio-500 mt-1 leading-relaxed">
                       {option.description}
                     </p>
                   </button>
@@ -284,7 +284,7 @@ export const StyleQuizModal: React.FC<StyleQuizModalProps> = ({
                 <div className="pt-2">
                   <button
                     onClick={() => setCurrentStep(currentStep - 1)}
-                    className="text-xs text-studio-500 hover:text-studio-900 flex items-center space-x-1 uppercase tracking-wider"
+                    className="text-xs text-studio-500 hover:text-studio-900 flex items-center space-x-1"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Previous Question</span>

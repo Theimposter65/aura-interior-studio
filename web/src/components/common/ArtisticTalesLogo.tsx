@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import bundledLogo from '../../assets/logo.png';
 
 interface ArtisticTalesLogoProps {
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   showTagline?: boolean;
   showText?: boolean;
   className?: string;
@@ -35,31 +35,29 @@ export const ArtisticTalesLogo: React.FC<ArtisticTalesLogoProps> = ({
   };
 
   const sizeClasses = {
+    xs: 'w-9 h-9',
     sm: 'w-10 h-10 sm:w-11 sm:h-11',
     md: 'w-20 h-20 sm:w-24 sm:h-24',
     lg: 'w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40'
   }[size];
 
   const taglineSize = {
-    sm: 'text-[8px] tracking-[0.25em]',
-    md: 'text-[10px] tracking-[0.3em]',
-    lg: 'text-xs tracking-[0.4em]'
+    xs: 'text-[11px]',
+    sm: 'text-xs',
+    md: 'text-sm',
+    lg: 'text-[17px]'
   }[size];
 
   return (
     <div className={`flex flex-col items-center justify-center text-center select-none ${className}`}>
-      {/* Circular Emblem with Ambient Glow */}
-      <div className={`relative ${sizeClasses} group cursor-pointer flex items-center justify-center`}>
-        {/* Ambient Warm Glow */}
-        <div className="absolute -inset-2 bg-gradient-to-r from-pink-500/30 via-purple-600/25 to-amber-500/25 rounded-full blur-xl opacity-80 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
-        {/* Circular Frame */}
-        <div className="relative w-full h-full rounded-full overflow-hidden p-0.5 bg-studio-950 border border-white/20 shadow-[0_4px_24px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover:scale-105">
+      {/* Circular emblem */}
+      <div className={`relative ${sizeClasses} flex items-center justify-center`}>
+        <div className="relative w-full h-full rounded-full overflow-hidden bg-studio-950 ring-1 ring-black/10">
           <img
             src={currentSrc}
-            alt="The Artistic Tales Official Logo"
+            alt="The Artistic Tales logo"
             onError={handleImgError}
-            className="w-full h-full object-cover rounded-full filter drop-shadow-md"
+            className="w-full h-full object-cover rounded-full"
             loading="eager"
           />
         </div>
@@ -68,19 +66,19 @@ export const ArtisticTalesLogo: React.FC<ArtisticTalesLogoProps> = ({
       {/* Brand Text if requested */}
       {showText && (
         <div className="mt-3 text-center">
-          <span className="block font-serif text-xl sm:text-2xl text-studio-900 font-medium tracking-wide">
+          <span className="block type-title text-studio-900">
             The Artistic Tales
           </span>
-          <span className="block text-[9px] uppercase tracking-[0.25em] text-studio-500 font-sans mt-0.5">
-            Interior Space Stylist
+          <span className="block type-callout text-studio-600 mt-0.5">
+            Interior space stylist
           </span>
         </div>
       )}
 
       {/* Tagline */}
       {showTagline && (
-        <span className={`block font-serif font-medium text-studio-300 mt-3 uppercase tracking-[0.35em] ${taglineSize}`}>
-          WALLS THAT REMEMBER
+        <span className={`block font-semibold text-studio-500 mt-3 ${taglineSize}`}>
+          Walls that remember
         </span>
       )}
     </div>

@@ -54,10 +54,10 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-studio-200">
         <div className="max-w-xl space-y-3">
-          <span className="text-[10px] uppercase tracking-[0.3em] text-studio-500 font-semibold block">
+          <span className="text-xs text-studio-500 font-semibold block">
             Featured Collection
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-studio-900 font-normal leading-tight">
+          <h2 className="font-display tracking-tight text-3xl sm:text-4xl md:text-5xl text-studio-900 font-semibold leading-tight">
             Curated Wall Art & Interior Plans
           </h2>
           <p className="text-xs sm:text-sm text-studio-600 leading-relaxed">
@@ -66,7 +66,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
         </div>
 
         {/* Total Count */}
-        <div className="mt-4 md:mt-0 text-xs text-studio-500 font-mono tracking-wider">
+        <div className="mt-4 md:mt-0 text-xs text-studio-500 font-mono">
           Showing {filteredProducts.length} of {allProducts.length} Products
         </div>
       </div>
@@ -80,7 +80,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               <button
                 key={cat.value}
                 onClick={() => setSelectedCategory(cat.value)}
-                className={`text-xs uppercase tracking-wider px-4 py-2 rounded-full transition-all ${
+                className={`text-xs px-4 py-2 rounded-full transition-all ${
                   selectedCategory === cat.value
                     ? 'bg-studio-900 text-white font-medium shadow-sm'
                     : 'bg-white text-studio-600 border border-studio-200/80 hover:border-studio-400 hover:text-studio-900'
@@ -101,7 +101,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Search by title, style, room..."
-                className="w-full text-xs pl-9 pr-8 py-2 bg-white border border-studio-200 rounded-full focus:outline-none focus:border-studio-800 placeholder-studio-400 tracking-wider"
+                className="w-full text-xs pl-9 pr-8 py-2 bg-white border border-studio-200 rounded-full focus:outline-none focus:border-studio-800 placeholder-studio-400"
               />
               {searchQuery && (
                 <button
@@ -118,7 +118,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value as any)}
-                className="text-xs py-2 pl-3 pr-8 bg-white border border-studio-200 rounded-full text-studio-700 focus:outline-none focus:border-studio-800 appearance-none cursor-pointer uppercase tracking-wider"
+                className="text-xs py-2 pl-3 pr-8 bg-white border border-studio-200 rounded-full text-studio-700 focus:outline-none focus:border-studio-800 appearance-none cursor-pointer"
               >
                 <option value="featured">Featured First</option>
                 <option value="price-asc">Price: Ascending</option>
@@ -134,7 +134,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
       {/* Products Grid */}
       {filteredProducts.length === 0 ? (
         <div className="py-20 text-center space-y-4 bg-white rounded-lg border border-dashed border-studio-300">
-          <p className="font-serif text-2xl text-studio-800">No architectural pieces match your search</p>
+          <p className="font-display tracking-tight text-2xl text-studio-800">No architectural pieces match your search</p>
           <p className="text-xs text-studio-500 max-w-sm mx-auto">
             Try adjusting your keyword or reset filters to view our full collection of mineral wall murals and spatial plans.
           </p>
@@ -143,7 +143,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               setSearchQuery('');
               setSelectedCategory('all');
             }}
-            className="px-5 py-2.5 bg-studio-900 text-white text-xs uppercase tracking-widest rounded transition-colors hover:bg-studio-800"
+            className="px-5 py-2.5 bg-studio-900 text-white text-xs rounded transition-colors hover:bg-studio-800"
           >
             Reset All Filters
           </button>

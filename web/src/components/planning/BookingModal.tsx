@@ -142,10 +142,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         {/* Header */}
         <div className="p-6 border-b border-studio-200/60 flex items-center justify-between bg-white/50">
           <div>
-            <h3 className="font-serif text-2xl text-studio-900 font-normal">
+            <h3 className="font-display tracking-tight text-2xl text-studio-900 font-semibold">
               Book Your Design Consultation
             </h3>
-            <p className="text-[11px] text-studio-500 uppercase tracking-wider mt-0.5">
+            <p className="text-[13px] text-studio-500 mt-0.5">
               1-on-1 virtual design session with our interior team
             </p>
           </div>
@@ -163,14 +163,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             <div className="w-16 h-16 bg-sage-100 text-sage-800 rounded-full flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-10 h-10 stroke-[1.8]" />
             </div>
-            <h4 className="font-serif text-3xl text-studio-900">
+            <h4 className="font-display tracking-tight text-3xl text-studio-900">
               Consultation Booked
             </h4>
             <p className="text-xs text-studio-600 max-w-sm mx-auto leading-relaxed">
               Thank you for booking! We have received your details. Our design team will confirm your consultation time and send a video meeting link to your email.
             </p>
 
-            <div className="bg-white p-5 rounded border border-studio-200 text-left text-xs space-y-2.5 max-w-md mx-auto">
+            <div className="bg-white p-5 rounded-xl border border-studio-200 text-left text-xs space-y-2.5 max-w-md mx-auto">
               <div className="flex justify-between border-b border-studio-100 pb-2">
                 <span className="text-studio-500">Booking Reference:</span>
                 <span className="font-mono font-semibold text-studio-900">{bookingRef}</span>
@@ -191,7 +191,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
             <button
               onClick={handleClose}
-              className="mt-6 py-3.5 px-8 bg-studio-900 hover:bg-studio-800 text-white text-xs uppercase tracking-widest rounded-sm transition-all shadow-md"
+              className="mt-6 py-3.5 px-8 bg-accent hover:bg-accent-hover text-white text-[15px] rounded-full transition-all shadow-md"
             >
               Close & Return to Studio
             </button>
@@ -201,13 +201,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-5 max-h-[80vh] overflow-y-auto">
             {/* Service Tier Selector */}
             <div>
-              <label className="text-xs uppercase tracking-wider font-semibold text-studio-800 block mb-1.5">
+              <label className="text-xs font-semibold text-studio-800 block mb-1.5">
                 Service Package
               </label>
               <select
                 value={formData.tierId}
                 onChange={e => setFormData({ ...formData, tierId: e.target.value })}
-                className="w-full text-xs px-3.5 py-2.5 bg-white border border-studio-300 rounded focus:outline-none focus:border-studio-900 cursor-pointer"
+                className="w-full text-xs px-3.5 py-2.5 bg-white border border-studio-300 rounded-xl focus:outline-none focus:border-studio-900 cursor-pointer"
               >
                 {serviceTiers.map(t => (
                   <option key={t.id} value={t.id}>
@@ -220,7 +220,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             {/* Client Info Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs uppercase tracking-wider font-semibold text-studio-800 block mb-1">
+                <label className="text-xs font-semibold text-studio-800 block mb-1">
                   Full Name *
                 </label>
                 <div className="relative">
@@ -230,14 +230,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     value={formData.fullName}
                     onChange={e => setFormData({ ...formData, fullName: e.target.value })}
                     placeholder="E.g. Elena Rostova"
-                    className="w-full text-xs pl-9 pr-3 py-2.5 bg-white border border-studio-300 rounded focus:outline-none focus:border-studio-900"
+                    className="w-full text-xs pl-9 pr-3 py-2.5 bg-white border border-studio-300 rounded-xl focus:outline-none focus:border-studio-900"
                   />
                 </div>
-                {errors.fullName && <p className="text-[11px] text-terracotta-700 mt-1">{errors.fullName}</p>}
+                {errors.fullName && <p className="text-[13px] text-terracotta-700 mt-1">{errors.fullName}</p>}
               </div>
 
               <div>
-                <label className="text-xs uppercase tracking-wider font-semibold text-studio-800 block mb-1">
+                <label className="text-xs font-semibold text-studio-800 block mb-1">
                   Email Address *
                 </label>
                 <div className="relative">
@@ -247,16 +247,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     value={formData.email}
                     onChange={e => setFormData({ ...formData, email: e.target.value })}
                     placeholder="elena@domain.com"
-                    className="w-full text-xs pl-9 pr-3 py-2.5 bg-white border border-studio-300 rounded focus:outline-none focus:border-studio-900"
+                    className="w-full text-xs pl-9 pr-3 py-2.5 bg-white border border-studio-300 rounded-xl focus:outline-none focus:border-studio-900"
                   />
                 </div>
-                {errors.email && <p className="text-[11px] text-terracotta-700 mt-1">{errors.email}</p>}
+                {errors.email && <p className="text-[13px] text-terracotta-700 mt-1">{errors.email}</p>}
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs uppercase tracking-wider font-semibold text-studio-800 block mb-1">
+                <label className="text-xs font-semibold text-studio-800 block mb-1">
                   Telephone Contact *
                 </label>
                 <div className="relative">
@@ -266,14 +266,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     value={formData.phone}
                     onChange={e => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+91 98765 43210"
-                    className="w-full text-xs pl-9 pr-3 py-2.5 bg-white border border-studio-300 rounded focus:outline-none focus:border-studio-900"
+                    className="w-full text-xs pl-9 pr-3 py-2.5 bg-white border border-studio-300 rounded-xl focus:outline-none focus:border-studio-900"
                   />
                 </div>
-                {errors.phone && <p className="text-[11px] text-terracotta-700 mt-1">{errors.phone}</p>}
+                {errors.phone && <p className="text-[13px] text-terracotta-700 mt-1">{errors.phone}</p>}
               </div>
 
               <div>
-                <label className="text-xs uppercase tracking-wider font-semibold text-studio-800 block mb-1">
+                <label className="text-xs font-semibold text-studio-800 block mb-1">
                   Preferred Date *
                 </label>
                 <div className="relative">
@@ -282,23 +282,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     type="date"
                     value={formData.preferredDate}
                     onChange={e => setFormData({ ...formData, preferredDate: e.target.value })}
-                    className="w-full text-xs pl-9 pr-3 py-2.5 bg-white border border-studio-300 rounded focus:outline-none focus:border-studio-900"
+                    className="w-full text-xs pl-9 pr-3 py-2.5 bg-white border border-studio-300 rounded-xl focus:outline-none focus:border-studio-900"
                   />
                 </div>
-                {errors.preferredDate && <p className="text-[11px] text-terracotta-700 mt-1">{errors.preferredDate}</p>}
+                {errors.preferredDate && <p className="text-[13px] text-terracotta-700 mt-1">{errors.preferredDate}</p>}
               </div>
             </div>
 
             {/* Space Type & Budget */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs uppercase tracking-wider font-semibold text-studio-800 block mb-1">
+                <label className="text-xs font-semibold text-studio-800 block mb-1">
                   Space Type
                 </label>
                 <select
                   value={formData.spaceType}
                   onChange={e => setFormData({ ...formData, spaceType: e.target.value })}
-                  className="w-full text-xs px-3 py-2.5 bg-white border border-studio-300 rounded focus:outline-none focus:border-studio-900 cursor-pointer"
+                  className="w-full text-xs px-3 py-2.5 bg-white border border-studio-300 rounded-xl focus:outline-none focus:border-studio-900 cursor-pointer"
                 >
                   <option value="living">Living & Entertaining Pavilion</option>
                   <option value="bedroom">Sanctuary Bedroom Suite</option>
@@ -309,13 +309,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
 
               <div>
-                <label className="text-xs uppercase tracking-wider font-semibold text-studio-800 block mb-1">
+                <label className="text-xs font-semibold text-studio-800 block mb-1">
                   Furnishings Budget Range
                 </label>
                 <select
                   value={formData.budgetRange}
                   onChange={e => setFormData({ ...formData, budgetRange: e.target.value })}
-                  className="w-full text-xs px-3 py-2.5 bg-white border border-studio-300 rounded focus:outline-none focus:border-studio-900 cursor-pointer"
+                  className="w-full text-xs px-3 py-2.5 bg-white border border-studio-300 rounded-xl focus:outline-none focus:border-studio-900 cursor-pointer"
                 >
                   <option value="Under ₹25,000">Under ₹25,000</option>
                   <option value="₹25,000 – ₹60,000">₹25,000 – ₹60,000</option>
@@ -327,7 +327,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
             {/* Project Notes */}
             <div>
-              <label className="text-xs uppercase tracking-wider font-semibold text-studio-800 block mb-1">
+              <label className="text-xs font-semibold text-studio-800 block mb-1">
                 Project Notes & Architectural Priorities
               </label>
               <textarea
@@ -335,7 +335,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 value={formData.notes}
                 onChange={e => setFormData({ ...formData, notes: e.target.value })}
                 placeholder="Share any spatial dimensions, desired limewash finishes, lighting challenges, or specific art considerations..."
-                className="w-full text-xs p-3 bg-white border border-studio-300 rounded focus:outline-none focus:border-studio-900 leading-relaxed"
+                className="w-full text-xs p-3 bg-white border border-studio-300 rounded-xl focus:outline-none focus:border-studio-900 leading-relaxed"
               />
             </div>
 
@@ -344,7 +344,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 bg-studio-900 hover:bg-studio-800 text-white text-xs uppercase tracking-[0.2em] font-medium transition-all rounded-sm shadow-md flex items-center justify-center space-x-2"
+                className="w-full py-4 bg-accent hover:bg-accent-hover text-white text-[15px] font-medium transition-all rounded-full shadow-md flex items-center justify-center space-x-2"
               >
                 <Calendar className="w-4 h-4" />
                 <span>
@@ -352,7 +352,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </span>
               </button>
 
-              <div className="flex items-center justify-center space-x-4 text-[10px] text-studio-400 pt-3">
+              <div className="flex items-center justify-center space-x-4 text-xs text-studio-400 pt-3">
                 <span className="flex items-center space-x-1">
                   <ShieldCheck className="w-3 h-3 text-sage-600" />
                   <span>Free 14-Day Rescheduling</span>

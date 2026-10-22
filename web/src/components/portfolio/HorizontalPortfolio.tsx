@@ -3,15 +3,9 @@ import {
   statementItems,
   stylingPortfolioItems
 } from '../../data/newPortfolioData';
-import {
-  ChevronLeft,
-  ChevronRight,
-  Sparkles,
-  MessageCircle,
-  Eye,
-  X
-} from 'lucide-react';
-import { LiquidGlassPill } from '../glass/LiquidGlassPill';
+import { ChevronLeft, ChevronRight, MessageCircle, Plus, X } from 'lucide-react';
+import { LiquidGlass } from '../glass/LiquidGlass';
+import { GlassSegmentedControl } from '../glass/GlassSegmentedControl';
 import { projectMomentum, rubberbandDistance, VelocityTracker } from '../../utils/appleSpringPhysics';
 
 interface PortfolioCardItem {
@@ -215,7 +209,7 @@ export const HorizontalPortfolio: React.FC = () => {
       const maxScroll = Math.max(0, container.scrollWidth - container.clientWidth);
 
       const firstCard = container.firstElementChild as HTMLElement | null;
-      const cardPitch = firstCard && firstCard.offsetWidth > 0 ? firstCard.offsetWidth + 24 : 344;
+      const cardPitch = firstCard && firstCard.offsetWidth > 0 ? firstCard.offsetWidth + 20 : 360;
 
       const nearestCardIndex = Math.round(targetScroll / cardPitch);
       const snappedScroll = Math.max(0, Math.min(nearestCardIndex * cardPitch, maxScroll));
@@ -241,239 +235,174 @@ export const HorizontalPortfolio: React.FC = () => {
   };
 
   return (
-    <section id="portfolio" className="py-24 bg-studio-950 text-white overflow-hidden relative">
-      {/* Background Refractive Vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-amber-500/10 via-studio-950/70 to-studio-950 pointer-events-none" />
+    <section id="portfolio" data-nav-theme="dark" className="py-24 sm:py-32 bg-studio-950 text-white overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <header className="max-w-3xl">
+            <p className="type-eyebrow text-studio-400">Studio portfolio</p>
+            <h2 className="type-headline mt-2">Curated works and spatial art.</h2>
+            <p className="type-subhead text-studio-400 mt-4">{currentTabMeta.subtitle}.</p>
+          </header>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        {/* Header with Title & Navigation Controls */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
-          <div className="space-y-2">
-            <LiquidGlassPill
-              variant="dark"
-              size="sm"
-              icon={<Sparkles className="w-3 h-3 text-amber-300" />}
-              className="uppercase tracking-[0.25em] text-[10px]"
-            >
-              Studio Portfolio & Creations
-            </LiquidGlassPill>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-white font-normal tracking-tight">
-              Curated Works & Spatial Art
-            </h2>
-            <p className="text-xs sm:text-sm text-studio-300 max-w-xl font-light italic">
-              "{currentTabMeta.subtitle}"
-            </p>
-          </div>
-
-          {/* Desktop Arrow Controls (Liquid Glass Buttons) */}
-          <div className="hidden sm:flex items-center space-x-3">
-            <button
-              onClick={() => scroll('left')}
-              aria-label="Scroll Left"
-              className="p-3 rounded-full border border-white/25 bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-xl apple-press shadow-sm"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              aria-label="Scroll Right"
-              className="p-3 rounded-full border border-white/25 bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-xl apple-press shadow-sm"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Scrollable Category Filter Pills (Liquid Glass Pills) */}
-        <div className="flex items-center space-x-2.5 overflow-x-auto pb-4 mb-8 scrollbar-none no-scrollbar">
-          {CATEGORY_TABS.map(tab => (
-            <LiquidGlassPill
-              key={tab.key}
-              active={activeTab === tab.key}
-              variant={activeTab === tab.key ? 'amber' : 'dark'}
-              size="md"
-              onClick={() => {
-                setActiveTab(tab.key);
-                if (scrollContainerRef.current) {
-                  scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-                }
-              }}
-              className="whitespace-nowrap uppercase tracking-wider text-[11px]"
-            >
-              {tab.label}
-            </LiquidGlassPill>
-          ))}
-        </div>
-
-        {/* Swipeable Horizontal Scroll Container */}
-        {filteredItems.length === 0 ? (
-          <div className="py-16 text-center text-xs text-studio-400">
-            No artworks currently cataloged under this category.
-          </div>
-        ) : (
-          <div
-            ref={scrollContainerRef}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={handlePointerUp}
-            className={`
-              flex space-x-6 overflow-x-auto pb-8 pt-2
-              scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent
-              -mx-6 px-6 md:-mx-12 md:px-12 select-none touch-pan-y will-change-transform
-              ${isGrabbing ? 'snap-none scroll-auto cursor-grabbing' : 'snap-x snap-mandatory scroll-smooth cursor-grab'}
-            `}
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              transform: overscrollOffset !== 0 ? `translateX(${overscrollOffset}px)` : undefined,
-              transition: isGrabbing ? 'none' : 'transform 320ms cubic-bezier(0.16, 1, 0.3, 1)',
-            }}
-          >
-            {filteredItems.map(item => (
-              <div
-                key={item.id}
-                className="flex-shrink-0 w-[280px] sm:w-[320px] md:w-[350px] snap-start group relative rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xl border border-white/15 hover:border-amber-300/50 transition-all duration-300 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)] flex flex-col justify-between"
+          <div className="hidden sm:flex items-center gap-3">
+            {(['left', 'right'] as const).map(direction => (
+              <LiquidGlass
+                key={direction}
+                as="button"
+                type="button"
+                tone="dark"
+                interactive
+                thickness={0}
+                onClick={() => scroll(direction)}
+                aria-label={direction === 'left' ? 'Previous works' : 'Next works'}
+                className="grid place-items-center w-11 h-11 text-white"
               >
-                {/* Image Container with Ambient Overlay */}
-                <div className="relative aspect-[4/5] overflow-hidden bg-studio-950">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    onError={e => {
-                      const target = e.target as HTMLImageElement;
-                      target.onerror = null;
-                      target.src =
-                        'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80';
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-studio-950 via-studio-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
-
-                  {/* Category Pill Tag (Liquid Glass Pill) */}
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-1 rounded-full bg-studio-950/70 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider text-amber-200 font-medium">
-                      {item.categoryTag}
-                    </span>
-                  </div>
-
-                  {/* Quick View Button */}
-                  <button
-                    onClick={() => {
-                      if (!dragStartRef.current.hasDragged) {
-                        setSelectedPreview(item);
-                      }
-                    }}
-                    className="absolute top-3 right-3 p-2.5 rounded-full bg-studio-950/70 hover:bg-white hover:text-studio-950 text-white backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 apple-press shadow-md"
-                    aria-label="Quick View"
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-
-                {/* Card Meta Content with Prism Rim */}
-                <div className="p-5 flex-1 flex flex-col justify-between space-y-3.5 relative">
-                  <div className="space-y-1.5">
-                    <h3 className="font-serif text-lg text-white font-normal group-hover:text-amber-200 transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs text-studio-300 italic line-clamp-2 font-light">
-                      "{item.tagline}"
-                    </p>
-                  </div>
-
-                  <div className="pt-3 border-t border-white/10 flex items-center justify-between">
-                    <div>
-                      {item.priceNote ? (
-                        <div>
-                          <span className="text-[10px] uppercase tracking-wider text-studio-400 block">
-                            Estimate
-                          </span>
-                          <span className="text-xs font-serif text-amber-300 font-medium">
-                            {item.priceNote}
-                          </span>
-                        </div>
-                      ) : (
-                        <span className="text-[11px] text-studio-400 font-light">
-                          Custom Commission
-                        </span>
-                      )}
-                    </div>
-
-                    <button
-                      onClick={() => handleWhatsAppCommission(item)}
-                      className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-amber-400 hover:text-studio-950 text-white text-[11px] font-medium border border-white/20 transition-all apple-press"
-                    >
-                      <MessageCircle className="w-3 h-3" />
-                      <span>Inquire</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
+                {direction === 'left' ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+              </LiquidGlass>
             ))}
           </div>
-        )}
+        </div>
+
+        <GlassSegmentedControl
+          label="Portfolio categories"
+          tone="dark"
+          className="mt-10 inline-flex"
+          options={CATEGORY_TABS.map(({ key, label }) => ({ key, label }))}
+          value={activeTab}
+          onChange={key => {
+            setActiveTab(key);
+            scrollContainerRef.current?.scrollTo({ left: 0, behavior: 'smooth' });
+          }}
+        />
       </div>
 
-      {/* Lightbox / Quick View Modal (Liquid Crystal Sheet) */}
-      {selectedPreview && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-studio-950/80 backdrop-blur-xl animate-fadeIn">
-          <div className="relative max-w-2xl w-full rounded-2xl overflow-hidden bg-studio-950/90 border border-white/25 shadow-2xl backdrop-blur-2xl">
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedPreview(null)}
-              className="absolute top-4 right-4 z-20 p-2 rounded-full bg-studio-900/80 text-white hover:bg-white hover:text-studio-950 transition-colors border border-white/20 apple-press"
-              aria-label="Close Preview"
+      {filteredItems.length === 0 ? (
+        <p className="py-16 text-center text-studio-400">No works in this category yet.</p>
+      ) : (
+        <div
+          ref={scrollContainerRef}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          className={`
+            mt-10 flex gap-5 overflow-x-auto no-scrollbar pb-4 select-none touch-pan-y
+            px-4 sm:px-6 lg:px-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] scroll-px-4 sm:scroll-px-6 lg:scroll-px-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))]
+            ${isGrabbing ? 'snap-none cursor-grabbing' : 'snap-x snap-mandatory cursor-grab'}
+          `}
+          style={{
+            transform: overscrollOffset !== 0 ? `translateX(${overscrollOffset}px)` : undefined,
+            transition: isGrabbing ? 'none' : 'transform 320ms cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
+        >
+          {filteredItems.map(item => (
+            <article
+              key={item.id}
+              className="group relative flex-shrink-0 w-[78vw] max-w-[340px] sm:w-[340px] aspect-[4/5] snap-start rounded-tile overflow-hidden bg-studio-800"
             >
-              <X className="w-5 h-5" />
-            </button>
+              <img
+                src={item.imageUrl}
+                alt={item.title}
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                onError={e => {
+                  const target = e.target as HTMLImageElement;
+                  target.onerror = null;
+                  target.src =
+                    'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80';
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-black/40" aria-hidden="true" />
 
-            <div className="max-h-[85vh] overflow-y-auto">
-              <div className="relative aspect-[4/3] bg-studio-950">
-                <img
-                  src={selectedPreview.imageUrl}
-                  alt={selectedPreview.title}
-                  className="w-full h-full object-contain"
-                />
+              <div className="absolute inset-x-0 top-0 p-6">
+                <p className="text-[13px] font-semibold text-white/75">{item.categoryTag}</p>
+                <h3 className="mt-1 font-display text-[24px] leading-[1.15] font-semibold tracking-[-0.02em] text-white">
+                  {item.title}
+                </h3>
+                {item.priceNote && <p className="mt-1 type-callout text-white/80">{item.priceNote}</p>}
               </div>
 
-              <div className="p-6 md:p-8 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs uppercase tracking-widest text-amber-300 font-semibold px-2.5 py-1 rounded-full bg-amber-400/10 border border-amber-400/30">
-                    {selectedPreview.categoryTag}
-                  </span>
-                  {selectedPreview.priceNote && (
-                    <span className="font-serif text-lg text-white">
-                      {selectedPreview.priceNote}
-                    </span>
-                  )}
-                </div>
+              <div className="absolute inset-x-0 bottom-0 p-4 flex items-center justify-between gap-3">
+                <LiquidGlass
+                  as="button"
+                  type="button"
+                  tone="clear"
+                  interactive
+                  bezel={16}
+                  thickness={22}
+                  onClick={() => handleWhatsAppCommission(item)}
+                  className="h-10 px-4 inline-flex items-center gap-1.5 text-[14px] font-medium text-white"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Inquire
+                </LiquidGlass>
+                <LiquidGlass
+                  as="button"
+                  type="button"
+                  tone="clear"
+                  interactive
+                  bezel={16}
+                  thickness={22}
+                  onClick={() => {
+                    if (!dragStartRef.current.hasDragged) setSelectedPreview(item);
+                  }}
+                  aria-label={`View ${item.title}`}
+                  className="grid place-items-center w-10 h-10 text-white"
+                >
+                  <Plus className="w-5 h-5" />
+                </LiquidGlass>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
 
-                <h3 className="font-serif text-2xl md:text-3xl text-white font-normal">
-                  {selectedPreview.title}
-                </h3>
+      {/* Quick view — dims the page to focus a single work */}
+      {selectedPreview && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={selectedPreview.title}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
+          onClick={() => setSelectedPreview(null)}
+        >
+          <div
+            className="relative max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-tile bg-studio-900 text-white shadow-2xl apple-materialize"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="relative aspect-[4/3] bg-black">
+              <img src={selectedPreview.imageUrl} alt={selectedPreview.title} className="w-full h-full object-contain" />
+              <LiquidGlass
+                as="button"
+                type="button"
+                tone="dark"
+                interactive
+                bezel={16}
+                thickness={22}
+                onClick={() => setSelectedPreview(null)}
+                aria-label="Close"
+                className="absolute top-4 right-4 grid place-items-center w-10 h-10 text-white"
+              >
+                <X className="w-5 h-5" />
+              </LiquidGlass>
+            </div>
 
-                <p className="text-sm text-studio-300 italic font-light">
-                  "{selectedPreview.tagline}"
-                </p>
+            <div className="p-6 sm:p-8">
+              <p className="text-[14px] font-semibold text-studio-400">{selectedPreview.categoryTag}</p>
+              <h3 className="type-title mt-1">{selectedPreview.title}</h3>
+              <p className="mt-3 text-studio-300">{selectedPreview.tagline}</p>
+              {selectedPreview.priceNote && <p className="mt-4 font-semibold">{selectedPreview.priceNote}</p>}
 
-                <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
-                  <button
-                    onClick={() => handleWhatsAppCommission(selectedPreview)}
-                    className="flex-1 py-3 px-6 rounded-full bg-amber-400 hover:bg-amber-300 text-studio-950 text-xs uppercase tracking-widest font-semibold flex items-center justify-center space-x-2 transition-all apple-press shadow-lg"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    <span>Inquire via WhatsApp</span>
-                  </button>
-                  <button
-                    onClick={() => setSelectedPreview(null)}
-                    className="py-3 px-6 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs uppercase tracking-widest border border-white/20 transition-all apple-press"
-                  >
-                    Close
-                  </button>
-                </div>
+              <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                <button type="button" onClick={() => handleWhatsAppCommission(selectedPreview)} className="btn btn-primary">
+                  <MessageCircle className="w-4 h-4" />
+                  Inquire on WhatsApp
+                </button>
+                <button type="button" onClick={() => setSelectedPreview(null)} className="btn btn-secondary-dark">
+                  Close
+                </button>
               </div>
             </div>
           </div>

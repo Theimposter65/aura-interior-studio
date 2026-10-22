@@ -88,11 +88,11 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
               <span className="p-1 bg-studio-200 text-studio-900 rounded">
                 <Sparkles className="w-3.5 h-3.5 text-studio-700" />
               </span>
-              <span className="text-[10px] uppercase tracking-[0.3em] text-studio-500 font-semibold">
+              <span className="text-xs text-studio-500 font-semibold">
                 Portfolio & Gallery
               </span>
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-studio-900 font-normal leading-tight">
+            <h2 className="font-display tracking-tight text-3xl sm:text-4xl md:text-5xl text-studio-900 font-semibold leading-tight">
               Curated Works & Real Installations
             </h2>
             <p className="text-xs sm:text-sm text-studio-600 leading-relaxed">
@@ -100,7 +100,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
             </p>
           </div>
 
-          <div className="mt-4 md:mt-0 text-xs text-studio-500 font-mono tracking-wider">
+          <div className="mt-4 md:mt-0 text-xs text-studio-500 font-mono">
             Showing {filteredItems.length} of {portfolioItems.length} Works
           </div>
         </div>
@@ -114,7 +114,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
                 <button
                   key={cat.value}
                   onClick={() => setSelectedCategory(cat.value)}
-                  className={`text-xs uppercase tracking-wider px-3.5 py-1.5 rounded-full transition-all ${
+                  className={`text-xs px-3.5 py-1.5 rounded-full transition-all ${
                     selectedCategory === cat.value
                       ? 'bg-studio-900 text-white font-medium shadow-sm'
                       : 'bg-white text-studio-600 border border-studio-200/80 hover:border-studio-400 hover:text-studio-900'
@@ -133,7 +133,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Search artworks, murals, or styles..."
-                className="w-full text-xs pl-9 pr-8 py-2 bg-white border border-studio-200 rounded-full focus:outline-none focus:border-studio-900 placeholder-studio-400 tracking-wider"
+                className="w-full text-xs pl-9 pr-8 py-2 bg-white border border-studio-200 rounded-full focus:outline-none focus:border-studio-900 placeholder-studio-400"
               />
               {searchQuery && (
                 <button
@@ -148,7 +148,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
 
           {/* Sub-filter: Style Filter */}
           <div className="flex items-center space-x-2 pt-2 border-t border-studio-200/50">
-            <span className="text-[10px] uppercase tracking-wider text-studio-400 font-semibold">
+            <span className="text-xs text-studio-400 font-semibold">
               Filter by Style:
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -156,7 +156,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
                 <button
                   key={s.value}
                   onClick={() => setSelectedStyle(s.value)}
-                  className={`text-[11px] px-3 py-1 rounded-sm transition-colors ${
+                  className={`text-[13px] px-3 py-1 rounded-sm transition-colors ${
                     selectedStyle === s.value
                       ? 'bg-studio-200 text-studio-900 font-medium'
                       : 'text-studio-500 hover:text-studio-800 hover:bg-studio-100'
@@ -172,7 +172,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
         {/* Gallery Grid */}
         {filteredItems.length === 0 ? (
           <div className="py-20 text-center space-y-4 bg-white rounded-lg border border-dashed border-studio-300">
-            <p className="font-serif text-2xl text-studio-800">No artwork found matching criteria</p>
+            <p className="font-display tracking-tight text-2xl text-studio-800">No artwork found matching criteria</p>
             <p className="text-xs text-studio-500 max-w-sm mx-auto">
               Try adjusting your search terms or reset the filters to browse our complete collection.
             </p>
@@ -182,7 +182,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
                 setSelectedStyle('ALL');
                 setSearchQuery('');
               }}
-              className="px-5 py-2.5 bg-studio-900 text-white text-xs uppercase tracking-widest rounded transition-colors hover:bg-studio-800"
+              className="px-5 py-2.5 bg-studio-900 text-white text-xs rounded transition-colors hover:bg-studio-800"
             >
               Reset Filters
             </button>
@@ -204,14 +204,14 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-studio-950/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <span className="text-[10px] uppercase tracking-widest text-white flex items-center space-x-1.5 font-medium">
+                    <span className="text-xs text-white flex items-center space-x-1.5 font-medium">
                       <Maximize2 className="w-3.5 h-3.5" />
                       <span>View Artwork</span>
                     </span>
                   </div>
 
                   {item.status && (
-                    <span className="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] uppercase tracking-wider font-semibold rounded bg-studio-900/80 text-white backdrop-blur-sm">
+                    <span className="absolute top-2.5 right-2.5 px-2 py-0.5 text-xs font-semibold rounded bg-studio-900/80 text-white backdrop-blur-sm">
                       {item.status}
                     </span>
                   )}
@@ -220,15 +220,15 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
                 {/* Artwork Information */}
                 <div className="p-4 flex-1 flex flex-col justify-between space-y-2">
                   <div>
-                    <span className="text-[9px] uppercase tracking-wider text-studio-500 font-semibold block">
+                    <span className="text-xs text-studio-500 font-semibold block">
                       {item.typeLabel}
                     </span>
-                    <h3 className="font-serif text-lg text-studio-900 font-medium leading-snug group-hover:text-studio-700 transition-colors">
+                    <h3 className="font-display tracking-tight text-lg text-studio-900 font-semibold leading-snug group-hover:text-studio-700 transition-colors">
                       {item.title}
                     </h3>
                   </div>
 
-                  <div className="pt-2 border-t border-studio-100 flex items-center justify-between text-[11px] text-studio-500">
+                  <div className="pt-2 border-t border-studio-100 flex items-center justify-between text-[13px] text-studio-500">
                     <span className="truncate max-w-[150px]">{item.location}</span>
                     <span className="text-studio-900 font-medium group-hover:translate-x-1 transition-transform">
                       →
@@ -271,10 +271,10 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
               <div className="md:w-1/2 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto space-y-6">
                 <div className="space-y-4">
                   <div>
-                    <span className="text-[10px] uppercase tracking-[0.25em] text-studio-500 font-semibold block mb-1">
+                    <span className="text-xs text-studio-500 font-semibold block mb-1">
                       {activeItem.typeLabel}
                     </span>
-                    <h3 className="font-serif text-2xl sm:text-3xl text-studio-900 font-normal leading-tight">
+                    <h3 className="font-display tracking-tight text-2xl sm:text-3xl text-studio-900 font-semibold leading-tight">
                       {activeItem.title}
                     </h3>
                   </div>
@@ -305,7 +305,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
                     {activeItem.status && (
                       <div className="flex items-center space-x-2">
                         <span className="text-studio-500 font-medium">Status: </span>
-                        <span className="inline-block px-2 py-0.5 bg-studio-100 text-studio-800 rounded font-semibold text-[10px] uppercase tracking-wider">
+                        <span className="inline-block px-2 py-0.5 bg-studio-100 text-studio-800 rounded font-semibold text-xs">
                           {activeItem.status}
                         </span>
                       </div>
@@ -317,7 +317,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
                 <div className="space-y-2.5 pt-6 border-t border-studio-200">
                   <button
                     onClick={() => handleWhatsAppInquiry(activeItem)}
-                    className="w-full py-3.5 bg-emerald-800 hover:bg-emerald-900 text-white text-xs uppercase tracking-widest font-semibold rounded-sm transition-colors flex items-center justify-center space-x-2 shadow-sm"
+                    className="w-full py-3.5 bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-semibold rounded-sm transition-colors flex items-center justify-center space-x-2 shadow-sm"
                   >
                     <MessageCircle className="w-4 h-4" />
                     <span>Inquire on WhatsApp</span>
@@ -329,7 +329,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({ onOpenInquir
                       setActiveItem(null);
                       onOpenInquiry?.(item);
                     }}
-                    className="w-full py-3 bg-studio-100 hover:bg-studio-200 text-studio-900 text-xs uppercase tracking-widest font-medium rounded-sm transition-colors flex items-center justify-center space-x-2"
+                    className="w-full py-3 bg-studio-100 hover:bg-studio-200 text-studio-900 text-xs font-medium rounded-sm transition-colors flex items-center justify-center space-x-2"
                   >
                     <span>Request Studio Consultation</span>
                   </button>

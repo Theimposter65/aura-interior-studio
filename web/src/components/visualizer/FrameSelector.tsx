@@ -31,7 +31,7 @@ export const FrameSelector: React.FC<FrameSelectorProps> = ({
     <div className="space-y-6 bg-white p-6 rounded-sm border border-studio-200">
       {/* Artwork Switcher */}
       <div>
-        <label className="text-xs uppercase tracking-widest font-semibold text-studio-900 block mb-3">
+        <label className="text-xs font-semibold text-studio-900 block mb-3">
           3. Wall Art & Mural Piece
         </label>
         <div className="grid grid-cols-4 gap-2">
@@ -50,7 +50,7 @@ export const FrameSelector: React.FC<FrameSelectorProps> = ({
             </button>
           ))}
         </div>
-        <p className="font-serif text-sm text-studio-900 mt-2 font-medium">
+        <p className="font-display tracking-tight text-sm text-studio-900 mt-2 font-semibold">
           {selectedArt.title}
         </p>
       </div>
@@ -58,10 +58,10 @@ export const FrameSelector: React.FC<FrameSelectorProps> = ({
       {/* Frame Selection */}
       <div className="pt-4 border-t border-studio-100">
         <div className="flex items-center justify-between mb-3">
-          <label className="text-xs uppercase tracking-widest font-semibold text-studio-900">
+          <label className="text-xs font-semibold text-studio-900">
             4. Frame Profile
           </label>
-          <span className="text-[11px] text-studio-500 font-mono">
+          <span className="text-[13px] text-studio-500 font-mono">
             {currentFrame.name}
           </span>
         </div>
@@ -91,7 +91,7 @@ export const FrameSelector: React.FC<FrameSelectorProps> = ({
       <div className="pt-4 border-t border-studio-100 space-y-4">
         {selectedArt.dimensions && selectedArt.dimensions.length > 0 && (
           <div>
-            <label className="text-xs uppercase tracking-widest font-semibold text-studio-900 block mb-2">
+            <label className="text-xs font-semibold text-studio-900 block mb-2">
               Dimensions
             </label>
             <div className="flex flex-wrap gap-2">
@@ -114,7 +114,7 @@ export const FrameSelector: React.FC<FrameSelectorProps> = ({
 
         <div>
           <div className="flex justify-between items-center text-xs mb-2">
-            <label className="uppercase tracking-widest font-semibold text-studio-900">
+            <label className="font-semibold text-studio-900">
               Visual Scale:
             </label>
             <span className="font-mono text-studio-600">{Math.round(scale * 100)}%</span>
@@ -128,7 +128,7 @@ export const FrameSelector: React.FC<FrameSelectorProps> = ({
             onChange={e => onScaleChange(parseFloat(e.target.value))}
             className="w-full accent-studio-900 cursor-pointer h-1.5 bg-studio-200 rounded-lg appearance-none"
           />
-          <div className="flex justify-between text-[10px] text-studio-400 font-mono mt-1">
+          <div className="flex justify-between text-xs text-studio-400 font-mono mt-1">
             <span>Subtle Accent (75%)</span>
             <span>Default (100%)</span>
             <span>Grand Statement (125%)</span>

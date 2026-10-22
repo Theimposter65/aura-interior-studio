@@ -66,11 +66,11 @@ export const WallVisualizer: React.FC<WallVisualizerProps> = ({ initialProductId
               <span className="p-1 bg-studio-200 text-studio-900 rounded">
                 <Sparkles className="w-3.5 h-3.5 text-studio-700" />
               </span>
-              <span className="text-[10px] uppercase tracking-[0.3em] text-studio-500 font-semibold">
+              <span className="text-xs text-studio-500 font-semibold">
                 Interactive Room Preview
               </span>
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-studio-900 font-normal leading-tight">
+            <h2 className="font-display tracking-tight text-3xl sm:text-4xl md:text-5xl text-studio-900 font-semibold leading-tight">
               Room & Wall Art Visualizer
             </h2>
             <p className="text-xs sm:text-sm text-studio-600 leading-relaxed">
@@ -86,7 +86,7 @@ export const WallVisualizer: React.FC<WallVisualizerProps> = ({ initialProductId
             >
               {lightingMode === 'daylight' ? (
                 <>
-                  <Sun className="w-3.5 h-3.5 text-amber-500" />
+                  <Sun className="w-3.5 h-3.5 text-accent" />
                   <span>Daylight Exposure</span>
                 </>
               ) : (
@@ -164,7 +164,7 @@ export const WallVisualizer: React.FC<WallVisualizerProps> = ({ initialProductId
               </div>
 
               {/* Stage Architectural HUD Specs */}
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white text-[11px] bg-studio-950/70 backdrop-blur-md px-4 py-2.5 rounded border border-white/10 tracking-wider">
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white text-[13px] bg-studio-950/70 backdrop-blur-md px-4 py-2.5 rounded border border-white/10">
                 <div className="flex items-center space-x-3 truncate">
                   <span className="font-semibold truncate">{currentRoom.name}</span>
                   <span className="opacity-40">•</span>
@@ -188,10 +188,10 @@ export const WallVisualizer: React.FC<WallVisualizerProps> = ({ initialProductId
             {/* Bottom Primary Action Bar */}
             <div className="bg-white p-5 rounded-sm border border-studio-200 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
               <div>
-                <span className="text-[10px] uppercase tracking-wider text-studio-400 block font-semibold">
+                <span className="text-xs text-studio-400 block font-semibold">
                   Selected Configuration
                 </span>
-                <h4 className="font-serif text-xl text-studio-900 font-normal">
+                <h4 className="font-display tracking-tight text-xl text-studio-900 font-semibold">
                   {currentArt.title} <span className="text-studio-500 text-sm font-sans">with {currentFrame.name}</span>
                 </h4>
                 <p className="text-xs text-studio-500 mt-0.5">
@@ -201,13 +201,13 @@ export const WallVisualizer: React.FC<WallVisualizerProps> = ({ initialProductId
 
               <div className="flex items-center space-x-4 w-full sm:w-auto">
                 <div className="text-right hidden sm:block">
-                  <span className="text-[10px] uppercase tracking-wider text-studio-400 block">Acquisition</span>
-                  <span className="font-serif text-2xl font-semibold text-studio-900">${currentArt.price} USD</span>
+                  <span className="text-xs text-studio-400 block">Acquisition</span>
+                  <span className="font-display tracking-tight text-2xl font-semibold text-studio-900">${currentArt.price} USD</span>
                 </div>
 
                 <button
                   onClick={handleAddConfiguredToCart}
-                  className="w-full sm:w-auto py-3.5 px-8 bg-studio-900 hover:bg-studio-800 text-white text-xs uppercase tracking-widest font-semibold rounded-sm shadow-md transition-all flex items-center justify-center space-x-2"
+                  className="w-full sm:w-auto py-3.5 px-8 bg-studio-900 hover:bg-studio-800 text-white text-xs font-semibold rounded-sm shadow-md transition-all flex items-center justify-center space-x-2"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   <span>{isAdded ? 'Composition Added ✓' : 'Add Composition to Bag'}</span>

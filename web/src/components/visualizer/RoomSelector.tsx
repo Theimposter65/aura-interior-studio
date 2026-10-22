@@ -21,7 +21,7 @@ export const RoomSelector: React.FC<RoomSelectorProps> = ({
     <div className="space-y-6 bg-white p-6 rounded-sm border border-studio-200">
       {/* Room Environment Selection */}
       <div>
-        <label className="text-xs uppercase tracking-widest font-semibold text-studio-900 block mb-3">
+        <label className="text-xs font-semibold text-studio-900 block mb-3">
           1. Spatial Environment
         </label>
         <div className="grid grid-cols-2 gap-3">
@@ -42,10 +42,10 @@ export const RoomSelector: React.FC<RoomSelectorProps> = ({
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <p className="text-xs font-serif font-medium text-studio-900 truncate">
+              <p className="text-xs font-display tracking-tight font-semibold text-studio-900 truncate">
                 {room.name}
               </p>
-              <p className="text-[10px] text-studio-500 uppercase tracking-wider">
+              <p className="text-xs text-studio-500">
                 {room.roomType}
               </p>
             </button>
@@ -56,10 +56,10 @@ export const RoomSelector: React.FC<RoomSelectorProps> = ({
       {/* Wall Pigment / Color Selection */}
       <div className="pt-4 border-t border-studio-100">
         <div className="flex items-center justify-between mb-3">
-          <label className="text-xs uppercase tracking-widest font-semibold text-studio-900">
+          <label className="text-xs font-semibold text-studio-900">
             2. Wall Mineral Pigment
           </label>
-          <span className="text-[11px] font-mono text-studio-500 font-medium">
+          <span className="text-[13px] font-mono text-studio-500 font-medium">
             {currentColor.name}
           </span>
         </div>
@@ -84,7 +84,7 @@ export const RoomSelector: React.FC<RoomSelectorProps> = ({
           ))}
         </div>
 
-        <p className="text-[11px] text-studio-500 mt-3 leading-relaxed bg-studio-50 p-2.5 rounded border border-studio-200/60">
+        <p className="text-[13px] text-studio-500 mt-3 leading-relaxed bg-studio-50 p-2.5 rounded border border-studio-200/60">
           {currentColor.description}
         </p>
       </div>

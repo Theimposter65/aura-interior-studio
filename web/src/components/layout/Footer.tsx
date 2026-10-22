@@ -1,6 +1,49 @@
 import React, { useState } from 'react';
-import { ArrowRight, Check, Compass, Shield, Sparkles, MessageCircle, Mail, Phone, Instagram, MapPin } from 'lucide-react';
-import { ArtisticTalesLogo } from '../common/ArtisticTalesLogo';
+import { Check } from 'lucide-react';
+
+const DIRECTORY = [
+  {
+    title: 'Portfolio',
+    links: [
+      ['Statement pieces', '#portfolio'],
+      ['Murals and doodling', '#portfolio'],
+      ['Hospitality and café collages', '#portfolio'],
+      ['Villa before and afters', '#transformations'],
+      ['Canvases and prints', '#portfolio'],
+    ],
+  },
+  {
+    title: 'Studio',
+    links: [
+      ['Pricing', '#pricing'],
+      ['Transformations', '#transformations'],
+      ['Space styling', '#portfolio'],
+      ['Client stories', '#testimonials'],
+      ['Book a consultation', '#contact'],
+    ],
+  },
+  {
+    title: 'Contact',
+    links: [
+      ['WhatsApp +91 75679 79307', 'https://wa.me/917567979307'],
+      ['thisisartistictales@gmail.com', 'mailto:thisisartistictales@gmail.com'],
+      ['Instagram @the_artistic_tales_', 'https://instagram.com/the_artistic_tales_'],
+    ],
+  },
+] as const;
+
+const LOCATIONS = [
+  ['Goa studio', 'Coastal atelier and hospitality murals'],
+  ['Gujarat atelier', 'Traditional Pichhwai and fine art'],
+  ['Worldwide', 'On-site travel and international dispatch'],
+];
+
+const CRAFT = [
+  'Hand-stretched Belgian linen and archival canvas',
+  'Raw earth pigments and 24k gold leaf accents',
+  'Low-VOC, durable matte mural formulations',
+  'Personal narrative curation for every client',
+];
 
 export const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -14,199 +57,94 @@ export const Footer: React.FC = () => {
     }
   };
 
+  const external = (href: string) => href.startsWith('http');
+
   return (
-    <footer className="bg-studio-900 text-studio-100 pt-20 pb-12 border-t border-studio-800">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Top Newsletter & Manifesto Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-studio-800">
-          <div className="lg:col-span-6 space-y-6">
-            <div className="flex items-center space-x-3">
-              <ArtisticTalesLogo size="sm" />
-              <div>
-                <span className="font-serif text-xl tracking-wider text-white font-medium block">
-                  The Artistic Tales
-                </span>
-                <span className="text-[9px] uppercase tracking-[0.25em] text-studio-400 block -mt-0.5">
-                  Interior Space Stylist
-                </span>
-              </div>
-            </div>
+    <footer className="bg-studio-50 text-studio-600 text-xs leading-[1.33]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+        <p className="pb-4 border-b border-studio-300">
+          The Artistic Tales transforms homes, boutique hospitality venues and architectural studios through interior
+          styling, custom canvas on Belgian linen and floor-to-ceiling murals. All works are 100% hand-painted originals.
+        </p>
 
-            <h3 className="font-serif text-3xl sm:text-4xl text-studio-50 font-normal leading-tight">
-              Walls that remember. Art to collect, not just to decorate.
-            </h3>
-            <p className="text-xs sm:text-sm text-studio-400 max-w-lg leading-relaxed font-light">
-              The Artistic Tales transforms living spaces, boutique hospitality venues, and architectural studios through thoughtful interior styling, custom canvas artworks on Belgian linen, and floor-to-ceiling murals.
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-8 py-8">
+          {DIRECTORY.map(column => (
+            <nav key={column.title} aria-label={column.title}>
+              <h3 className="font-sans text-xs font-semibold text-studio-900">{column.title}</h3>
+              <ul className="mt-3 space-y-2.5">
+                {column.links.map(([label, href]) => (
+                  <li key={label}>
+                    <a
+                      href={href}
+                      {...(external(href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="hover:underline underline-offset-2 break-words"
+                    >
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+
+          <div>
+            <h3 className="font-sans text-xs font-semibold text-studio-900">Locations</h3>
+            <ul className="mt-3 space-y-2.5">
+              {LOCATIONS.map(([place, note]) => (
+                <li key={place}>
+                  <span className="text-studio-900">{place}</span>
+                  <br />
+                  {note}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-sans text-xs font-semibold text-studio-900">Craft</h3>
+            <ul className="mt-3 space-y-2.5">
+              {CRAFT.map(item => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="py-6 border-t border-studio-300 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h3 className="font-sans text-xs font-semibold text-studio-900">Studio updates</h3>
+            <p className="mt-1">Occasional notes on space styling and private collection releases. No spam.</p>
+          </div>
+          {subscribed ? (
+            <p className="inline-flex items-center gap-1.5 text-studio-900" role="status">
+              <Check className="w-4 h-4 text-[#248A3D]" aria-hidden="true" />
+              You’re subscribed. Welcome to the atelier.
             </p>
-
-            <div className="flex flex-wrap gap-4 pt-2 text-xs text-studio-300">
-              <a
-                href="https://wa.me/917567979307"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center space-x-1.5 hover:text-white transition-colors"
-              >
-                <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
-                <span>+91 75679 79307 (WhatsApp)</span>
-              </a>
-              <span className="text-studio-600">•</span>
-              <a
-                href="mailto:thisisartistictales@gmail.com"
-                className="inline-flex items-center space-x-1.5 hover:text-white transition-colors"
-              >
-                <Mail className="w-3.5 h-3.5 text-studio-400" />
-                <span>thisisartistictales@gmail.com</span>
-              </a>
-            </div>
-          </div>
-
-          <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
-            <div>
-              <span className="text-[10px] uppercase tracking-[0.3em] text-studio-400 font-semibold block">
-                Stay Connected
-              </span>
-              <h4 className="font-serif text-xl text-studio-100 mt-2">
-                Receive atelier updates & private collection releases
-              </h4>
-              <p className="text-xs text-studio-400 mt-1">
-                Sent occasionally. No spam, only thoughtful perspectives on space styling and art.
-              </p>
-            </div>
-
-            {subscribed ? (
-              <div className="p-4 bg-emerald-950/40 border border-emerald-500/30 rounded-2xl text-xs text-emerald-300 flex items-center space-x-2 backdrop-blur-md">
-                <Check className="w-4 h-4 text-emerald-400" />
-                <span>Thank you for subscribing. Welcome to The Artistic Tales Atelier.</span>
-              </div>
-            ) : (
-              <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-2">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="Enter your email address"
-                  required
-                  className="bg-white/5 border border-white/15 px-5 py-3 text-xs text-white placeholder-studio-500 rounded-full focus:outline-none focus:border-amber-300 flex-1 tracking-wider backdrop-blur-md"
-                />
-                <button
-                  type="submit"
-                  className="bg-amber-400 hover:bg-amber-300 text-studio-950 px-7 py-3 text-xs uppercase tracking-widest font-semibold rounded-full transition-all flex items-center justify-center space-x-2 apple-press shadow-md"
-                >
-                  <span>Subscribe</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </form>
-            )}
-
-            <div className="flex items-center space-x-6 text-[11px] text-studio-400 pt-2">
-              <span className="flex items-center space-x-1.5">
-                <Shield className="w-3.5 h-3.5 text-studio-500" />
-                <span>100% Hand-Painted Originals</span>
-              </span>
-              <span className="flex items-center space-x-1.5">
-                <Compass className="w-3.5 h-3.5 text-studio-500" />
-                <span>Spatial Space Curation</span>
-              </span>
-              <a
-                href="https://instagram.com/the_artistic_tales_"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-1.5 hover:text-pink-400 transition-colors"
-              >
-                <Instagram className="w-3.5 h-3.5 text-pink-500" />
-                <span>@the_artistic_tales_</span>
-              </a>
-            </div>
-          </div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="flex gap-2 w-full md:w-auto">
+              <label htmlFor="footer-email" className="sr-only">Email address</label>
+              <input
+                id="footer-email"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="Email address"
+                required
+                autoComplete="email"
+                className="field !py-2 !text-[14px] md:w-64"
+              />
+              <button type="submit" className="btn btn-primary btn-sm shrink-0">Subscribe</button>
+            </form>
+          )}
         </div>
 
-        {/* Middle Navigation & Studio Locations */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 py-16 border-b border-studio-800 text-xs">
-          <div>
-            <h5 className="uppercase tracking-[0.2em] text-studio-300 font-semibold mb-4 text-[11px]">
-              Artistic Portfolio
-            </h5>
-            <ul className="space-y-3 text-studio-400">
-              <li><a href="#portfolio" className="hover:text-studio-100 transition-colors">Statement Pieces Collection</a></li>
-              <li><a href="#portfolio" className="hover:text-studio-100 transition-colors">Murals & Custom Doodling</a></li>
-              <li><a href="#portfolio" className="hover:text-studio-100 transition-colors">Hospitality & Café Collages</a></li>
-              <li><a href="#transformations" className="hover:text-studio-100 transition-colors">Villa Before & Afters</a></li>
-              <li><a href="#portfolio" className="hover:text-studio-100 transition-colors">Fine Art Canvases & Prints</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h5 className="uppercase tracking-[0.2em] text-studio-300 font-semibold mb-4 text-[11px]">
-              Studio & Services
-            </h5>
-            <ul className="space-y-3 text-studio-400">
-              <li><a href="#pricing" className="hover:text-studio-100 transition-colors">Transparent Pricing Matrix</a></li>
-              <li><a href="#transformations" className="hover:text-studio-100 transition-colors">Before & After Slider</a></li>
-              <li><a href="#portfolio" className="hover:text-studio-100 transition-colors">Curated Space Styling</a></li>
-              <li><a href="#testimonials" className="hover:text-studio-100 transition-colors">Client Testimonials</a></li>
-              <li><a href="#contact" className="hover:text-studio-100 transition-colors">Consultation Booking</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h5 className="uppercase tracking-[0.2em] text-studio-300 font-semibold mb-4 text-[11px]">
-              Our Locations
-            </h5>
-            <div className="space-y-4 text-studio-400 leading-relaxed">
-              <div>
-                <p className="text-studio-200 font-medium">Goa Studio</p>
-                <p>Coastal Atelier & Hospitality Murals</p>
-              </div>
-              <div>
-                <p className="text-studio-200 font-medium">Gujarat Atelier</p>
-                <p>Traditional Pichhwai & Fine Art Studio</p>
-              </div>
-              <div>
-                <p className="text-studio-200 font-medium">Worldwide Commissions</p>
-                <p>On-Site Travel & International Dispatches</p>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h5 className="uppercase tracking-[0.2em] text-studio-300 font-semibold mb-4 text-[11px]">
-              Our Craft Ethics
-            </h5>
-            <ul className="space-y-3 text-studio-400">
-              <li className="flex items-start space-x-2">
-                <span className="text-studio-500 font-mono">01.</span>
-                <span>Hand-stretched Belgian linen & archival canvas</span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <span className="text-studio-500 font-mono">02.</span>
-                <span>Raw earth pigments and 24k gold leaf accents</span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <span className="text-studio-500 font-mono">03.</span>
-                <span>Low-VOC, durable matte mural formulations</span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <span className="text-studio-500 font-mono">04.</span>
-                <span>Personal narrative curation for every client</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Credits & Copyright */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-[11px] text-studio-500 space-y-4 md:space-y-0">
-          <div className="flex items-center space-x-2">
-            <span className="font-serif text-lg tracking-widest text-studio-400">The Artistic Tales</span>
-            <span>• © {new Date().getFullYear()} The Artistic Tales — Interior Space Stylist. All rights reserved.</span>
-          </div>
-          <div className="flex space-x-6">
-            <a href="#portfolio" className="hover:text-studio-300 transition-colors">Portfolio</a>
-            <a href="#transformations" className="hover:text-studio-300 transition-colors">Transformations</a>
-            <a href="#pricing" className="hover:text-studio-300 transition-colors">Pricing</a>
-            <a href="#contact" className="hover:text-studio-300 transition-colors">Consultation</a>
-          </div>
+        <div className="pt-4 border-t border-studio-300 flex flex-col md:flex-row md:items-center justify-between gap-2">
+          <p>Copyright © {new Date().getFullYear()} The Artistic Tales. All rights reserved.</p>
+          <p>Goa · Gujarat · Worldwide</p>
         </div>
       </div>
     </footer>
   );
 };
+
+export default Footer;

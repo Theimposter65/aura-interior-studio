@@ -45,7 +45,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Category Badge */}
         <div className="absolute top-3 left-3">
-          <span className="px-2.5 py-1 bg-white/90 backdrop-blur-md text-[10px] uppercase tracking-widest text-studio-900 font-medium rounded-full shadow-sm">
+          <span className="px-2.5 py-1 bg-white/90 backdrop-blur-md text-xs text-studio-900 font-medium rounded-full shadow-sm">
             {product.category.replace('-', ' ')}
           </span>
         </div>
@@ -57,7 +57,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               e.stopPropagation();
               onQuickView(product);
             }}
-            className="flex-1 py-2.5 px-3 bg-white/95 hover:bg-white text-studio-900 text-xs uppercase tracking-wider font-semibold rounded shadow-md backdrop-blur-sm flex items-center justify-center space-x-1.5 transition-colors"
+            className="flex-1 py-2.5 px-3 bg-white/95 hover:bg-white text-studio-900 text-xs font-semibold rounded shadow-md backdrop-blur-sm flex items-center justify-center space-x-1.5 transition-colors"
           >
             <Eye className="w-3.5 h-3.5 text-studio-700" />
             <span>View Details</span>
@@ -90,19 +90,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
         <div>
           <div className="flex items-center justify-between text-xs text-studio-500 mb-1">
-            <span className="tracking-widest uppercase text-[10px] font-medium text-studio-400">
+            <span className="text-xs font-medium text-studio-400">
               {product.tags.slice(0, 2).join(' • ')}
             </span>
             <div className="flex items-center space-x-1 text-studio-700">
               <Star className="w-3 h-3 fill-studio-500 text-studio-500" />
-              <span className="font-semibold text-[11px]">{product.rating}</span>
-              <span className="text-studio-400 text-[10px]">({product.reviewsCount})</span>
+              <span className="font-semibold text-[13px]">{product.rating}</span>
+              <span className="text-studio-400 text-xs">({product.reviewsCount})</span>
             </div>
           </div>
 
           <h3
             onClick={() => onQuickView(product)}
-            className="font-serif text-xl text-studio-900 font-normal hover:text-studio-700 cursor-pointer transition-colors leading-snug"
+            className="font-display tracking-tight text-xl text-studio-900 font-semibold hover:text-studio-700 cursor-pointer transition-colors leading-snug"
           >
             {product.title}
           </h3>
@@ -113,13 +113,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         <div className="pt-2 border-t border-studio-100 flex items-center justify-between">
           <div>
-            <span className="text-[10px] uppercase tracking-wider text-studio-400 block">Acquisition</span>
-            <span className="font-serif text-lg text-studio-900 font-semibold">${product.price} USD</span>
+            <span className="text-xs text-studio-400 block">Acquisition</span>
+            <span className="font-display tracking-tight text-lg text-studio-900 font-semibold">${product.price} USD</span>
           </div>
 
           <button
             onClick={handleQuickAdd}
-            className={`text-xs uppercase tracking-wider font-semibold py-1.5 px-3 rounded transition-all ${
+            className={`text-xs font-semibold py-1.5 px-3 rounded transition-all ${
               addedAnimation
                 ? 'bg-sage-100 text-sage-800 font-bold'
                 : 'text-studio-800 hover:text-studio-950 hover:bg-studio-100'
